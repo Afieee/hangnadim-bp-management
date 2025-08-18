@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Gedung;
 use App\Models\InspeksiGedung;
@@ -36,5 +36,40 @@ class InspeksiGedungController extends Controller
 
         return redirect()->back()->with('success', 'Jadwal inspeksi berhasil dibuat untuk semua gedung!');
     }
+
+
+
+
+
+
+
+    public function halamanInspeksiPetugas()
+    {
+        $sekarang = Carbon::now()->locale('id'); // Waktu sekarang dengan lokal bahasa Indonesia
+        $bulan = $sekarang->translatedFormat('F'); // Nama bulan
+        $tahun = $sekarang->year;                  // Tahun saat ini
+        $mingguKe = $sekarang->weekOfMonth;       // Minggu ke berapa dalam bulan
+
+        $inspeksiGedungs = InspeksiGedung::with('gedung')
+            ->where('status_keseluruhan_inspeksi', 'Terbuka')
+            ->whereMonth('created_at', $sekarang->month)
+            ->whereYear('created_at', $tahun)
+            ->get();
+
+        return view('pages.inspeksi-petugas', [
+            'inspeksi' => $inspeksiGedungs,
+            'bulan' => $bulan,
+            'tahun' => $tahun,
+            'mingguKe' => $mingguKe,
+        ]);
+    }
+
+
+    public function tampilDetailInspeksi($id_inspeksi)
+    {
+        $inspeksi = InspeksiGedung::with('gedung', 'user')->findOrFail($id_inspeksi);
+        return view('pages.detail-inspeksi-petugas', compact('inspeksi'));
+    }
+
 
 }

@@ -7,16 +7,16 @@
                 </h3>
                 <div class="sidebar-close" id="sidebar-close">
                     <i class="fas fa-times"></i>
-                </div>
+                </div> 
             </div>
             <ul class="sidebar-menu">
                 @if (Auth::user()->role == "admin")
-                    <li class="active"><a href="/dashboard"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="/dashboard"><i class="fas fa-home"></i> Home</a></li>
                     <li><a href="/jadwalkan-inspeksi"><i class="fas fa-calendar-alt"></i> Jadwalkan Inspeksi</a></li>
                     <li><a href="/halaman-registrasi"><i class="fas fa-users"></i> Pengguna & Petugas</a></li>
                 @elseif (Auth::user()->role == "petugas")
-                    <li class="active"><a href="/dashboard"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="#"><i class="fas fa-clipboard-check"></i> Proses Inspeksi</a></li>
+                    <li><a href="/dashboard"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="/halaman-inspeksi-petugas"><i class="fas fa-clipboard-check"></i> Proses Inspeksi</a></li>
                 @endif
 
             </ul>
