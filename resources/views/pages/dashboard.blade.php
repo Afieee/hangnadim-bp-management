@@ -11,7 +11,7 @@
 
 
 <body>
-<x-navbar/>
+<x-navbar :user="$user" />
 <x-sidebar />
 
     <!-- Content Wrapper -->

@@ -110,7 +110,7 @@
 
 <body class="bg-light">
 {{-- Components --}}
-<x-navbar/>
+<x-navbar />
 <x-sidebar />
 
     <!-- Content Wrapper -->
@@ -131,7 +131,7 @@
                 <div class="form-card">
                     <div class="form-header">
                         <h2>Form Registrasi Pengguna</h2>
-                        <p>Silakan isi data pengguna baru di bawah ini</p>
+                        <p>Silakan isi data pengguna petugas bandara baru di bawah ini</p>
                     </div>
                     <form action="/proses-registrasi" method="POST">
                         @csrf
