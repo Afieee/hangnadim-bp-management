@@ -19,5 +19,6 @@ Route::get('/halaman-registrasi', [AuthController::class, 'halamanRegister'])->n
 
 Route::post('/proses-registrasi', [AuthController::class, 'store'])->name('proses-registrasi');
 
-Route::get('/halaman-inspeksi', [InspeksiGedungController::class, 'jadwalkanInspeksi'])->name('jadwalkan-inspeksi');
+Route::get('/jadwalkan-inspeksi', [InspeksiGedungController::class, 'halamanInspeksi'])->name('jadwalkan.inspeksi');
+Route::post('/jadwalkan-inspeksi', [InspeksiGedungController::class, 'store'])->name('jadwalkan.inspeksi.store');
 

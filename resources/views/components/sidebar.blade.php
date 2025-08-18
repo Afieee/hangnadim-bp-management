@@ -20,7 +20,7 @@
             <li><a href="#"><i class="fas fa-envelope"></i> Messages <span class="badge">5</span></a></li>
             <li><a href="#"><i class="fas fa-file-chart-line"></i> Reports</a></li> --}}
 
-            <li><a href="/halaman-inspeksi"><i class="fas fa-calendar-alt"></i> Jadwalkan Inspeksi</a></li>
+            <li><a href="/jadwalkan-inspeksi"><i class="fas fa-calendar-alt"></i> Jadwalkan Inspeksi</a></li>
             <li><a href="/halaman-registrasi"><i class="fas fa-users"></i> Pengguna & Petugas</a></li>
 
 

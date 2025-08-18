@@ -15,6 +15,7 @@ class InspeksiGedung extends Model
         'status_lampu',
         'id_gedung',
         'id_user',
+        'status_keseluruhan_inspeksi',
     ];
 
     public function gedung()

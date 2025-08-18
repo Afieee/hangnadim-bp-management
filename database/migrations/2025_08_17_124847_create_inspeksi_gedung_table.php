@@ -31,6 +31,8 @@ return new class extends Migration
                   ->constrained('users')
                   ->onDelete('cascade')
                   ->onUpdate('cascade');
+
+            $table->enum('status_keseluruhan_inspeksi', ['Terbuka', 'Selesai'])->default('Terbuka');
             $table->timestamps();
         });
     }
