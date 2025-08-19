@@ -17,7 +17,7 @@
             <div class="breadcrumb">
                 <ul>
                     <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="#"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+                    <li><a href="/dashboard"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
                     <li class="active"><i class="fas fa-eye"></i> Penjadwalan Inspeksi</li>
                     <li class="active">
                         <i class="fas fa-eye"></i> 
@@ -78,12 +78,6 @@
             <option value="Tidak Baik">Tidak Baik</option>
             <option value="Baik">Perlu Perbaikan</option>
         </select>
-
-
-
-
-
-
 
 <hr>
         <p><strong>Status:</strong> {{ $inspeksi->status_keseluruhan_inspeksi ?? '-' }}</p>

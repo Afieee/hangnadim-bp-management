@@ -11,6 +11,7 @@ class Gedung extends Model
 
     protected $fillable = [
         'nama_gedung',
+        'foto_gedung',
     ];
 
     public function inspeksi()

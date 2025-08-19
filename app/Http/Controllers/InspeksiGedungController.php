@@ -17,25 +17,24 @@ class InspeksiGedungController extends Controller
     }
     
 
-        public function store(Request $request)
-    {
-        $userId = Auth::id(); // ambil user yang login
+public function store(Request $request)
+{
+    $userId = Auth::id(); // ambil user yang login
 
-        $gedungs = Gedung::all();
+    InspeksiGedung::create([
+        'furniture' => 'Belum Diperiksa', // default
+        'fire_system' => 'Belum Diperiksa', // default
+        'bangunan' => 'Belum Diperiksa', // default
+        'mekanikal_elektrikal' => 'Belum Diperiksa', // default
+        'it' => 'Belum Diperiksa', // default
+        'status_keseluruhan_inspeksi' => 'Terbuka', // default
+        'id_gedung' => $request->input('id_gedung'),
+        'id_user' => $userId,
+    ]);
 
-        foreach ($gedungs as $gedung) {
-            InspeksiGedung::create([
-                'status_access_door' => $request->input('status_access_door', 'belum diperiksa'),
-                'status_cctv' => $request->input('status_cctv', 'belum diperiksa'),
-                'status_lampu' => $request->input('status_lampu', 'belum diperiksa'),
-                'status_keseluruhan_inspeksi' => 'Terbuka', // default tetap Terbuka
-                'id_gedung' => $gedung->id,
-                'id_user' => $userId,
-            ]);
-        }
+    return redirect()->back()->with('success', 'Jadwal inspeksi berhasil dibuat!');
+}
 
-        return redirect()->back()->with('success', 'Jadwal inspeksi berhasil dibuat untuk semua gedung!');
-    }
 
 
 
@@ -52,7 +51,6 @@ class InspeksiGedungController extends Controller
 
         $inspeksiGedungs = InspeksiGedung::with('gedung')
             ->where('status_keseluruhan_inspeksi', 'Terbuka')
-            ->whereMonth('created_at', $sekarang->month)
             ->whereYear('created_at', $tahun)
             ->get();
 

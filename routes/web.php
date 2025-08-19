@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\GedungController;
 use App\Http\Controllers\InspeksiGedungController;
 
 Route::get('/', function () {
@@ -16,8 +17,11 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('dashboard', [AuthController::class, 'dashboard'])->name('dashboard');   
 
 Route::get('/halaman-registrasi', [AuthController::class, 'halamanRegister'])->name('halaman-registrasi');
-
 Route::post('/proses-registrasi', [AuthController::class, 'store'])->name('proses-registrasi');
+
+Route::get('/gedung', [GedungController::class, 'halamanTambahGedung'])->name('gedung.create');
+Route::post('/gedung/store', [GedungController::class, 'simpanGedung'])->name('gedung.store');
+
 
 Route::get('/jadwalkan-inspeksi', [InspeksiGedungController::class, 'halamanInspeksi'])->name('jadwalkan.inspeksi');
 Route::post('/jadwalkan-inspeksi', [InspeksiGedungController::class, 'store'])->name('jadwalkan.inspeksi.store');

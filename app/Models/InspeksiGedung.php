@@ -10,9 +10,11 @@ class InspeksiGedung extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'status_access_door',
-        'status_cctv',
-        'status_lampu',
+        'furniture',
+        'fire_system',
+        'bangunan',
+        'mekanikal_elektrikal',
+        'it',
         'id_gedung',
         'id_user',
         'status_keseluruhan_inspeksi',

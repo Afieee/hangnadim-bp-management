@@ -31,7 +31,7 @@ body {
 .sidebar {
     width: var(--sidebar-width);
     height: 100vh;
-    background-color: var(--dark-color);
+    background-color: rgb(8, 52, 106);
     color: white;
     position: fixed;
     left: 0;

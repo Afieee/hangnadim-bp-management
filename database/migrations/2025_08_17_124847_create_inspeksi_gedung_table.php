@@ -16,9 +16,11 @@ return new class extends Migration
 
 
             // Kolom status inspeksi
-            $table->enum('status_access_door', ['Belum Diperiksa', 'Tidak Baik', 'Baik'])->default('Belum Diperiksa');
-            $table->enum('status_cctv', ['Belum Diperiksa', 'Tidak Baik', 'Baik'])->default('Belum Diperiksa');
-            $table->enum('status_lampu', ['Belum Diperiksa', 'Tidak Baik', 'Baik'])->default('Belum Diperiksa');
+            $table->enum('furniture', ['Belum Diperiksa', 'Sedang Diperbaiki', 'Rusak', 'Sudah Diperbaiki'])->default('Belum Diperiksa');
+            $table->enum('fire_system', ['Belum Diperiksa', 'Sedang Diperbaiki', 'Rusak', 'Sudah Diperbaiki'])->default('Belum Diperiksa');
+            $table->enum('bangunan', ['Belum Diperiksa', 'Sedang Diperbaiki', 'Rusak', 'Sudah Diperbaiki'])->default('Belum Diperiksa');
+            $table->enum('mekanikal_elektrikal', ['Belum Diperiksa', 'Tidak Baik', 'Baik'])->default('Belum Diperiksa');
+            $table->enum('it',['Belum Diperiksa', 'Sedang Diperbaiki', 'Rusak', 'Sudah Diperbaiki'])->default('Belum Diperiksa');
 
             // Relasi ke tabel gedung
             $table->foreignId('id_gedung')
