@@ -319,7 +319,7 @@
                         <!-- Equipment Building -->
                         <div class="inspection-card">
                             <h3><i class="fas fa-tools"></i> GEDUNG PERLENGKAPAN</h3>
-                            <div class="building-image" style="background-image: url('');"></div>
+                            <div class="building-image" style="background-image: url('{{ asset('/storage/images/gedung_perlengkapan.jpeg') }}');"></div>
                             <form action="{{ route('jadwalkan.inspeksi.store') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="furniture" value="Belum Diperiksa">
@@ -354,7 +354,7 @@
 
                         <!-- Cargo Building -->
                         <div class="inspection-card">
-                            <h3><i class="fas fa-shipping-fast"></i> Gedung Masjid Tanjak</h3>
+                            <h3><i class="fas fa-city"></i> Gedung Masjid Tanjak</h3>
                             <div class="building-image" style="background-image: url('{{ asset('/storage/images/gedung_masjid_tanjak.jpeg') }}');"></div>
                             <form action="{{ route('jadwalkan.inspeksi.store') }}" method="POST">
                                 @csrf

@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use App\Models\Gedung;
+use Illuminate\Http\Request;
+use App\Models\BuktiKerusakan;
 use App\Models\InspeksiGedung;
 use Illuminate\Support\Facades\Auth;
 
@@ -65,8 +66,12 @@ public function store(Request $request)
 
     public function tampilDetailInspeksi($id_inspeksi)
     {
+        $buktiKerusakans = BuktiKerusakan::where('id_inspeksi_gedung', $id_inspeksi)->get();
         $inspeksi = InspeksiGedung::with('gedung', 'user')->findOrFail($id_inspeksi);
-        return view('pages.detail-inspeksi-petugas', compact('inspeksi'));
+        return view('pages.detail-inspeksi-petugas', [
+            'inspeksi' => $inspeksi,
+            'buktiKerusakans' => $buktiKerusakans,
+        ]);
     }
 
 

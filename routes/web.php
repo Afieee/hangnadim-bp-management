@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GedungController;
+use App\Http\Controllers\BuktiKerusakanController;
 use App\Http\Controllers\InspeksiGedungController;
 
 Route::get('/', function () {
@@ -27,3 +28,6 @@ Route::get('/jadwalkan-inspeksi', [InspeksiGedungController::class, 'halamanInsp
 Route::post('/jadwalkan-inspeksi', [InspeksiGedungController::class, 'store'])->name('jadwalkan.inspeksi.store');
 Route::get('/halaman-inspeksi-petugas', [InspeksiGedungController::class, 'halamanInspeksiPetugas'])->name('halaman.inspeksi.petugas');
 Route::get('/tampil-detail-inspeksi/{id_inspeksi}', [InspeksiGedungController::class, 'tampilDetailInspeksi'])->name('tampil.detail.inspeksi');
+
+Route::get('/halaman-upload-bukti-kerusakan', [BuktiKerusakanController::class, 'halamanUploadBuktiKerusakan'])->name('bukti-kerusakan.create');
+Route::post('/upload-bukti-kerusakan', [BuktiKerusakanController::class, 'uploadBuktiKerusakan'])->name('bukti-kerusakan.store');

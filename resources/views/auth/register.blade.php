@@ -84,7 +84,7 @@
 .btn-submit {
     width: 100%;
     padding: 14px;
-    background: #0d6efd; /* Biru modern */
+    background: #4a6cf7; /* Biru modern */
     border: none;
     border-radius: 10px;
     color: #fff;
