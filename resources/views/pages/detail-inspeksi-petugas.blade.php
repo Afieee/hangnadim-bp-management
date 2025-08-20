@@ -11,52 +11,39 @@
             --primary: #4361ee;
             --secondary: #3f37c9;
             --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #f8961e;
             --info: #4895ef;
-            --warning: #f72585;
-            --danger: #e63946;
             --light: #f8f9fa;
             --dark: #212529;
             --gray: #6c757d;
             --light-gray: #e9ecef;
         }
         
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
         body {
-            background-color: #f5f7fb;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #333;
-            line-height: 1.6;
+            margin: 0;
         }
         
         .content-wrapper {
             margin-left: 250px;
             padding: 20px;
             transition: all 0.3s ease;
-            min-height: 100vh;
-            padding-bottom: 60px;
         }
         
-        .breadcrumb-container {
-            background: white;
-            border-radius: 10px;
-            padding: 15px 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        }
         
         .breadcrumb ul {
-            display: flex;
             list-style: none;
-            flex-wrap: wrap;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            align-items: center;
         }
         
         .breadcrumb li {
             margin-right: 10px;
+            font-size: 14px;
             display: flex;
             align-items: center;
         }
@@ -70,7 +57,11 @@
         .breadcrumb a {
             color: var(--primary);
             text-decoration: none;
-            font-size: 14px;
+            transition: color 0.2s;
+        }
+        
+        .breadcrumb a:hover {
+            color: var(--secondary);
         }
         
         .breadcrumb .active {
@@ -78,31 +69,34 @@
         }
         
         .content-area {
-            margin-top: 20px;
+            background-color: transparent;
         }
         
         .card {
-            background: white;
+            background-color: white;
             border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            padding: 25px;
-            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .container {
+            padding: 20px;
         }
         
         h1 {
-            font-size: 28px;
             color: var(--dark);
-            margin-bottom: 20px;
-            font-weight: 700;
+            font-size: 28px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--light-gray);
         }
         
         h2 {
+            color: var(--primary);
             font-size: 20px;
-            color: var(--dark);
+            margin-top: 25px;
             margin-bottom: 15px;
-            font-weight: 600;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--light-gray);
         }
         
         .info-grid {
@@ -112,62 +106,36 @@
             margin-bottom: 25px;
         }
         
-        .info-item {
-            background: var(--light);
+        .info-card {
+            background-color: var(--light);
+            border-radius: 10px;
             padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid var(--primary);
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.05);
         }
         
-        .info-item strong {
-            display: block;
-            color: var(--gray);
-            font-size: 14px;
-            margin-bottom: 5px;
+        .info-card p {
+            margin: 8px 0;
         }
         
-        .info-item p {
-            font-size: 16px;
-            color: var(--dark);
-        }
-        
-        .status-selector {
-            margin: 20px 0;
-        }
-        
-        .status-item {
+        .status-select {
             margin-bottom: 15px;
         }
         
-        .status-item label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--dark);
-        }
-        
-        .status-item select {
+        .status-select select {
             width: 100%;
             padding: 10px 15px;
-            border: 1px solid var(--light-gray);
             border-radius: 8px;
-            background: white;
-            font-size: 14px;
-            color: var(--dark);
+            border: 1px solid #ddd;
+            background-color: white;
+            font-size: 15px;
+            margin-top: 5px;
             transition: all 0.3s;
         }
         
-        .status-item select:focus {
+        .status-select select:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
-        }
-        
-        .form-container {
-            background: var(--light);
-            padding: 20px;
-            border-radius: 10px;
-            margin: 25px 0;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
         }
         
         .form-group {
@@ -181,32 +149,31 @@
             color: var(--dark);
         }
         
-        .form-control {
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
             width: 100%;
             padding: 12px 15px;
-            border: 1px solid var(--light-gray);
             border-radius: 8px;
-            font-size: 14px;
+            border: 1px solid #ddd;
+            font-size: 15px;
             transition: all 0.3s;
         }
         
-        .form-control:focus {
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
-        }
-        
-        textarea.form-control {
-            min-height: 100px;
-            resize: vertical;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
         }
         
         .btn {
             padding: 12px 20px;
-            border: none;
             border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
+            border: none;
+            font-size: 15px;
+            font-weight: 500;
             cursor: pointer;
             transition: all 0.3s;
             display: inline-flex;
@@ -219,47 +186,79 @@
         }
         
         .btn-primary {
-            background: var(--primary);
+            background-color: var(--primary);
             color: white;
         }
         
         .btn-primary:hover {
-            background: var(--secondary);
+            background-color: var(--secondary);
         }
         
-        .btn-secondary {
-            background: var(--light-gray);
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #3aafd9;
+        }
+        
+        .btn-back {
+            background-color: var(--light);
             color: var(--dark);
         }
         
-        .btn-secondary:hover {
-            background: #dcdcdc;
+        .btn-back:hover {
+            background-color: var(--light-gray);
         }
         
-        .gallery-container {
-            margin: 30px 0;
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .gallery {
+            margin-top: 30px;
         }
         
         .gallery-title {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            font-size: 22px;
             margin-bottom: 20px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+        }
+        
+        .gallery-title i {
+            margin-right: 10px;
+            color: var(--primary);
         }
         
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 20px;
         }
         
         .gallery-item {
-            background: white;
-            border-radius: 10px;
+            background-color: white;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
             transition: transform 0.3s, box-shadow 0.3s;
-            cursor: pointer;
         }
         
         .gallery-item:hover {
@@ -268,7 +267,7 @@
         }
         
         .gallery-image {
-            height: 180px;
+            height: 200px;
             overflow: hidden;
             position: relative;
         }
@@ -284,165 +283,161 @@
             transform: scale(1.05);
         }
         
-        .file-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            background: var(--light);
-            font-size: 48px;
-            color: var(--primary);
-        }
-        
         .gallery-content {
             padding: 15px;
         }
         
         .gallery-content h3 {
-            font-size: 16px;
-            margin-bottom: 8px;
+            margin-top: 0;
+            margin-bottom: 10px;
             color: var(--dark);
+            font-size: 18px;
         }
         
         .gallery-content p {
-            font-size: 14px;
             color: var(--gray);
-            margin-bottom: 10px;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+            margin-bottom: 15px;
+            font-size: 14px;
+            line-height: 1.5;
         }
         
         .gallery-meta {
             display: flex;
             justify-content: space-between;
-            font-size: 12px;
-            color: var(--gray);
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            overflow-y: auto;
-            padding: 20px;
-        }
-        
-        .modal-content {
-            background: white;
-            max-width: 800px;
-            margin: 40px auto;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
-        }
-        
-        .modal-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--light-gray);
-            display: flex;
-            justify-content: space-between;
             align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--light-gray);
         }
         
-        .modal-header h3 {
-            font-size: 22px;
-            color: var(--dark);
-        }
-        
-        .close-modal {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--gray);
-        }
-        
-        .modal-body {
-            padding: 25px;
-        }
-        
-        .modal-image {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        
-        .modal-image img {
-            max-width: 100%;
-            max-height: 400px;
-            border-radius: 8px;
-        }
-        
-        .modal-details {
-            margin-bottom: 25px;
-        }
-        
-        .modal-detail-item {
-            margin-bottom: 15px;
-        }
-        
-        .modal-detail-item strong {
-            display: block;
-            color: var(--gray);
-            font-size: 14px;
-            margin-bottom: 5px;
-        }
-        
-        .modal-detail-item p {
-            font-size: 16px;
-            color: var(--dark);
-        }
-        
-        .alert {
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-        
-        .alert-success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
-        .alert-error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+        .damage-type {
+            background-color: var(--light);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
         }
         
         .action-buttons {
             display: flex;
+            justify-content: flex-end;
+            margin-top: 30px;
             gap: 10px;
-            margin-top: 25px;
         }
         
-        .no-evidence {
+        hr {
+            border: none;
+            height: 1px;
+            background-color: var(--light-gray);
+            margin: 25px 0;
+        }
+        
+        /* Improved Upload Styles */
+        .upload-container {
+            margin-bottom: 20px;
+        }
+        
+        .upload-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .upload-box {
+            border: 2px dashed #a0a0ff;
+            border-radius: 10px;
+            padding: 30px;
             text-align: center;
-            padding: 40px;
-            color: var(--gray);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: rgba(240, 242, 255, 0.5);
+            position: relative;
         }
         
-        .no-evidence i {
-            font-size: 48px;
+        .upload-box:hover {
+            border-color: var(--primary);
+            background-color: rgba(240, 242, 255, 0.8);
+        }
+        
+        .upload-box.dragover {
+            border-color: var(--success);
+            background-color: rgba(76, 201, 240, 0.1);
+        }
+        
+        .upload-box i {
+            font-size: 40px;
+            color: var(--primary);
             margin-bottom: 15px;
-            color: var(--light-gray);
+            display: block;
+        }
+        
+        .upload-box .upload-text {
+            display: block;
+            color: var(--gray);
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .upload-box .upload-hint {
+            display: block;
+            color: var(--gray);
+            font-size: 13px;
+        }
+        
+        .upload-preview {
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .preview-container {
+            display: flex;
+            align-items: center;
+            background-color: var(--light);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        
+        .preview-icon {
+            margin-right: 15px;
+            font-size: 24px;
+            color: var(--primary);
+        }
+        
+        .preview-info {
+            flex-grow: 1;
+        }
+        
+        .preview-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+            word-break: break-all;
+        }
+        
+        .preview-size {
+            color: var(--gray);
+            font-size: 13px;
+        }
+        
+        .preview-remove {
+            color: var(--danger);
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px;
+        }
+        
+        .file-input {
+            display: none;
         }
         
         @media (max-width: 992px) {
             .content-wrapper {
                 margin-left: 0;
-                padding: 15px;
             }
             
             .gallery-grid {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             }
         }
         
@@ -452,11 +447,16 @@
             }
             
             .gallery-grid {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                grid-template-columns: 1fr;
             }
             
-            .modal-content {
-                margin: 20px auto;
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                margin-bottom: 10px;
             }
         }
     </style>
@@ -485,288 +485,351 @@
 
         <!-- Content Area -->
         <div class="content-area">
-            <div class="card">
-                <h1>Detail Inspeksi</h1>
-                
-                @if(session('success'))
-                    <div class="alert alert-success">
-                        <i class="fas fa-check-circle"></i> {{ session('success') }}
-                    </div>
-                @endif
+            <div class="card">            
+                <div class="container">
+                    <h1>Detail Inspeksi</h1>
 
-                @if(session('error'))
-                    <div class="alert alert-error">
-                        <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
-                    </div>
-                @endif
-                
-                <div class="info-grid">
-                    <div class="info-item">
-                        <strong>Nama Gedung</strong>
-                        <p>{{ $inspeksi->gedung->nama_gedung ?? '-' }}</p>
-                    </div>
-                    
-                    <div class="info-item">
-                        <strong>Kepala Seksi Inspeksi Yang Menjadwalkan</strong>
-                        <p>{{ $inspeksi->user->name ?? '-' }}</p>
-                    </div>
-                    
-                    <div class="info-item">
-                        <strong>Email Kepala Seksi</strong>
-                        <p>{{ $inspeksi->user->email ?? '-' }}</p>
-                    </div>
-                    
-                    <div class="info-item">
-                        <strong>ID Inspeksi</strong>
-                        <p>#{{ $inspeksi->id }}</p>
-                    </div>
-                    
-                    <div class="info-item">
-                        <strong>Tanggal Inspeksi</strong>
-                        <p>{{ \Carbon\Carbon::parse($inspeksi->created_at)->format('d F Y, H:i') }}</p>
-                    </div>
-                    
-                    <div class="info-item">
-                        <strong>Status Keseluruhan</strong>
-                        <p>{{ $inspeksi->status_keseluruhan_inspeksi ?? 'Belum Diperiksa' }}</p>
-                    </div>
-                </div>
-                
-                <h2>Status Komponen</h2>
-                
-                <div class="status-selector">
-                    <div class="status-item">
-                        <label for="furniture">Furniture</label>
-                        <select name="furniture" id="furniture" class="form-control">
-                            <option>Belum Diperiksa</option>
-                            <option value="Sedang Diperbaiki">Sedang Diperbaiki</option>
-                            <option value="Rusak">Rusak</option>
-                            <option value="Sudah Diperbaiki">Sudah Diperbaiki</option>
-                        </select>
-                    </div>
-                    
-                    <div class="status-item">
-                        <label for="fire_system">Fire System</label>
-                        <select name="fire_system" id="fire_system" class="form-control">
-                            <option>Belum Diperiksa</option>
-                            <option value="Sedang Diperbaiki">Sedang Diperbaiki</option>
-                            <option value="Rusak">Rusak</option>
-                            <option value="Sudah Diperbaiki">Sudah Diperbaiki</option>
-                        </select>
-                    </div>
-                    
-                    <div class="status-item">
-                        <label for="bangunan">Bangunan</label>
-                        <select name="bangunan" id="bangunan" class="form-control">
-                            <option>Belum Diperiksa</option>
-                            <option value="Sedang Diperbaiki">Sedang Diperbaiki</option>
-                            <option value="Rusak">Rusak</option>
-                            <option value="Sudah Diperbaiki">Sudah Diperbaiki</option>
-                        </select>
-                    </div>
-                    
-                    <div class="status-item">
-                        <label for="mekanikal_elektrikal">Mekanikal Elektrikal</label>
-                        <select name="mekanikal_elektrikal" id="mekanikal_elektrikal" class="form-control">
-                            <option>Belum Diperiksa</option>
-                            <option value="Sedang Diperbaiki">Sedang Diperbaiki</option>
-                            <option value="Rusak">Rusak</option>
-                            <option value="Sudah Diperbaiki">Sudah Diperbaiki</option>
-                        </select>
-                    </div>
-                    
-                    <div class="status-item">
-                        <label for="it">IT</label>
-                        <select name="it" id="it" class="form-control">
-                            <option>Belum Diperiksa</option>
-                            <option value="Sedang Diperbaiki">Sedang Diperbaiki</option>
-                            <option value="Rusak">Rusak</option>
-                            <option value="Sudah Diperbaiki">Sudah Diperbaiki</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <h2>Tambah Bukti Kerusakan</h2>
-                
-                <div class="form-container">
-                    <form action="{{ route('bukti-kerusakan.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        
-                        <div class="form-group">
-                            <label for="judul_bukti_kerusakan">Judul Bukti Kerusakan</label>
-                            <input type="text" name="judul_bukti_kerusakan" id="judul_bukti_kerusakan" class="form-control" required>
+                    @if(session('success'))
+                        <div class="alert alert-success">
+                            <i class="fas fa-check-circle"></i> {{ session('success') }}
                         </div>
-                        
+                    @endif
+
+                    @if(session('error'))
+                        <div class="alert alert-error">
+                            <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
+                        </div>
+                    @endif
+
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <h2>Informasi Gedung</h2>
+                            <p><strong>Nama Gedung:</strong> {{ $inspeksi->gedung->nama_gedung ?? '-' }}</p>
+                            <p><strong>Tanggal Inspeksi:</strong> {{ $inspeksi->created_at ?? '-' }}</p>
+                        </div>
+
+                        <div class="info-card">
+                            <h2>Kepala Seksi</h2>
+                            <p><strong>Nama Petugas:</strong> {{ $inspeksi->user->name ?? '-' }}</p>
+                            <p><strong>Email:</strong> {{ $inspeksi->user->email ?? '-' }}</p>
+                        </div>
+
+                        <div class="info-card">
+                            <h2>Detail Inspeksi</h2>
+                            <p><strong>ID Inspeksi:</strong> {{ $inspeksi->id }}</p>
+                            <p><strong>Status:</strong> {{ $inspeksi->status_keseluruhan_inspeksi ?? '-' }}</p>
+                        </div>
+                    </div>
+
+                    <h2>Status Komponen</h2>
+                    
+                    <div class="status-select">
+                        <p><strong>Furniture:</strong></p>
+                        <select name="furniture" class="border rounded px-2 py-1">
+                            <option>Belum Diperiksa</option>
+                            <option value="Baik">Baik</option>
+                            <option value="Sedang Diperbaiki">Sedang Diperbaiki</option>
+                            <option value="Rusak">Rusak</option>
+                            <option value="Sudah Diperbaiki">Sudah Diperbaiki</option>
+                        </select>
+                    </div>
+
+                    <div class="status-select">
+                        <p><strong>Fire System:</strong></p>
+                        <select name="fire_system" class="border rounded px-2 py-1">
+                            <option>Belum Diperiksa</option>
+                            <option value="Baik">Baik</option>
+                            <option value="Sedang Diperbaiki">Sedang Diperbaiki</option>
+                            <option value="Rusak">Rusak</option>
+                            <option value="Sudah Diperbaiki">Sudah Diperbaiki</option>
+                        </select>
+                    </div>
+
+                    <div class="status-select">
+                        <p><strong>Bangunan:</strong></p>
+                        <select name="bangunan" class="border rounded px-2 py-1">
+                            <option>Belum Diperiksa</option>
+                            <option value="Baik">Baik</option>
+                            <option value="Sedang Diperbaiki">Sedang Diperbaiki</option>
+                            <option value="Rusak">Rusak</option>
+                            <option value="Sudah Diperbaiki">Sudah Diperbaiki</option>
+                        </select>
+                    </div>
+
+                    <div class="status-select">
+                        <p><strong>Mekanikal Elektrikal:</strong></p>
+                        <select name="mekanikal_elektrikal" class="border rounded px-2 py-1">
+                            <option>Belum Diperiksa</option>
+                            <option value="Baik">Baik</option>
+                            <option value="Sedang Diperbaiki">Sedang Diperbaiki</option>
+                            <option value="Rusak">Rusak</option>
+                            <option value="Sudah Diperbaiki">Sudah Diperbaiki</option>
+                        </select>
+                    </div>
+
+                    <div class="status-select">
+                        <p><strong>IT:</strong></p>
+                        <select name="it" class="border rounded px-2 py-1">
+                            <option>Belum Diperiksa</option>
+                            <option value="Baik">Baik</option>
+                            <option value="Sedang Diperbaiki">Sedang Diperbaiki</option>
+                            <option value="Rusak">Rusak</option>
+                            <option value="Sudah Diperbaiki">Sudah Diperbaiki</option>
+                        </select>
+                    </div>
+
+                    
+                    <div class="status-select">
+                        <p><strong>Interior:</strong></p>
+                        <select name="interior" class="border rounded px-2 py-1">
+                            <option>Belum Diperiksa</option>
+                            <option value="Baik">Baik</option>
+                            <option value="Sedang Diperbaiki">Sedang Diperbaiki</option>
+                            <option value="Rusak">Rusak</option>
+                            <option value="Sudah Diperbaiki">Sudah Diperbaiki</option>
+                        </select>
+                    </div>
+
+                    <div class="status-select">
+                        <p><strong>Eksterior:</strong></p>
+                        <select name="eksterior" class="border rounded px-2 py-1">
+                            <option>Belum Diperiksa</option>
+                            <option value="Baik">Baik</option>
+                            <option value="Sedang Diperbaiki">Sedang Diperbaiki</option>
+                            <option value="Rusak">Rusak</option>
+                            <option value="Sudah Diperbaiki">Sudah Diperbaiki</option>
+                        </select>
+                    </div>
+
+                    
+                    <div class="status-select">
+                        <p><strong>Sanitasi:</strong></p>
+                        <select name="sanitasi" class="border rounded px-2 py-1">
+                            <option>Belum Diperiksa</option>
+                            <option value="Baik">Baik</option>
+                            <option value="Sedang Diperbaiki">Sedang Diperbaiki</option>
+                            <option value="Rusak">Rusak</option>
+                            <option value="Sudah Diperbaiki">Sudah Diperbaiki</option>
+                        </select>
+                    </div>
+
+                    <hr>
+
+                    <h2>Tambah Bukti Kerusakan</h2>
+                    <form action="{{ route('bukti-kerusakan.store') }}" method="POST" enctype="multipart/form-data" id="uploadForm">
+                        @csrf
+                        <div class="form-group">
+                            <label for="judul_bukti_kerusakan">Objek Bukti Kerusakan</label>
+                            <input type="text" id="judul_bukti_kerusakan" name="judul_bukti_kerusakan" required>
+                        </div>
+
                         <div class="form-group">
                             <label for="deskripsi_bukti_kerusakan">Deskripsi Bukti Kerusakan</label>
-                            <textarea name="deskripsi_bukti_kerusakan" id="deskripsi_bukti_kerusakan" class="form-control" required></textarea>
+                            <textarea id="deskripsi_bukti_kerusakan" name="deskripsi_bukti_kerusakan" rows="3" required></textarea>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="tipe_kerusakan">Tipe Kerusakan</label>
-                            <select name="tipe_kerusakan" id="tipe_kerusakan" class="form-control">
+                            <select id="tipe_kerusakan" name="tipe_kerusakan">
                                 <option value="Furniture">Furniture</option>
                                 <option value="Fire System">Fire System</option>
                                 <option value="Bangunan">Bangunan</option>
                                 <option value="Mekanikal Elektrikal">Mekanikal Elektrikal</option>
                                 <option value="IT">IT</option>
+                                <option value="Interior">Interior</option>
+                                <option value="Eksterior">Eksterior</option>
+                                <option value="Sanitasi">Sanitasi</option>
                             </select>
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="file_bukti_kerusakan">File Bukti Kerusakan</label>
-                            <input type="file" name="file_bukti_kerusakan" id="file_bukti_kerusakan" class="form-control">
-                        </div>
-                        
-                        <input type="hidden" name="id_inspeksi_gedung" value="{{ $inspeksi->id }}">
-                        
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-save"></i> Simpan Bukti Kerusakan
-                        </button>
-                    </form>
-                </div>
-                
-                <div class="gallery-container">
-                    <div class="gallery-title">
-                        <h2>Bukti Kerusakan</h2>
-                        <span class="badge">{{ count($buktiKerusakans) }} Item</span>
-                    </div>
-                    
-                    @if(count($buktiKerusakans) > 0)
-                        <div class="gallery-grid" id="evidence-gallery">
-                            @foreach ($buktiKerusakans as $buktiKerusakan)
-                                <div class="gallery-item" data-id="{{ $buktiKerusakan->id }}">
-                                    <div class="gallery-image">
-                                        @if ($buktiKerusakan->file_bukti_kerusakan)
-                                            @if(pathinfo($buktiKerusakan->file_bukti_kerusakan, PATHINFO_EXTENSION) === 'pdf')
-                                                <div class="file-icon">
-                                                    <i class="fas fa-file-pdf"></i>
-                                                </div>
-                                            @else
-                                                <img src="{{ asset('storage/' . $buktiKerusakan->file_bukti_kerusakan) }}" alt="{{ $buktiKerusakan->judul_bukti_kerusakan }}">
-                                            @endif
-                                        @else
-                                            <div class="file-icon">
-                                                <i class="fas fa-image"></i>
-                                            </div>
-                                        @endif
+
+                        <div class="upload-container">
+                            <label class="upload-label">Upload Bukti Foto</label>
+                            <div class="upload-box" id="uploadBox">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <span class="upload-text">Klik untuk memilih file atau seret file ke sini</span>
+                                <span class="upload-hint">Format yang didukung: JPG, PNG (Maks. 5MB)</span>
+                                <input type="file" id="file_bukti_kerusakan" name="file_bukti_kerusakan" class="file-input" accept="image/*">
+                            </div>
+                            <div class="upload-preview" id="uploadPreview">
+                                <div class="preview-container">
+                                    <div class="preview-icon">
+                                        <i class="fas fa-file-image"></i>
                                     </div>
-                                    <div class="gallery-content">
-                                        <h3>{{ $buktiKerusakan->judul_bukti_kerusakan }}</h3>
-                                        <p>{{ $buktiKerusakan->deskripsi_bukti_kerusakan }}</p>
-                                        <div class="gallery-meta">
-                                            <span>{{ $buktiKerusakan->tipe_kerusakan }}</span>
-                                            <span>{{ \Carbon\Carbon::parse($buktiKerusakan->created_at)->format('d M Y') }}</span>
-                                        </div>
+                                    <div class="preview-info">
+                                        <div class="preview-name" id="previewFileName">Nama file akan muncul di sini</div>
+                                        <div class="preview-size" id="previewFileSize">Ukuran file akan muncul di sini</div>
+                                    </div>
+                                    <div class="preview-remove" id="removeFileBtn">
+                                        <i class="fas fa-times-circle"></i>
                                     </div>
                                 </div>
-                            @endforeach
+                            </div>
                         </div>
-                    @else
-                        <div class="no-evidence">
-                            <i class="fas fa-folder-open"></i>
-                            <p>Belum ada bukti kerusakan yang dilaporkan</p>
-                        </div>
-                    @endif
-                </div>
-                
-                <div class="action-buttons">
-                    <a href="{{ url()->previous() }}" class="btn btn-secondary">
-                        <i class="fas fa-arrow-left"></i> Kembali
-                    </a>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Modal for evidence details -->
-        <div class="modal" id="evidenceModal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 id="modalTitle">Detail Bukti Kerusakan</h3>
-                    <button class="close-modal" id="closeModal">&times;</button>
-                </div>
-                <div class="modal-body" id="modalBody">
-                    <!-- Content will be loaded via JavaScript -->
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <x-footer />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="{{ asset('js/components.js') }}"></script>
-    
-    <script>
-        $(document).ready(function() {
-            // Open modal when gallery item is clicked
-            $('.gallery-item').on('click', function() {
-                const id = $(this).data('id');
-                loadEvidenceDetails(id);
-            });
-            
-            // Close modal when X is clicked
-            $('#closeModal').on('click', function() {
-                $('#evidenceModal').hide();
-            });
-            
-            // Close modal when clicking outside the content
-            $(window).on('click', function(event) {
-                if ($(event.target).is('#evidenceModal')) {
-                    $('#evidenceModal').hide();
+                        <input type="hidden" name="id_inspeksi_gedung" value="{{ $inspeksi->id }}">
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Simpan Bukti Kerusakan
+                            </button>
+                        </div>
+                    </form>
+
+                    <hr>
+
+                    <!-- Galeri Bukti Kerusakan -->
+                    <div class="gallery">
+                        <h2 class="gallery-title">
+                            <i class="fas fa-images"></i> Lampiran Bukti Kerusakan
+                        </h2>
+                        
+                        @if($buktiKerusakans->count() > 0)
+                            <div class="gallery-grid">
+                                @foreach ($buktiKerusakans as $buktiKerusakan)
+                                    <div class="gallery-item">
+                                        <div class="gallery-image">
+                                            @if ($buktiKerusakan->file_bukti_kerusakan)
+                                                <img src="{{ asset('storage/' . $buktiKerusakan->file_bukti_kerusakan) }}" 
+                                                    alt="Bukti Kerusakan">
+                                            @else
+                                                <img src="https://via.placeholder.com/300x200?text=No+Image" 
+                                                    alt="Tidak ada gambar">
+                                            @endif
+                                        </div>
+                                        <div class="gallery-content">
+                                            <h3>{{ $buktiKerusakan->judul_bukti_kerusakan }}</h3>
+                                            <p>{{ $buktiKerusakan->deskripsi_bukti_kerusakan }}</p>
+                                            <div class="gallery-meta">
+                                                <span class="damage-type">{{ $buktiKerusakan->tipe_kerusakan }}</span>
+                                                <a href="{{ route('bukti-perbaikan.create', $buktiKerusakan->id) }}" 
+                                                   class="btn btn-success">
+                                                    <i class="fas fa-upload"></i> Upload Perbaikan
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <p>Belum ada bukti kerusakan yang diupload.</p>
+                        @endif
+                    </div>
+
+                    <div class="action-buttons">
+                        <a href="{{ url()->previous() }}" class="btn btn-back">
+                            <i class="fas fa-arrow-left"></i> Kembali
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="{{ asset('js/components.js') }}"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const uploadBox = document.getElementById('uploadBox');
+                const fileInput = document.getElementById('file_bukti_kerusakan');
+                const uploadPreview = document.getElementById('uploadPreview');
+                const previewFileName = document.getElementById('previewFileName');
+                const previewFileSize = document.getElementById('previewFileSize');
+                const removeFileBtn = document.getElementById('removeFileBtn');
+                
+                // Handle click on upload box
+                uploadBox.addEventListener('click', function(e) {
+                    if (e.target !== fileInput) {
+                        fileInput.click();
+                    }
+                });
+                
+                // Handle file selection
+                fileInput.addEventListener('change', function() {
+                    if (this.files && this.files[0]) {
+                        const file = this.files[0];
+                        
+                        // Validate file size (max 5MB)
+                        if (file.size > 5 * 1024 * 1024) {
+                            alert('Ukuran file terlalu besar. Maksimal 5MB.');
+                            this.value = '';
+                            return;
+                        }
+                        
+                        // Validate file type
+                        const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+                        if (!validTypes.includes(file.type)) {
+                            alert('Format file tidak didukung. Harap gunakan JPG, PNG, atau GIF.');
+                            this.value = '';
+                            return;
+                        }
+                        
+                        // Display file info
+                        previewFileName.textContent = file.name;
+                        previewFileSize.textContent = formatFileSize(file.size);
+                        uploadPreview.style.display = 'block';
+                        
+                        // Add visual feedback
+                        uploadBox.classList.add('has-file');
+                    }
+                });
+                
+                // Handle drag and drop
+                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                    uploadBox.addEventListener(eventName, preventDefaults, false);
+                });
+                
+                function preventDefaults(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    uploadBox.addEventListener(eventName, highlight, false);
+                });
+                
+                ['dragleave', 'drop'].forEach(eventName => {
+                    uploadBox.addEventListener(eventName, unhighlight, false);
+                });
+                
+                function highlight() {
+                    uploadBox.classList.add('dragover');
+                }
+                
+                function unhighlight() {
+                    uploadBox.classList.remove('dragover');
+                }
+                
+                uploadBox.addEventListener('drop', handleDrop, false);
+                
+                function handleDrop(e) {
+                    const dt = e.dataTransfer;
+                    const files = dt.files;
+                    
+                    if (files.length) {
+                        fileInput.files = files;
+                        const event = new Event('change');
+                        fileInput.dispatchEvent(event);
+                    }
+                }
+                
+                // Handle file removal
+                removeFileBtn.addEventListener('click', function() {
+                    fileInput.value = '';
+                    uploadPreview.style.display = 'none';
+                    uploadBox.classList.remove('has-file');
+                });
+                
+                // Format file size
+                function formatFileSize(bytes) {
+                    if (bytes === 0) return '0 Bytes';
+                    
+                    const k = 1024;
+                    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                    const i = Math.floor(Math.log(bytes) / Math.log(k));
+                    
+                    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
                 }
             });
-            
-            // Function to load evidence details via AJAX
-            function loadEvidenceDetails(id) {
-                // In a real application, you would fetch this data from your server
-                // For demonstration, we'll use the data from the gallery items
-                
-                const item = $(`[data-id="${id}"]`);
-                const title = item.find('h3').text();
-                const description = item.find('p').text();
-                const type = item.find('.gallery-meta span:first-child').text();
-                const date = item.find('.gallery-meta span:last-child').text();
-                const imageSrc = item.find('img').attr('src');
-                const hasImage = imageSrc !== undefined;
-                
-                let modalContent = `
-                    <div class="modal-image">
-                        ${hasImage ? 
-                            `<img src="${imageSrc}" alt="${title}">` : 
-                            `<div class="file-icon"><i class="fas fa-file-pdf"></i></div>`
-                        }
-                    </div>
-                    <div class="modal-details">
-                        <div class="modal-detail-item">
-                            <strong>Judul</strong>
-                            <p>${title}</p>
-                        </div>
-                        <div class="modal-detail-item">
-                            <strong>Deskripsi</strong>
-                            <p>${description}</p>
-                        </div>
-                        <div class="modal-detail-item">
-                            <strong>Tipe Kerusakan</strong>
-                            <p>${type}</p>
-                        </div>
-                        <div class="modal-detail-item">
-                            <strong>Tanggal Dilaporkan</strong>
-                            <p>${date}</p>
-                        </div>
-                    </div>
-                    <div class="action-buttons">
-                        ${hasImage ? 
-                            `<a href="${imageSrc}" target="_blank" class="btn btn-primary"><i class="fas fa-external-link-alt"></i> Buka Gambar</a>` : 
-                            `<a href="${imageSrc}" target="_blank" class="btn btn-primary"><i class="fas fa-download"></i> Unduh Dokumen</a>`
-                        }
-                    </div>
-                `;
-                
-                $('#modalTitle').text(title);
-                $('#modalBody').html(modalContent);
-                $('#evidenceModal').show();
-            }
-        });
-    </script>
+        </script>
+    </div>
 </body>
 </html>

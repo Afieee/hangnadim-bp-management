@@ -15,11 +15,10 @@
 
     <div class="content-wrapper ml-0 md:ml-64 transition-all duration-300" id="content-wrapper">
         <!-- Header with Breadcrumb and Date Picker -->
-        <div class="px-6 py-4 bg-white shadow-sm">
+        <div class="px-6 py-4 bg-white">
                 <div class="breadcrumb">
                     <nav class="flex" aria-label="Breadcrumb">
                         <ol class="inline-flex items-center space-x-1 md:space-x-3">
-                            <li class="inline-flex items-center">
                                 <a href="#" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
                                     <i class="fas fa-home mr-2"></i> Home
                                 </a>
@@ -87,7 +86,7 @@
             </div> --}}
 
             <!-- Inspection Table -->
-            <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="bg-white rounded-lg overflow-hidden">
                 <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
                     <h3 class="text-lg font-semibold text-gray-800">    Scheduled Inspections - {{ $bulan }} {{ $tahun }}, Minggu ke-{{ $mingguKe }}
  </h3>
@@ -161,11 +160,9 @@
                     </div>
                 </div>
             </div>
-
+        </div>
     </div>
-
-    <x-footer />
-    
+        
     <!-- JavaScript Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>

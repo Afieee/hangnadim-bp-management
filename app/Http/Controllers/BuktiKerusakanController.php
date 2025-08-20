@@ -15,12 +15,12 @@ class BuktiKerusakanController extends Controller
 
 public function uploadBuktiKerusakan(Request $request)
 {
-    $userId = Auth::id(); // ambil user yang login
+    $userId = Auth::id(); // ambil user yang logins
 
     $request->validate([
         'judul_bukti_kerusakan' => 'required|string|max:255',
         'deskripsi_bukti_kerusakan' => 'required|string',
-        'tipe_kerusakan' => 'required|string|in:Furniture,Fire System,Bangunan,Mekanikal Elektrikal,IT',
+        'tipe_kerusakan' => 'required|string|in:Furniture,Fire System,Bangunan,Mekanikal Elektrikal,IT,Interior,Eksterior,Sanitasi',
         'file_bukti_kerusakan' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         'id_inspeksi_gedung' => 'required|exists:inspeksi_gedung,id',
     ]);

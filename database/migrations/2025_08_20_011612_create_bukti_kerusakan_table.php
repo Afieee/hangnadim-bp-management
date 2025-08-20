@@ -16,7 +16,9 @@ return new class extends Migration
 
             $table->string('judul_bukti_kerusakan');
             $table->text('deskripsi_bukti_kerusakan');
-            $table->enum('tipe_kerusakan',['Furniture', 'Fire System', 'Bangunan', 'Mekanikal Elektrikal', 'IT']);
+            $table->enum('tipe_kerusakan',['Furniture', 'Fire System', 'Bangunan', 'Mekanikal Elektrikal', 'IT', 'Interior', 'Eksterior', 'Sanitasi'])
+                  ->default('Furniture')
+                  ->comment('Tipe kerusakan yang dilaporkan');
 
             $table->string('file_bukti_kerusakan')->nullable();
 
@@ -36,9 +38,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('bukti_kerusakan');

@@ -14,15 +14,12 @@ return new class extends Migration
         Schema::create('bukti_perbaikan', function (Blueprint $table) {
             $table->id();
 
-            $table->string('judul_bukti_kerusakan');
-            $table->text('deskripsi_bukti_kerusakan');
-            $table->enum('tipe_kerusakan',['Furniture', 'Fire System', 'Bangunan', 'Mekanikal Elektrikal', 'IT']);
+            $table->text('catatan_bukti_perbaikan');
 
-            $table->string('file_bukti_kerusakan')->nullable();
-
+            $table->string('file_bukti_perbaikan')->nullable();
             // Kolom untuk menyimpan bukti kerusakan
-            $table->foreignId('id_inspeksi_gedung')
-                  ->constrained('inspeksi_gedung')
+            $table->foreignId('id_bukti_kerusakan')
+                  ->constrained('bukti_kerusakan')
                   ->onDelete('cascade')
                   ->onUpdate('cascade');
             

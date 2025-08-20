@@ -28,6 +28,9 @@ public function store(Request $request)
         'bangunan' => 'Belum Diperiksa', // default
         'mekanikal_elektrikal' => 'Belum Diperiksa', // default
         'it' => 'Belum Diperiksa', // default
+        'interior' => 'Belum Diperiksa', // default
+        'eksterior' => 'Belum Diperiksa', // default
+        'sanitasi' => 'Belum Diperiksa', // default
         'status_keseluruhan_inspeksi' => 'Terbuka', // default
         'id_gedung' => $request->input('id_gedung'),
         'id_user' => $userId,

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GedungController;
 use App\Http\Controllers\BuktiKerusakanController;
+use App\Http\Controllers\BuktiPerbaikanController;
 use App\Http\Controllers\InspeksiGedungController;
 
 Route::get('/', function () {
@@ -31,3 +32,7 @@ Route::get('/tampil-detail-inspeksi/{id_inspeksi}', [InspeksiGedungController::c
 
 Route::get('/halaman-upload-bukti-kerusakan', [BuktiKerusakanController::class, 'halamanUploadBuktiKerusakan'])->name('bukti-kerusakan.create');
 Route::post('/upload-bukti-kerusakan', [BuktiKerusakanController::class, 'uploadBuktiKerusakan'])->name('bukti-kerusakan.store');
+
+
+Route::get('/halaman-upload-bukti-perbaikan/{id_buktiKerusakan}', [BuktiPerbaikanController::class, 'halamanUploadBuktiPerbaikan'])->name('bukti-perbaikan.create');
+Route::post('/bukti-perbaikan/store', [BuktiPerbaikanController::class, 'store'])->name('bukti-perbaikan.store');

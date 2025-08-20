@@ -159,9 +159,11 @@
                         <div class="form-group">
                             <label for="role">Role</label>
                             <select name="role" id="role" required>
-                                <option value="admin">Admin</option>
-                                <option value="petugas">Petugas</option>
-                                <option value="petinggi">Petinggi</option>
+                                <option value="Kepala Seksi">Kepala Seksi</option>
+                                <option value="Staff Pelaksana">Staff Pelaksana</option>
+                                <option value="Direktur">Direktur</option>
+                                <option value="Kepala Bidang">Kepala Bidang</option>
+                                <option value="Deputi">Deputi</option>
                             </select>
                         </div>
         
@@ -172,7 +174,6 @@
         </div>
 
 {{-- Components --}}
-<x-footer />
 
 
 <script src="{{ asset('js/components.js') }}"></script>

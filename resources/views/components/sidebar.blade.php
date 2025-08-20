@@ -10,11 +10,11 @@
                 </div> 
             </div>
             <ul class="sidebar-menu">
-                @if (Auth::user()->role == "admin")
+                @if (Auth::user()->role == "Kepala Seksi")
                     <li><a href="/dashboard"><i class="fas fa-home"></i> Home</a></li>
                     <li><a href="/jadwalkan-inspeksi"><i class="fas fa-calendar-alt"></i> Jadwalkan Inspeksi</a></li>
                     <li><a href="/halaman-registrasi"><i class="fas fa-users"></i> Pengguna & Petugas</a></li>
-                @elseif (Auth::user()->role == "petugas")
+                @elseif (Auth::user()->role == "Staff Pelaksana")
                     <li><a href="/dashboard"><i class="fas fa-home"></i> Home</a></li>
                     <li><a href="/halaman-inspeksi-petugas"><i class="fas fa-clipboard-check"></i> Proses Inspeksi</a></li>
                 @endif

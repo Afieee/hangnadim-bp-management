@@ -273,6 +273,9 @@
                                 <input type="hidden" name="bangunan" value="Belum Diperiksa">
                                 <input type="hidden" name="mekanikal_elektrikal" value="Belum Diperiksa">
                                 <input type="hidden" name="it" value="Belum Diperiksa">
+                                <input type="hidden" name="interior" value="Belum Diperiksa">
+                                <input type="hidden" name="eksterior" value="Belum Diperiksa">
+                                <input type="hidden" name="sanitasi" value="Belum Diperiksa">
                                 <input type="hidden" name="id_gedung" value="1">
                                 <button type="submit" class="btn-schedule">
                                     <i class="fas fa-calendar-plus"></i> Schedule Inspection
@@ -291,6 +294,9 @@
                                 <input type="hidden" name="bangunan" value="Belum Diperiksa">
                                 <input type="hidden" name="mekanikal_elektrikal" value="Belum Diperiksa">
                                 <input type="hidden" name="it" value="Belum Diperiksa">
+                                <input type="hidden" name="interior" value="Belum Diperiksa">
+                                <input type="hidden" name="eksterior" value="Belum Diperiksa">
+                                <input type="hidden" name="sanitasi" value="Belum Diperiksa">
                                 <input type="hidden" name="id_gedung" value="2">
                                 <button type="submit" class="btn-schedule">
                                     <i class="fas fa-calendar-plus"></i> Schedule Inspection
@@ -309,6 +315,9 @@
                                 <input type="hidden" name="bangunan" value="Belum Diperiksa">
                                 <input type="hidden" name="mekanikal_elektrikal" value="Belum Diperiksa">
                                 <input type="hidden" name="it" value="Belum Diperiksa">
+                                <input type="hidden" name="interior" value="Belum Diperiksa">
+                                <input type="hidden" name="eksterior" value="Belum Diperiksa">
+                                <input type="hidden" name="sanitasi" value="Belum Diperiksa">
                                 <input type="hidden" name="id_gedung" value="3">
                                 <button type="submit" class="btn-schedule">
                                     <i class="fas fa-calendar-plus"></i> Schedule Inspection
@@ -327,6 +336,9 @@
                                 <input type="hidden" name="bangunan" value="Belum Diperiksa">
                                 <input type="hidden" name="mekanikal_elektrikal" value="Belum Diperiksa">
                                 <input type="hidden" name="it" value="Belum Diperiksa">
+                                <input type="hidden" name="interior" value="Belum Diperiksa">
+                                <input type="hidden" name="eksterior" value="Belum Diperiksa">
+                                <input type="hidden" name="sanitasi" value="Belum Diperiksa">
                                 <input type="hidden" name="id_gedung" value="4">
                                 <button type="submit" class="btn-schedule">
                                     <i class="fas fa-calendar-plus"></i> Schedule Inspection
@@ -345,6 +357,9 @@
                                 <input type="hidden" name="bangunan" value="Belum Diperiksa">
                                 <input type="hidden" name="mekanikal_elektrikal" value="Belum Diperiksa">
                                 <input type="hidden" name="it" value="Belum Diperiksa">
+                                <input type="hidden" name="interior" value="Belum Diperiksa">
+                                <input type="hidden" name="eksterior" value="Belum Diperiksa">
+                                <input type="hidden" name="sanitasi" value="Belum Diperiksa">
                                 <input type="hidden" name="id_gedung" value="6">
                                 <button type="submit" class="btn-schedule">
                                     <i class="fas fa-calendar-plus"></i> Schedule Inspection
@@ -363,6 +378,9 @@
                                 <input type="hidden" name="bangunan" value="Belum Diperiksa">
                                 <input type="hidden" name="mekanikal_elektrikal" value="Belum Diperiksa">
                                 <input type="hidden" name="it" value="Belum Diperiksa">
+                                <input type="hidden" name="interior" value="Belum Diperiksa">
+                                <input type="hidden" name="eksterior" value="Belum Diperiksa">
+                                <input type="hidden" name="sanitasi" value="Belum Diperiksa">
                                 <input type="hidden" name="id_gedung" value="7">
                                 <button type="submit" class="btn-schedule">
                                     <i class="fas fa-calendar-plus"></i> Schedule Inspection
@@ -374,8 +392,6 @@
             </div>
         </div>
     </div>
-
-    <x-footer />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="{{ asset('js/components.js') }}"></script>
