@@ -6,460 +6,8 @@
     <title>Modern Dashboard - Detail Inspeksi</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/components.css') }}">
-    <style>
-        :root {
-            --primary: #4361ee;
-            --secondary: #3f37c9;
-            --success: #4cc9f0;
-            --danger: #f72585;
-            --warning: #f8961e;
-            --info: #4895ef;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --gray: #6c757d;
-            --light-gray: #e9ecef;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #333;
-            margin: 0;
-        }
-        
-        .content-wrapper {
-            margin-left: 250px;
-            padding: 20px;
-            transition: all 0.3s ease;
-        }
-        
-        
-        .breadcrumb ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            align-items: center;
-        }
-        
-        .breadcrumb li {
-            margin-right: 10px;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .breadcrumb li:not(:last-child):after {
-            content: '/';
-            margin-left: 10px;
-            color: var(--gray);
-        }
-        
-        .breadcrumb a {
-            color: var(--primary);
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        
-        .breadcrumb a:hover {
-            color: var(--secondary);
-        }
-        
-        .breadcrumb .active {
-            color: var(--gray);
-        }
-        
-        .content-area {
-            background-color: transparent;
-        }
-        
-        .card {
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-        
-        .container {
-            padding: 20px;
-        }
-        
-        h1 {
-            color: var(--dark);
-            font-size: 28px;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--light-gray);
-        }
-        
-        h2 {
-            color: var(--primary);
-            font-size: 20px;
-            margin-top: 25px;
-            margin-bottom: 15px;
-        }
-        
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 25px;
-        }
-        
-        .info-card {
-            background-color: var(--light);
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.05);
-        }
-        
-        .info-card p {
-            margin: 8px 0;
-        }
-        
-        .status-select {
-            margin-bottom: 15px;
-        }
-        
-        .status-select select {
-            width: 100%;
-            padding: 10px 15px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            background-color: white;
-            font-size: 15px;
-            margin-top: 5px;
-            transition: all 0.3s;
-        }
-        
-        .status-select select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--dark);
-        }
-        
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 12px 15px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            font-size: 15px;
-            transition: all 0.3s;
-        }
-        
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
-        }
-        
-        .btn {
-            padding: 12px 20px;
-            border-radius: 8px;
-            border: none;
-            font-size: 15px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .btn i {
-            margin-right: 8px;
-        }
-        
-        .btn-primary {
-            background-color: var(--primary);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background-color: var(--secondary);
-        }
-        
-        .btn-success {
-            background-color: var(--success);
-            color: white;
-        }
-        
-        .btn-success:hover {
-            background-color: #3aafd9;
-        }
-        
-        .btn-back {
-            background-color: var(--light);
-            color: var(--dark);
-        }
-        
-        .btn-back:hover {
-            background-color: var(--light-gray);
-        }
-        
-        .alert {
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-        
-        .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
-        .alert-error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        
-        .gallery {
-            margin-top: 30px;
-        }
-        
-        .gallery-title {
-            font-size: 22px;
-            margin-bottom: 20px;
-            color: var(--dark);
-            display: flex;
-            align-items: center;
-        }
-        
-        .gallery-title i {
-            margin-right: 10px;
-            color: var(--primary);
-        }
-        
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        
-        .gallery-item {
-            background-color: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .gallery-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .gallery-image {
-            height: 200px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .gallery-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-        
-        .gallery-item:hover .gallery-image img {
-            transform: scale(1.05);
-        }
-        
-        .gallery-content {
-            padding: 15px;
-        }
-        
-        .gallery-content h3 {
-            margin-top: 0;
-            margin-bottom: 10px;
-            color: var(--dark);
-            font-size: 18px;
-        }
-        
-        .gallery-content p {
-            color: var(--gray);
-            margin-bottom: 15px;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-        
-        .gallery-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid var(--light-gray);
-        }
-        
-        .damage-type {
-            background-color: var(--light);
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-        
-        .action-buttons {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 30px;
-            gap: 10px;
-        }
-        
-        hr {
-            border: none;
-            height: 1px;
-            background-color: var(--light-gray);
-            margin: 25px 0;
-        }
-        
-        /* Improved Upload Styles */
-        .upload-container {
-            margin-bottom: 20px;
-        }
-        
-        .upload-label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--dark);
-        }
-        
-        .upload-box {
-            border: 2px dashed #a0a0ff;
-            border-radius: 10px;
-            padding: 30px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background-color: rgba(240, 242, 255, 0.5);
-            position: relative;
-        }
-        
-        .upload-box:hover {
-            border-color: var(--primary);
-            background-color: rgba(240, 242, 255, 0.8);
-        }
-        
-        .upload-box.dragover {
-            border-color: var(--success);
-            background-color: rgba(76, 201, 240, 0.1);
-        }
-        
-        .upload-box i {
-            font-size: 40px;
-            color: var(--primary);
-            margin-bottom: 15px;
-            display: block;
-        }
-        
-        .upload-box .upload-text {
-            display: block;
-            color: var(--gray);
-            font-size: 16px;
-            margin-bottom: 10px;
-        }
-        
-        .upload-box .upload-hint {
-            display: block;
-            color: var(--gray);
-            font-size: 13px;
-        }
-        
-        .upload-preview {
-            margin-top: 20px;
-            display: none;
-        }
-        
-        .preview-container {
-            display: flex;
-            align-items: center;
-            background-color: var(--light);
-            padding: 12px 15px;
-            border-radius: 8px;
-            margin-top: 10px;
-        }
-        
-        .preview-icon {
-            margin-right: 15px;
-            font-size: 24px;
-            color: var(--primary);
-        }
-        
-        .preview-info {
-            flex-grow: 1;
-        }
-        
-        .preview-name {
-            font-weight: 500;
-            margin-bottom: 5px;
-            word-break: break-all;
-        }
-        
-        .preview-size {
-            color: var(--gray);
-            font-size: 13px;
-        }
-        
-        .preview-remove {
-            color: var(--danger);
-            cursor: pointer;
-            font-size: 18px;
-            padding: 5px;
-        }
-        
-        .file-input {
-            display: none;
-        }
-        
-        @media (max-width: 992px) {
-            .content-wrapper {
-                margin-left: 0;
-            }
-            
-            .gallery-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .gallery-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .action-buttons {
-                flex-direction: column;
-            }
-            
-            .btn {
-                width: 100%;
-                margin-bottom: 10px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/detail-inspeksi-petugas.blade.css') }}">
+
 </head>
 <body>
     <x-navbar />
@@ -470,9 +18,8 @@
         <div class="breadcrumb-container">
             <div class="breadcrumb">
                 <ul>
-                    <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
                     <li><a href="/dashboard"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
-                    <li class="active"><i class="fas fa-eye"></i> Penjadwalan Inspeksi</li>
+                    <hr>
                     <li class="active">
                         <i class="fas fa-eye"></i> 
                         Inspeksi {{ $inspeksi->gedung->nama_gedung ?? '-' }} - 
@@ -501,32 +48,131 @@
                         </div>
                     @endif
 
+                    <!-- INFO GRID YANG DIPERBAIKI -->
                     <div class="info-grid">
+                        <!-- Informasi Gedung -->
                         <div class="info-card">
-                            <h2>Informasi Gedung</h2>
-                            <p><strong>Nama Gedung:</strong> {{ $inspeksi->gedung->nama_gedung ?? '-' }}</p>
-                            <p><strong>Tanggal Inspeksi:</strong> {{ $inspeksi->created_at ?? '-' }}</p>
+                            <div class="info-card-header">
+                                <h2><i class="fas fa-building"></i> Informasi Gedung</h2>
+                            </div>
+                            <div class="info-card-body">
+                                <div class="info-item">
+                                    <div class="info-icon">
+                                        <i class="fas fa-landmark"></i>
+                                    </div>
+                                    <div class="info-content">
+                                        <div class="info-label">Nama Gedung</div>
+                                        <div class="info-value">{{ $inspeksi->gedung->nama_gedung ?? '-' }}</div>
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-icon">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </div>
+                                    <div class="info-content">
+                                        <div class="info-label">Tanggal Inspeksi Dijadwalkan</div>
+                                        <div class="info-value">{{ \Carbon\Carbon::parse($inspeksi->created_at)->format('d F Y, H:i') ?? '-' }}</div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
 
+                        <!-- Kepala Seksi -->
                         <div class="info-card">
-                            <h2>Kepala Seksi</h2>
-                            <p><strong>Nama Petugas:</strong> {{ $inspeksi->user->name ?? '-' }}</p>
-                            <p><strong>Email:</strong> {{ $inspeksi->user->email ?? '-' }}</p>
+                            <div class="info-card-header">
+                                <h2><i class="fas fa-user-tie"></i> Kepala Seksi</h2>
+                            </div>
+                            <div class="info-card-body">
+                                <div class="info-item">
+                                    <div class="info-icon">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div class="info-content">
+                                        <div class="info-label">Nama Penjadwal</div>
+                                        <div class="info-value">{{ $inspeksi->user->name ?? '-' }}</div>
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-icon">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <div class="info-content">
+                                        <div class="info-label">Email Penjadwal</div>
+                                        <div class="info-value">{{ $inspeksi->user->email ?? '-' }}</div>
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-icon">
+                                        <i class="fas fa-briefcase"></i>
+                                    </div>
+                                    <div class="info-content">
+                                        <div class="info-label">Jabatan</div>
+                                        <div class="info-value">Kepala Seksi</div>
+                                        <span class="status-badge baik">Aktif</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="info-card-footer">
+                        
+                            </div>
                         </div>
 
+                        <!-- Detail Inspeksi -->
                         <div class="info-card">
-                            <h2>Detail Inspeksi</h2>
-                            <p><strong>ID Inspeksi:</strong> {{ $inspeksi->id }}</p>
-                            <p><strong>Status:</strong> {{ $inspeksi->status_keseluruhan_inspeksi ?? '-' }}</p>
+                            <div class="info-card-header">
+                                <h2><i class="fas fa-clipboard-check"></i> Detail Inspeksi</h2>
+                            </div>
+                            <div class="info-card-body">
+                                <div class="info-item">
+                                    <div class="info-icon">
+                                        <i class="fas fa-fingerprint"></i>
+                                    </div>
+                                    <div class="info-content">
+                                        <div class="info-label">ID Inspeksi</div>
+                                        <div class="info-value">INS-{{ $inspeksi->id }}</div>
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-icon">
+                                        <i class="fas fa-tasks"></i>
+                                    </div>
+                                    <div class="info-content">
+                                        <div class="info-label">Status</div>
+                                        <div class="status-badge diperbaiki">
+                                            {{ $inspeksi->status_keseluruhan_inspeksi ?? 'Dalam Proses' }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-icon">
+                                        <i class="fas fa-list-ol"></i>
+                                    </div>
+                                    <div class="info-content">
+                                        <div class="info-label">Jumlah Temuan</div>
+                                        <div class="info-value">{{ $buktiKerusakans->count() }} Temuan</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="info-card-footer">
+                                <div class="info-date">
+                                </div>
+                            </div>
                         </div>
                     </div>
 
+                    <!-- Bagian Update -->
+                    <meta name="csrf-token" content="{{ csrf_token() }}">
+
                     <h2>Status Komponen</h2>
-                    
+
+                    <div id="update-message" style="margin-top:10px; color:green; font-weight:bold; display:none;">
+                        ✅ Data berhasil diperbarui
+                    </div>
                     <div class="status-select">
                         <p><strong>Furniture:</strong></p>
-                        <select name="furniture" class="border rounded px-2 py-1">
-                            <option>Belum Diperiksa</option>
+                        <select name="furniture" class="status-dropdown border rounded px-2 py-1" data-field="furniture" data-id="{{ $inspeksi->id }}">
+                            <option value="{{ $inspeksi->furniture }}">{{ $inspeksi->furniture }}</option>
                             <option value="Baik">Baik</option>
                             <option value="Sedang Diperbaiki">Sedang Diperbaiki</option>
                             <option value="Rusak">Rusak</option>
@@ -536,8 +182,8 @@
 
                     <div class="status-select">
                         <p><strong>Fire System:</strong></p>
-                        <select name="fire_system" class="border rounded px-2 py-1">
-                            <option>Belum Diperiksa</option>
+                        <select name="fire_system" class="status-dropdown border rounded px-2 py-1" data-field="fire_system" data-id="{{ $inspeksi->id }}">
+                            <option value="{{ $inspeksi->fire_system }}">{{ $inspeksi->fire_system }}</option>
                             <option value="Baik">Baik</option>
                             <option value="Sedang Diperbaiki">Sedang Diperbaiki</option>
                             <option value="Rusak">Rusak</option>
@@ -547,8 +193,8 @@
 
                     <div class="status-select">
                         <p><strong>Bangunan:</strong></p>
-                        <select name="bangunan" class="border rounded px-2 py-1">
-                            <option>Belum Diperiksa</option>
+                        <select name="bangunan" class="status-dropdown border rounded px-2 py-1" data-field="bangunan" data-id="{{ $inspeksi->id }}">
+                            <option value="{{ $inspeksi->bangunan }}">{{ $inspeksi->bangunan }}</option>
                             <option value="Baik">Baik</option>
                             <option value="Sedang Diperbaiki">Sedang Diperbaiki</option>
                             <option value="Rusak">Rusak</option>
@@ -558,8 +204,8 @@
 
                     <div class="status-select">
                         <p><strong>Mekanikal Elektrikal:</strong></p>
-                        <select name="mekanikal_elektrikal" class="border rounded px-2 py-1">
-                            <option>Belum Diperiksa</option>
+                        <select name="mekanikal_elektrikal" class="status-dropdown border rounded px-2 py-1" data-field="mekanikal_elektrikal" data-id="{{ $inspeksi->id }}">
+                            <option value="{{ $inspeksi->mekanikal_elektrikal }}">{{ $inspeksi->mekanikal_elektrikal }}</option>
                             <option value="Baik">Baik</option>
                             <option value="Sedang Diperbaiki">Sedang Diperbaiki</option>
                             <option value="Rusak">Rusak</option>
@@ -569,8 +215,8 @@
 
                     <div class="status-select">
                         <p><strong>IT:</strong></p>
-                        <select name="it" class="border rounded px-2 py-1">
-                            <option>Belum Diperiksa</option>
+                        <select name="it" class="status-dropdown border rounded px-2 py-1" data-field="it" data-id="{{ $inspeksi->id }}">
+                            <option value="{{ $inspeksi->it }}">{{ $inspeksi->it }}</option>
                             <option value="Baik">Baik</option>
                             <option value="Sedang Diperbaiki">Sedang Diperbaiki</option>
                             <option value="Rusak">Rusak</option>
@@ -578,11 +224,10 @@
                         </select>
                     </div>
 
-                    
                     <div class="status-select">
                         <p><strong>Interior:</strong></p>
-                        <select name="interior" class="border rounded px-2 py-1">
-                            <option>Belum Diperiksa</option>
+                        <select name="interior" class="status-dropdown border rounded px-2 py-1" data-field="interior" data-id="{{ $inspeksi->id }}">
+                            <option value="{{ $inspeksi->interior }}">{{ $inspeksi->interior }}</option>
                             <option value="Baik">Baik</option>
                             <option value="Sedang Diperbaiki">Sedang Diperbaiki</option>
                             <option value="Rusak">Rusak</option>
@@ -592,8 +237,8 @@
 
                     <div class="status-select">
                         <p><strong>Eksterior:</strong></p>
-                        <select name="eksterior" class="border rounded px-2 py-1">
-                            <option>Belum Diperiksa</option>
+                        <select name="eksterior" class="status-dropdown border rounded px-2 py-1" data-field="eksterior" data-id="{{ $inspeksi->id }}">
+                            <option value="{{ $inspeksi->eksterior }}">{{ $inspeksi->eksterior }}</option>
                             <option value="Baik">Baik</option>
                             <option value="Sedang Diperbaiki">Sedang Diperbaiki</option>
                             <option value="Rusak">Rusak</option>
@@ -601,17 +246,18 @@
                         </select>
                     </div>
 
-                    
                     <div class="status-select">
                         <p><strong>Sanitasi:</strong></p>
-                        <select name="sanitasi" class="border rounded px-2 py-1">
-                            <option>Belum Diperiksa</option>
+                        <select name="sanitasi" class="status-dropdown border rounded px-2 py-1" data-field="sanitasi" data-id="{{ $inspeksi->id }}">
+                            <option value="{{ $inspeksi->sanitasi }}">{{ $inspeksi->sanitasi }}</option>
                             <option value="Baik">Baik</option>
                             <option value="Sedang Diperbaiki">Sedang Diperbaiki</option>
                             <option value="Rusak">Rusak</option>
                             <option value="Sudah Diperbaiki">Sudah Diperbaiki</option>
                         </select>
                     </div>
+
+
 
                     <hr>
 
@@ -647,7 +293,7 @@
                             <div class="upload-box" id="uploadBox">
                                 <i class="fas fa-cloud-upload-alt"></i>
                                 <span class="upload-text">Klik untuk memilih file atau seret file ke sini</span>
-                                <span class="upload-hint">Format yang didukung: JPG, PNG (Maks. 5MB)</span>
+                                <span class="upload-hint">Format yang didukung: JPG, PNG, WEBP (Maks. 5MB)</span>
                                 <input type="file" id="file_bukti_kerusakan" name="file_bukti_kerusakan" class="file-input" accept="image/*">
                             </div>
                             <div class="upload-preview" id="uploadPreview">
@@ -685,9 +331,9 @@
                         
                         @if($buktiKerusakans->count() > 0)
                             <div class="gallery-grid">
-                                @foreach ($buktiKerusakans as $buktiKerusakan)
+                                @foreach ($buktiKerusakans as $index => $buktiKerusakan)
                                     <div class="gallery-item">
-                                        <div class="gallery-image">
+                                        <div class="gallery-image" onclick="openModal({{ $index }})">
                                             @if ($buktiKerusakan->file_bukti_kerusakan)
                                                 <img src="{{ asset('storage/' . $buktiKerusakan->file_bukti_kerusakan) }}" 
                                                     alt="Bukti Kerusakan">
@@ -703,7 +349,7 @@
                                                 <span class="damage-type">{{ $buktiKerusakan->tipe_kerusakan }}</span>
                                                 <a href="{{ route('bukti-perbaikan.create', $buktiKerusakan->id) }}" 
                                                    class="btn btn-success">
-                                                    <i class="fas fa-upload"></i> Upload Perbaikan
+                                                    <i class="fas fa-upload"></i> Upload Penanganan
                                                 </a>
                                             </div>
                                         </div>
@@ -724,10 +370,35 @@
             </div>
         </div>
 
+        <!-- Modal untuk menampilkan gambar - DIPERBAIKI -->
+        <div id="imageModal" class="modal">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div class="modal-counter" id="modalCounter">1/{{ $buktiKerusakans->count() }}</div>
+            <div class="modal-nav">
+                <div class="nav-btn" onclick="changeImage(-1)">&#10094;</div>
+                <div class="nav-btn" onclick="changeImage(1)">&#10095;</div>
+            </div>
+            <div class="modal-content">
+                <div class="modal-image-container">
+                    <img class="modal-image" id="modalImage" src="">
+                </div>
+                <div class="modal-description">
+                    <h3 class="modal-title" id="modalTitle"></h3>
+                    <p class="modal-desc-text" id="modalDescription"></p>
+                    <span class="modal-type" id="modalType"></span>
+                </div>
+            </div>
+        </div>
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="{{ asset('js/components.js') }}"></script>
         <script>
+            // Script untuk modal gambar - DIPERBAIKI
+            let currentImageIndex = 0;
+            const buktiKerusakans = @json($buktiKerusakans);
+            
             document.addEventListener('DOMContentLoaded', function() {
+                // Script upload yang sudah ada
                 const uploadBox = document.getElementById('uploadBox');
                 const fileInput = document.getElementById('file_bukti_kerusakan');
                 const uploadPreview = document.getElementById('uploadPreview');
@@ -755,13 +426,20 @@
                         }
                         
                         // Validate file type
-                        const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+                        const validTypes = [
+                            'image/jpeg',
+                            'image/jpg',    
+                            'image/png',
+                            'image/webp',
+                            'image/avif'
+                        ];
+
                         if (!validTypes.includes(file.type)) {
-                            alert('Format file tidak didukung. Harap gunakan JPG, PNG, atau GIF.');
+                            alert('Format file tidak didukung. Harap gunakan JPG, JPEG, PNG, WEBP, atau AVIF.');
                             this.value = '';
                             return;
                         }
-                        
+                                                
                         // Display file info
                         previewFileName.textContent = file.name;
                         previewFileSize.textContent = formatFileSize(file.size);
@@ -829,7 +507,99 @@
                     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
                 }
             });
+            
+            function openModal(index) {
+                currentImageIndex = index;
+                updateModalContent();
+                document.getElementById('imageModal').style.display = 'flex';
+                document.body.classList.add('modal-open');
+            }
+            
+            function closeModal() {
+                document.getElementById('imageModal').style.display = 'none';
+                document.body.classList.remove('modal-open');
+            }
+            
+            function changeImage(direction) {
+                currentImageIndex += direction;
+                
+                // Handle pembunginan indeks (loop)
+                if (currentImageIndex < 0) {
+                    currentImageIndex = buktiKerusakans.length - 1;
+                } else if (currentImageIndex >= buktiKerusakans.length) {
+                    currentImageIndex = 0;
+                }
+                
+                updateModalContent();
+            }
+            
+            function updateModalContent() {
+                const item = buktiKerusakans[currentImageIndex];
+                const modalImage = document.getElementById('modalImage');
+                const modalTitle = document.getElementById('modalTitle');
+                const modalDescription = document.getElementById('modalDescription');
+                const modalType = document.getElementById('modalType');
+                const modalCounter = document.getElementById('modalCounter');
+                
+                // Set konten modal
+                if (item.file_bukti_kerusakan) {
+                    modalImage.src = "{{ asset('storage/') }}/" + item.file_bukti_kerusakan;
+                } else {
+                    modalImage.src = "https://via.placeholder.com/800x600?text=No+Image";
+                }
+                
+                modalTitle.textContent = item.judul_bukti_kerusakan;
+                modalDescription.textContent = item.deskripsi_bukti_kerusakan;
+                modalType.textContent = item.tipe_kerusakan;
+                modalCounter.textContent = (currentImageIndex + 1) + "/" + buktiKerusakans.length;
+            }
+            
+            // Tutup modal jika diklik di luar konten
+            document.getElementById('imageModal').addEventListener('click', function(event) {
+                if (event.target === this) {
+                    closeModal();
+                }
+            });
+            
+            // Navigasi dengan keyboard
+            document.addEventListener('keydown', function(event) {
+                const modal = document.getElementById('imageModal');
+                if (modal.style.display === 'flex') {
+                    if (event.key === 'Escape') {
+                        closeModal();
+                    } else if (event.key === 'ArrowLeft') {
+                        changeImage(-1);
+                    } else if (event.key === 'ArrowRight') {
+                        changeImage(1);
+                    }
+                }
+            });
         </script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+        $(document).on('change', '.status-dropdown', function () {
+            let field = $(this).data('field');
+            let value = $(this).val();
+            let id = $(this).data('id');
+
+            $.ajax({
+                url: `/inspeksi/${id}/update-field`,
+                type: 'PUT',
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    field: field,
+                    value: value
+                },
+                success: function (response) {
+                    $('#update-message').stop(true, true).fadeIn().delay(5500).fadeOut();
+                },
+                error: function () {
+                    alert('❌ Gagal memperbarui data.');
+                }
+            });
+        });
+        </script>
+
     </div>
 </body>
 </html>

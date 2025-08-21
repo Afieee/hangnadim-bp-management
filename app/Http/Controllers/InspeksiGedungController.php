@@ -55,7 +55,6 @@ public function store(Request $request)
 
         $inspeksiGedungs = InspeksiGedung::with('gedung')
             ->where('status_keseluruhan_inspeksi', 'Terbuka')
-            ->whereYear('created_at', $tahun)
             ->get();
 
         return view('pages.inspeksi-petugas', [
@@ -76,6 +75,32 @@ public function store(Request $request)
             'buktiKerusakans' => $buktiKerusakans,
         ]);
     }
+
+
+public function updateDetailInspeksi(Request $request, $id)
+{
+    $request->validate([
+        'field' => 'required|string',
+        'value' => 'required|string'
+    ]);
+
+    $allowedFields = [
+        'furniture', 'fire_system', 'bangunan', 
+        'mekanikal_elektrikal', 'it', 'interior', 
+        'eksterior', 'sanitasi'
+    ];
+
+    if (!in_array($request->field, $allowedFields)) {
+        return response()->json(['message' => 'Field tidak valid'], 400);
+    }
+
+    $inspeksi = InspeksiGedung::findOrFail($id);
+    $inspeksi->update([
+        $request->field => $request->value
+    ]);
+
+    return response()->json(['message' => 'Berhasil diperbarui']);
+}
 
 
 }

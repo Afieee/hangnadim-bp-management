@@ -41,13 +41,13 @@ public function halamanUploadBuktiPerbaikan($id_buktiKerusakan)
 
     public function store(Request $request)
     {
-        // Validasi input
         $request->validate([
             'catatan_bukti_perbaikan' => 'required|string',
-            'file_bukti_perbaikan' => 'required|file|mimes:jpeg,png,jpg,gif,pdf|max:2048',
+            'file_bukti_perbaikan' => 'required|file|mimes:jpeg,png,jpg,gif,webp,pdf|max:2048',
             'id_bukti_kerusakan' => 'required|exists:bukti_kerusakan,id',
             'id_user_inspektor' => 'required|integer'
         ]);
+
 
         try {
             $filePath = null;

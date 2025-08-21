@@ -20,7 +20,7 @@ return new class extends Migration
             $table->enum('fire_system',  ['Belum Diperiksa', 'Baik', 'Sedang Diperbaiki', 'Rusak', 'Sudah Diperbaiki'])->default('Belum Diperiksa');
             $table->enum('bangunan',  ['Belum Diperiksa', 'Baik', 'Sedang Diperbaiki', 'Rusak', 'Sudah Diperbaiki'])->default('Belum Diperiksa');
             $table->enum('mekanikal_elektrikal',  ['Belum Diperiksa', 'Baik', 'Sedang Diperbaiki', 'Rusak', 'Sudah Diperbaiki'])->default('Belum Diperiksa');
-            $table->enum('it',['Belum Diperiksa', 'Sedang Diperbaiki', 'Rusak', 'Sudah Diperbaiki'])->default('Belum Diperiksa');
+            $table->enum('it',['Belum Diperiksa', 'Baik' , 'Sedang Diperbaiki', 'Rusak', 'Sudah Diperbaiki'])->default('Belum Diperiksa');
             $table->enum('interior',  ['Belum Diperiksa', 'Baik', 'Sedang Diperbaiki', 'Rusak', 'Sudah Diperbaiki'])->default('Belum Diperiksa');
             $table->enum('eksterior',  ['Belum Diperiksa', 'Baik', 'Sedang Diperbaiki', 'Rusak', 'Sudah Diperbaiki'])->default('Belum Diperiksa');
             $table->enum('sanitasi',  ['Belum Diperiksa', 'Baik', 'Sedang Diperbaiki', 'Rusak', 'Sudah Diperbaiki'])->default('Belum Diperiksa');

@@ -21,7 +21,7 @@ public function uploadBuktiKerusakan(Request $request)
         'judul_bukti_kerusakan' => 'required|string|max:255',
         'deskripsi_bukti_kerusakan' => 'required|string',
         'tipe_kerusakan' => 'required|string|in:Furniture,Fire System,Bangunan,Mekanikal Elektrikal,IT,Interior,Eksterior,Sanitasi',
-        'file_bukti_kerusakan' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        'file_bukti_kerusakan' => 'nullable|image|mimes:jpg,jpeg,png,webp,avif|max:2048',
         'id_inspeksi_gedung' => 'required|exists:inspeksi_gedung,id',
     ]);
 
@@ -30,7 +30,7 @@ public function uploadBuktiKerusakan(Request $request)
         if ($request->hasFile('file_bukti_kerusakan')) {
             $filePath = $request->file('file_bukti_kerusakan')->store('uploaded_photo', 'public');
         }
-
+        
         BuktiKerusakan::create([
             'judul_bukti_kerusakan' => $request->judul_bukti_kerusakan,
             'deskripsi_bukti_kerusakan' => $request->deskripsi_bukti_kerusakan,

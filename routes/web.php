@@ -27,6 +27,8 @@ Route::post('/gedung/store', [GedungController::class, 'simpanGedung'])->name('g
 
 Route::get('/jadwalkan-inspeksi', [InspeksiGedungController::class, 'halamanInspeksi'])->name('jadwalkan.inspeksi');
 Route::post('/jadwalkan-inspeksi', [InspeksiGedungController::class, 'store'])->name('jadwalkan.inspeksi.store');
+Route::put('/inspeksi/{id}/update-field', [InspeksiGedungController::class, 'updateDetailInspeksi'])->name('inspeksi.update.field');
+
 Route::get('/halaman-inspeksi-petugas', [InspeksiGedungController::class, 'halamanInspeksiPetugas'])->name('halaman.inspeksi.petugas');
 Route::get('/tampil-detail-inspeksi/{id_inspeksi}', [InspeksiGedungController::class, 'tampilDetailInspeksi'])->name('tampil.detail.inspeksi');
 
