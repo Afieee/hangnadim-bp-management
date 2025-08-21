@@ -38,3 +38,6 @@ Route::post('/upload-bukti-kerusakan', [BuktiKerusakanController::class, 'upload
 
 Route::get('/halaman-upload-bukti-perbaikan/{id_buktiKerusakan}', [BuktiPerbaikanController::class, 'halamanUploadBuktiPerbaikan'])->name('bukti-perbaikan.create');
 Route::post('/bukti-perbaikan/store', [BuktiPerbaikanController::class, 'store'])->name('bukti-perbaikan.store');
+
+Route::put('/inspeksi-gedung/{id}/update-status', [App\Http\Controllers\InspeksiGedungController::class, 'updateStatus'])
+    ->name('inspeksi-gedung.updateStatus');

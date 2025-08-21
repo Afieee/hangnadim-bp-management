@@ -16,6 +16,10 @@ return new class extends Migration
 
             $table->string('judul_bukti_kerusakan');
             $table->text('deskripsi_bukti_kerusakan');
+            $table->string('lokasi_bukti_kerusakan')
+                  ->comment('Lokasi spesifik di mana kerusakan terjadi');
+
+
             $table->enum('tipe_kerusakan',['Furniture', 'Fire System', 'Bangunan', 'Mekanikal Elektrikal', 'IT', 'Interior', 'Eksterior', 'Sanitasi'])
                   ->default('Furniture')
                   ->comment('Tipe kerusakan yang dilaporkan');

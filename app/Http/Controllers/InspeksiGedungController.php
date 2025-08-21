@@ -102,5 +102,19 @@ public function updateDetailInspeksi(Request $request, $id)
     return response()->json(['message' => 'Berhasil diperbarui']);
 }
 
+public function updateStatus(Request $request, $id)
+{
+    $request->validate([
+        'status_keseluruhan_inspeksi' => 'required|string'
+    ]);
 
+    $inspeksi = \App\Models\InspeksiGedung::findOrFail($id);
+    $inspeksi->status_keseluruhan_inspeksi = $request->status_keseluruhan_inspeksi;
+    $inspeksi->save();
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Status berhasil diperbarui'
+    ]);
+}
 }

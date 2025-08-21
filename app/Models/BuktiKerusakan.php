@@ -13,6 +13,7 @@ class BuktiKerusakan extends Model
     protected $fillable = [
         'judul_bukti_kerusakan',
         'deskripsi_bukti_kerusakan',
+        'lokasi_bukti_kerusakan',
         'tipe_kerusakan',
         'file_bukti_kerusakan',
         'id_inspeksi_gedung',
