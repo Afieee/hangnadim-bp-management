@@ -390,6 +390,18 @@
                     <div class="info-label">PENJADWAL</div>
                     <div class="info-value">{{ $inspeksi->user->name }}</div>
                 </div>
+
+                <div class="info-item" style="display: flex; flex-direction: column; gap: 4px; padding: 10px; border-radius: 8px; background: #f8f9fa; box-shadow: 0 2px 6px rgba(0,0,0,0.08); max-width: 300px;">
+                    <div class="info-label" style="font-weight: 600; color: #555; font-size: 14px;">
+                        📅 Tanggal Inspeksi Dijadwalkan
+                    </div>
+                    <div class="info-value" style="font-size: 16px; font-weight: 500; color: #2b2b2b;">
+                        {{ \Carbon\Carbon::parse($inspeksi->created_at)->translatedFormat('d F Y, H:i') }} WIB
+                    </div>
+                </div>
+
+
+
                 
                 <div class="info-item">
                     <div class="info-label">STATUS</div>

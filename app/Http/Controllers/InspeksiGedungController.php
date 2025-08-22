@@ -19,9 +19,6 @@ class InspeksiGedungController extends Controller
         $gedungs = Gedung::all();
         return view('pages.jadwalkan-inspeksi', compact('gedungs'));
     }
-    
-
-
 
      public function store(Request $request)
     {
@@ -66,9 +63,6 @@ class InspeksiGedungController extends Controller
 
 
 
-
-
-
     public function halamanInspeksiPetugas()
     {
         $sekarang = Carbon::now()->locale('id'); // Waktu sekarang dengan lokal bahasa Indonesia
@@ -99,9 +93,13 @@ class InspeksiGedungController extends Controller
         ]);
     }
 
-
 public function updateDetailInspeksi(Request $request, $id)
 {
+    // Tangkap user yang sedang login
+    $userLogin = Auth::user(); 
+    $informasiPengubahStatus = InspeksiGedung::with('gedung', 'user')->findOrFail($id);
+
+    // Validasi input
     $request->validate([
         'field' => 'required|string',
         'value' => 'required|string'
@@ -117,13 +115,50 @@ public function updateDetailInspeksi(Request $request, $id)
         return response()->json(['message' => 'Field tidak valid'], 400);
     }
 
+    // Update data inspeksi
     $inspeksi = InspeksiGedung::findOrFail($id);
     $inspeksi->update([
         $request->field => $request->value
     ]);
 
-    return response()->json(['message' => 'Berhasil diperbarui']);
+    // Ambil semua user role Kepala Seksi
+    $kepalaSeksiUsers = User::where('role', 'Kepala Seksi')->get();
+
+    // Kirim email ke semua Kepala Seksi
+    foreach ($kepalaSeksiUsers as $kepalaSeksi) {
+        Mail::send('emails.pengubah_status_inspeksi', [
+            'pengubah' => $userLogin->name,
+            'emailPengubah' => $userLogin->email,
+            'namaGedung' => $informasiPengubahStatus->gedung->nama_gedung ?? '-',
+            'field' => ucfirst(str_replace('_', ' ', $request->field)),
+            'nilaiBaru' => $request->value,
+            'tanggalUpdate' => now()->format('d-m-Y H:i')
+        ], function($message) use ($kepalaSeksi) {
+            $message->to($kepalaSeksi->email)
+                    ->subject('Pembaruan Status Inspeksi Gedung');
+        });
+    }
+
+    return response()->json([
+        'message' => 'Berhasil diperbarui dan email telah dikirim',
+        'user_login' => $userLogin->name,
+    ]);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 public function updateStatus(Request $request, $id)
 {
