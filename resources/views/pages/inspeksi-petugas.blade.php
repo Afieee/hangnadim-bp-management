@@ -20,16 +20,8 @@
                     <nav class="flex" aria-label="Breadcrumb">
                         <ol class="inline-flex items-center space-x-1 md:space-x-3">
                                 <a href="#" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
-                                    <i class="fas fa-home mr-2"></i> Home
+                                    <i class="fas fa-home mr-2"></i> Dashboard
                                 </a>
-                            </li>
-                            <li>
-                                <div class="flex items-center">
-                                    <i class="fas fa-chevron-right text-gray-400"></i>
-                                    <a href="#" class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2">
-                                        <i class="fas fa-chart-pie mr-2"></i>Dashboard
-                                    </a>
-                                </div>
                             </li>
                             <li aria-current="page">
                                 <div class="flex items-center">
@@ -88,7 +80,8 @@
             <!-- Inspection Table -->
             <div class="bg-white rounded-lg overflow-hidden">
                 <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                    <h3 class="text-lg font-semibold text-gray-800">    Scheduled Inspections - {{ $bulan }} {{ $tahun }}, Minggu ke-{{ $mingguKe }}
+                    <h3 class="text-lg font-semibold text-gray-800">    Inspeksi Gedung - {{ $bulan }} {{ $tahun }}
+                        <span class="text-sm text-gray-500">({{ count($inspeksi) }} Inspeksi Sedang Dibuka)</span>
  </h3>
                 </div>
                 
@@ -100,14 +93,14 @@
                                     #
                                 </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Building
+                                    Gedung
                                 </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Last Inspection
+                                    Inspeksi Dibuka
                                 </th>
 
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Actions
+                                    Lihat Detail
                                 </th>
                             </tr>
                         </thead>

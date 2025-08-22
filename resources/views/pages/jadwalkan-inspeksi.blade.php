@@ -128,6 +128,31 @@
                             </form>
                         </div>
 
+
+
+
+                        <!-- VVIP Building -->
+                        <div class="inspection-card">
+                            <h3><i class="fas fa-tools"></i> GEDUNG VVIP</h3>
+                            <div class="building-image" style="background-image: url('{{ asset('/storage/images/gedung_vvip.jpeg') }}');"></div>
+                            <form action="{{ route('jadwalkan.inspeksi.store') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="furniture" value="Belum Diperiksa">
+                                <input type="hidden" name="fire_system" value="Belum Diperiksa">
+                                <input type="hidden" name="bangunan" value="Belum Diperiksa">
+                                <input type="hidden" name="mekanikal_elektrikal" value="Belum Diperiksa">
+                                <input type="hidden" name="it" value="Belum Diperiksa">
+                                <input type="hidden" name="interior" value="Belum Diperiksa">
+                                <input type="hidden" name="eksterior" value="Belum Diperiksa">
+                                <input type="hidden" name="sanitasi" value="Belum Diperiksa">
+                                <input type="hidden" name="id_gedung" value="5">    
+                                <button type="submit" class="btn-schedule">
+                                    <i class="fas fa-calendar-plus"></i> Schedule Inspection
+                                </button>
+                            </form>
+                        </div>
+
+
                         <!-- POS GT Building -->
                         <div class="inspection-card">
                             <h3><i class="fas fa-warehouse"></i> GEDUNG POS GT</h3>

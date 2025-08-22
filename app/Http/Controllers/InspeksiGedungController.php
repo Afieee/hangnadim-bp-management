@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Gedung;
 use Illuminate\Http\Request;
 use App\Models\BuktiKerusakan;
 use App\Models\InspeksiGedung;
+use App\Mail\JadwalInspeksiMail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class InspeksiGedungController extends Controller
 {
@@ -18,26 +21,46 @@ class InspeksiGedungController extends Controller
     }
     
 
-public function store(Request $request)
-{
-    $userId = Auth::id(); // ambil user yang login
 
-    InspeksiGedung::create([
-        'furniture' => 'Belum Diperiksa', // default
-        'fire_system' => 'Belum Diperiksa', // default
-        'bangunan' => 'Belum Diperiksa', // default
-        'mekanikal_elektrikal' => 'Belum Diperiksa', // default
-        'it' => 'Belum Diperiksa', // default
-        'interior' => 'Belum Diperiksa', // default
-        'eksterior' => 'Belum Diperiksa', // default
-        'sanitasi' => 'Belum Diperiksa', // default
-        'status_keseluruhan_inspeksi' => 'Terbuka', // default
-        'id_gedung' => $request->input('id_gedung'),
-        'id_user' => $userId,
-    ]);
 
-    return redirect()->back()->with('success', 'Jadwal inspeksi berhasil dibuat!');
-}
+     public function store(Request $request)
+    {
+        $userId = Auth::id();
+
+        // Simpan data inspeksi baru
+        $inspeksi = InspeksiGedung::create([
+            'furniture' => 'Belum Diperiksa',
+            'fire_system' => 'Belum Diperiksa',
+            'bangunan' => 'Belum Diperiksa',
+            'mekanikal_elektrikal' => 'Belum Diperiksa',
+            'it' => 'Belum Diperiksa',
+            'interior' => 'Belum Diperiksa',
+            'eksterior' => 'Belum Diperiksa',
+            'sanitasi' => 'Belum Diperiksa',
+            'status_keseluruhan_inspeksi' => 'Terbuka',
+            'id_gedung' => $request->input('id_gedung'),
+            'id_user' => $userId,
+        ]);
+
+        $idInspeksiBaru = $inspeksi->id;
+
+        // Ambil data inspeksi lengkap dengan relasi
+        $informasiInspeksi = InspeksiGedung::with('gedung', 'user')
+            ->findOrFail($idInspeksiBaru);
+
+        // Ambil semua email staff pelaksana dan kepala seksi
+        $staffs = User::whereIn('role', ['Staff Pelaksana', 'Kepala Seksi'])->get();
+
+        // Kirim email
+        foreach ($staffs as $staff) {
+            Mail::to($staff->email)->send(new JadwalInspeksiMail($informasiInspeksi));
+        }
+
+        return redirect()->back()->with('success', 'Jadwal inspeksi berhasil dibuat dan notifikasi email telah dikirim!');
+    }
+
+
+
 
 
 

@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GedungController;
@@ -41,3 +42,21 @@ Route::post('/bukti-perbaikan/store', [BuktiPerbaikanController::class, 'store']
 
 Route::put('/inspeksi-gedung/{id}/update-status', [App\Http\Controllers\InspeksiGedungController::class, 'updateStatus'])
     ->name('inspeksi-gedung.updateStatus');
+
+
+Route::get('/test', function () {
+    return view('emails.jadwal-inspeksi');
+})->name('test');
+
+
+
+
+
+// Route::get('/tes-email', function () {
+//     Mail::raw('Ini email percobaan Laravel SMTP Gmail', function ($message) {
+//         $message->to('afiwijaya555@gmail.com')
+//                 ->subject('Tes SMTP Gmail Laravel');
+//     });
+
+//     return 'Email sudah dikirim!';
+// });

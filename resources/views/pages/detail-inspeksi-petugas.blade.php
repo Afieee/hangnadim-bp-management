@@ -764,7 +764,7 @@
                         </div>
 
                         <!-- Detail Inspeksi -->
-                        <div class="info-card">
+                        <div class="info-card"> 
                             <div class="info-card-header">
                                 <h2><i class="fas fa-clipboard-check"></i> Detail Inspeksi</h2>
                             </div>
