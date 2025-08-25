@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/components.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
-</head>
 
+</head>
 
 <body>
 <x-navbar :user="$user" />
@@ -35,38 +35,62 @@
                 <ul>
                     <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
                     <li><a href="#"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
-                    {{-- <li class="active"><i class="fas fa-eye"></i> Overview</li> --}}
+                    <li class="active"><i class="fas fa-eye"></i> Overview</li>
                 </ul>
             </div>
         </div>
 
         <!-- Content Area -->
         <div class="content-area">
-            <div class="card">
-                <h2><i class="fas fa-star"></i> Welcome to NexusDash</h2>
-                <p>This modern dashboard provides you with all the tools you need to manage your business efficiently.
-                    The intuitive interface and powerful analytics will help you make data-driven decisions. Customize
-                    your experience using the settings panel.</p>
+            <!-- Stats Cards -->
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon" style="background-color: rgba(40, 167, 69, 0.2); color: #28a745;">
+                            <i class="fas fa-clipboard-check"></i>
+                        </div>
+                        <h3>Total Inspeksi</h3>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value">{{ $jumlahInspeksi }}</div>
+                        <div class="stat-trend trend-up">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon" style="background-color: rgba(220, 53, 69, 0.2); color: #dc3545;">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <h3>Kerusakan Belum Diperbaiki</h3>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value">{{ $buktiKerusakanYangBelumDiperbaiki }}</div>
+                        <div class="stat-label">Bukti kerusakan yang masih menunggu perbaikan</div>
+                    </div>
+                    <div class="progress-container">
+                    </div>
+                </div>
+                
             </div>
-
-            <div class="card">
-                <h2><i class="fas fa-bolt"></i> Recent Activity</h2>
-                <p>Your business has seen a 24% growth in the last quarter. New customer acquisitions are up by 15%
-                    compared to last month. Check the analytics section for detailed breakdowns of your performance
-                    metrics.</p>
+            
+            <!-- Chart Section -->
+            {{-- <div class="chart-container">
+                <div class="chart-header">
+                    <h3><i class="fas fa-chart-line"></i> Tren Inspeksi & Perbaikan</h3>
+                    <div class="chart-actions">
+                        <button>Bulanan</button>
+                        <button>Mingguan</button>
+                        <button>Harian</button>
+                    </div>
+                </div>
+                <div class="chart-placeholder">
+                    <p>Grafik akan menampilkan tren inspeksi dan perbaikan dari waktu ke waktu</p>
+                </div> --}}
             </div>
-
-            <div class="card">
-                <h2><i class="fas fa-chart-line"></i> Key Statistics</h2>
-                <p>Current month revenue: $48,372 (↑12%). Active users: 1,842 (↑8%). Conversion rate: 3.2% (↑0.4%).
-                    These metrics indicate strong growth across all key performance indicators.</p>
-            </div>
-        </div>
-
-
+            
 <script src="{{ asset('js/components.js') }}"></script>
 <script src="{{ asset('js/dashboard.js') }}"></script>
 </body>
-
-
 </html>

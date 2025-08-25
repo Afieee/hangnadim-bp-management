@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\BuktiKerusakan;
+use App\Models\InspeksiGedung;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -69,11 +71,20 @@ class AuthController extends Controller
         return redirect('/')->with('success', 'Anda Berhasil Logout.');
     }
 
-    // Dashboard
-    public function dashboard()
-    {
-        // Ambil user langsung dari Auth
-        $user = Auth::user();
-        return view('pages.dashboard', compact('user'));
-    }
+public function dashboard()
+{   
+    $buktiKerusakanYangBelumDiperbaiki = BuktiKerusakan::whereDoesntHave('buktiPerbaikan')->count();
+    $jumlahInspeksi = InspeksiGedung::where('status_keseluruhan_inspeksi', 'Terbuka')->count();
+
+    // Cek isi variabel
+    // dd($buktiKerusakanYangBelumDiperbaiki, $jumlahInspeksi);
+
+    // Ambil user langsung dari Auth
+    $user = Auth::user();
+    return view('pages.dashboard',[
+        'user' => $user,
+        'buktiKerusakanYangBelumDiperbaiki' => $buktiKerusakanYangBelumDiperbaiki,
+        'jumlahInspeksi' => $jumlahInspeksi,
+    ]);
 }
+}   

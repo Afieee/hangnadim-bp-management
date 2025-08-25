@@ -29,5 +29,11 @@ class BuktiKerusakan extends Model
     {
         return $this->belongsTo(User::class, 'id_user_inspektor');
     }
+
+    public function buktiPerbaikan()
+{
+    return $this->hasOne(BuktiPerbaikan::class, 'id_bukti_kerusakan');
+}
+
     
 }

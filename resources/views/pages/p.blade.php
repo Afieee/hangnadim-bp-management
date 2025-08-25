@@ -14,7 +14,6 @@
                             <option value="Sudah Diperbaiki">Sudah Diperbaiki</option>
                         </select>
                     </div>
-
                     <div class="status-select">
                         <p><strong>Fire System:</strong></p>
                         <select name="fire_system" class="status-dropdown border rounded px-2 py-1" data-field="fire_system" data-id="{{ $inspeksi->id }}">
