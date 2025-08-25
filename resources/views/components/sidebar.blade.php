@@ -11,7 +11,7 @@
             </div>
             <ul class="sidebar-menu">
                 @if (Auth::user()->role == "Kepala Seksi")
-                    <li><a href="/dashboard"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="/dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
                     <li><a href="/jadwalkan-inspeksi"><i class="fas fa-calendar-alt"></i> Jadwalkan Inspeksi</a></li>
 
                     <li><a href="/halaman-inspeksi-petugas"><i class="fas fa-clipboard-check"></i> Monitoring Inspeksi</a></li>

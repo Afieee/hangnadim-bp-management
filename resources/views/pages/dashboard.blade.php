@@ -33,9 +33,7 @@
         <div class="breadcrumb-container">
             <div class="breadcrumb">
                 <ul>
-                    <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="#"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
-                    <li class="active"><i class="fas fa-eye"></i> Overview</li>
+                    <li><a href="#"><i class="fas fa-home"></i> Dashboard</a></li>
                 </ul>
             </div>
         </div>

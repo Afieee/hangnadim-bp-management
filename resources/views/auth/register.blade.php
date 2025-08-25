@@ -119,8 +119,7 @@
         <div class="breadcrumb-container">
             <div class="breadcrumb">
                 <ul>
-                    <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="/dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
                     <li class="active"><i class="fas fa-eye"></i> Pengguna & Petugas</li>
                 </ul>
             </div>

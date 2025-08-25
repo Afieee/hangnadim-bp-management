@@ -75,11 +75,6 @@ public function dashboard()
 {   
     $buktiKerusakanYangBelumDiperbaiki = BuktiKerusakan::whereDoesntHave('buktiPerbaikan')->count();
     $jumlahInspeksi = InspeksiGedung::where('status_keseluruhan_inspeksi', 'Terbuka')->count();
-
-    // Cek isi variabel
-    // dd($buktiKerusakanYangBelumDiperbaiki, $jumlahInspeksi);
-
-    // Ambil user langsung dari Auth
     $user = Auth::user();
     return view('pages.dashboard',[
         'user' => $user,
@@ -87,4 +82,4 @@ public function dashboard()
         'jumlahInspeksi' => $jumlahInspeksi,
     ]);
 }
-}   
+}

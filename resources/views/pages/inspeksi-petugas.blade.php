@@ -19,7 +19,7 @@
                 <div class="breadcrumb">
                     <nav class="flex" aria-label="Breadcrumb">
                         <ol class="inline-flex items-center space-x-1 md:space-x-3">
-                                <a href="#" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
+                                <a href="/dashboard" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
                                     <i class="fas fa-home mr-2"></i> Dashboard
                                 </a>
                             </li>
@@ -27,7 +27,7 @@
                                 <div class="flex items-center">
                                     <i class="fas fa-chevron-right text-gray-400"></i>
                                     <span class="ml-1 text-sm font-medium text-blue-500 md:ml-2">
-                                        <i class="fas fa-eye mr-2"></i>Inspeksi
+                                        <i class="fas fa-eye mr-2"></i>Inspeksi Gedung
                                     </span>
                                 </div>
                             </li>
