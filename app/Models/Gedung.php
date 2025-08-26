@@ -18,4 +18,8 @@ class Gedung extends Model
     {
         return $this->hasMany(InspeksiGedung::class, 'id_gedung');
     }
+    public function penjadwalanTamu()
+    {
+        return $this->hasMany(PenjadwalanTamu::class, 'id_gedung');
+    }
 }

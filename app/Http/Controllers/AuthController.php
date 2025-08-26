@@ -8,6 +8,7 @@ use App\Models\BuktiKerusakan;
 use App\Models\InspeksiGedung;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Crypt;
 
 class AuthController extends Controller
 {
@@ -102,11 +103,13 @@ public function dashboard()
 
 
 
-        public function halamanEditProfile($id)
+    public function halamanEditProfile($encryptedId)
     {
+        $id = Crypt::decryptString($encryptedId); // Balikin ke ID asli
         $user = User::findOrFail($id);
         return view('auth.user-edit', compact('user'));
     }
+
 
     public function updateProfile(Request $request, $id)
     {

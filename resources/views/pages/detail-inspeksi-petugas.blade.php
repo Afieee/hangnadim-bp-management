@@ -359,10 +359,10 @@
                                             <p><strong>Lokasi:</strong> {{ $buktiKerusakan->lokasi_bukti_kerusakan }}</p>
                                             <div class="gallery-meta">
                                                 <span class="damage-type" > <strong>{{ $buktiKerusakan->tipe_kerusakan }}</strong></span>
-                                                <a href="{{ route('bukti-perbaikan.create', $buktiKerusakan->id) }}" 
-                                                   class="btn btn-success">
-                                                    <i class="fas fa-upload"></i> Upload Penanganan
-                                                </a>
+                                                    <a href="{{ route('bukti-perbaikan.create', \Illuminate\Support\Facades\Crypt::encryptString($buktiKerusakan->id)) }}" 
+                                                    class="btn btn-success">
+                                                        <i class="fas fa-upload"></i> Upload Penanganan
+                                                    </a>
                                             </div>
                                         </div>
                                     </div>
@@ -906,10 +906,10 @@
                                             <p><strong>Lokasi:</strong> {{ $buktiKerusakan->lokasi_bukti_kerusakan }}</p>
                                             <div class="gallery-meta">
                                                 <span class="damage-type">{{ $buktiKerusakan->tipe_kerusakan }}</span>
-                                                <a href="{{ route('bukti-perbaikan.create', $buktiKerusakan->id) }}" 
-                                                   class="btn btn-success">
-                                                    <i class="fas fa-eye"></i>Lihat Tindakan
-                                                </a>
+                                                    <a href="{{ route('bukti-perbaikan.create', \Illuminate\Support\Facades\Crypt::encryptString($buktiKerusakan->id)) }}" 
+                                                    class="btn btn-success">
+                                                        <i class="fas fa-upload"></i> Upload Penanganan
+                                                    </a>
                                             </div>
                                         </div>
                                     </div>

@@ -12,11 +12,13 @@ class BuktiPerbaikanController extends Controller
 {
 public function halamanUploadBuktiPerbaikan($id_buktiKerusakan)
 {
+    $id = \Illuminate\Support\Facades\Crypt::decryptString($id_buktiKerusakan);
+
     // Ambil data BuktiKerusakan
-    $buktiKerusakan = BuktiKerusakan::findOrFail($id_buktiKerusakan);
+    $buktiKerusakan = BuktiKerusakan::findOrFail($id);
 
     // Ambil data BuktiPerbaikan
-    $buktiPerbaikan = BuktiPerbaikan::where('id_bukti_kerusakan', $id_buktiKerusakan)->get();
+    $buktiPerbaikan = BuktiPerbaikan::where('id_bukti_kerusakan', $id)->get();
 
     // Pastikan path foto benar
     foreach ($buktiPerbaikan as $perbaikan) {
@@ -33,6 +35,7 @@ public function halamanUploadBuktiPerbaikan($id_buktiKerusakan)
 
     return view('pages.halaman-upload-bukti-perbaikan', compact('buktiKerusakan', 'buktiPerbaikan'));
 }
+
 
 
 

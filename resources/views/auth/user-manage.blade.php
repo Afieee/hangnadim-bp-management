@@ -72,7 +72,7 @@
                             </td>
                             <td>
                                 <div class="action-buttons">
-                                    <a href="{{ route('manage-user.edit', $user->id) }}" class="btn-edit">
+                                    <a href="{{ route('manage-user.edit', \Illuminate\Support\Facades\Crypt::encryptString($user->id)) }}" class="btn-edit">
                                         <i class="fas fa-edit"></i> Edit
                                     </a>
                                     <form action="{{ route('manage-user.delete', $user->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus user ini?')">

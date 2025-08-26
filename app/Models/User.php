@@ -27,6 +27,7 @@ class User extends Authenticatable
 
     ];
 
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -36,6 +37,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
 
     /**
      * Get the attributes that should be cast.
@@ -49,4 +51,25 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function inspeksiGedung()
+    {
+        return $this->hasMany(InspeksiGedung::class, 'id_user');
+    }
+    public function penjadwalanTamu()
+    {
+        return $this->hasMany(PenjadwalanTamu::class, 'id_user');
+    }
+    public function buktiKerusakan()
+    {
+        return $this->hasMany(BuktiKerusakan::class, 'id_user');
+    }
+    public function buktiPerbaikan()
+    {
+        return $this->hasMany(BuktiPerbaikan::class, 'id_user');
+    }
+    public function gedung()
+    {
+        return $this->hasMany(Gedung::class, 'id_user');
+    }
+    
 }

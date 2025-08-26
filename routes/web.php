@@ -7,6 +7,7 @@ use App\Http\Controllers\GedungController;
 use App\Http\Controllers\BuktiKerusakanController;
 use App\Http\Controllers\BuktiPerbaikanController;
 use App\Http\Controllers\InspeksiGedungController;
+use App\Http\Controllers\PenjadwalanTamuController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -36,21 +37,48 @@ Route::post('/upload-bukti-kerusakan', [BuktiKerusakanController::class, 'upload
 
 
 Route::post('/bukti-perbaikan/store', [BuktiPerbaikanController::class, 'store'])->name('bukti-perbaikan.store');
-
-
-
-
-
 Route::get('/manage-user', [AuthController::class, 'halamanManageUser'])->name('manage-user');
+Route::get('/halaman-manage-kedatangan', [PenjadwalanTamuController::class, 'halamanPenjadwalanTamu'])->name('halaman.manage.kedatangan');
+
+Route::get('/manage-kedatangan', [PenjadwalanTamuController::class, 'tampilPenjadwalanTamu'])->name('tampil.manage.kedatangan');
+Route::post('/penjadwalan-tamu', [PenjadwalanTamuController::class, 'simpanPenjadwalan'])->name('penjadwalan-tamu.store');
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Aman
 Route::put('/inspeksi/{id}/update-field', [InspeksiGedungController::class, 'updateDetailInspeksi'])->name('inspeksi.update.field');
+
+
+// Berhasil
 Route::get('/manage-user/{id}/edit', [AuthController::class, 'halamanEditProfile'])->name('manage-user.edit');
+
+// Aman
 Route::put('/manage-user/{id}', [AuthController::class, 'updateProfile'])->name('manage-user.update');
+
+// Aman
 Route::delete('/manage-user/{id}', [AuthController::class, 'hapusUser'])->name('manage-user.delete');
-Route::put('/inspeksi-gedung/{id}/update-status', [App\Http\Controllers\InspeksiGedungController::class, 'updateStatus'])
+
+
+// Aman
+Route::put('/inspeksi-gedung/{id}/update-status', [InspeksiGedungController::class, 'updateStatus'])
     ->name('inspeksi-gedung.updateStatus');
+    
+// 
 Route::get('/halaman-upload-bukti-perbaikan/{id_buktiKerusakan}', [BuktiPerbaikanController::class, 'halamanUploadBuktiPerbaikan'])->name('bukti-perbaikan.create');
+// 
 Route::get('/tampil-detail-inspeksi/{id_inspeksi}', [InspeksiGedungController::class, 'tampilDetailInspeksi'])->name('tampil.detail.inspeksi');
