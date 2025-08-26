@@ -82,4 +82,58 @@ public function dashboard()
         'jumlahInspeksi' => $jumlahInspeksi,
     ]);
 }
+
+
+    public function halamanManageUser()
+    {
+        $users = User::all();
+        return view('auth.user-manage', compact('users'));
+    }
+
+    public function hapusUser($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect()->route('manage-user')->with('success', 'User berhasil dihapus!');
+    }
+
+
+
+
+
+        public function halamanEditProfile($id)
+    {
+        $user = User::findOrFail($id);
+        return view('auth.user-edit', compact('user'));
+    }
+
+    public function updateProfile(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        // Validasi input
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'role' => 'required|string|max:50',
+            'password' => 'nullable|min:6|confirmed'
+        ]);
+
+        // Update data
+        $user->name = $validated['name'];
+        $user->email = $validated['email'];
+        $user->role = $validated['role'];
+
+        // Update password jika diisi
+        if (!empty($validated['password'])) {
+            $user->password = Hash::make($validated['password']);
+        }
+
+        $user->save();
+
+        return redirect()->route('manage-user')->with('success', 'User berhasil diperbarui!');
+    }
+
+
 }

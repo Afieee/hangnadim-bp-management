@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage User</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('css/components.css') }}">
+    <style>
+        /* Modern Toast Notification */
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.8);
+            background-color: #fff;
+            color: #333;
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 16px;
+            z-index: 9999;
+            opacity: 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-left: 5px solid #4CAF50;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            max-width: 350px;
+            width: 90%;
+        }
+
+        /* Show toast with animation */
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+
+        /* Checkmark icon container */
+        .toast-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #4CAF50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        /* Checkmark animation */
+        .toast-icon::before {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 10px;
+            border-left: 3px solid white;
+            border-bottom: 3px solid white;
+            transform: rotate(-45deg) scale(0);
+            top: 12px;
+            left: 8px;
+            transition: transform 0.3s ease 0.2s;
+        }
+
+        .toast.show .toast-icon::before {
+            transform: rotate(-45deg) scale(1);
+        }
+
+        /* Toast content */
+        .toast-content {
+            flex-grow: 1;
+        }
+
+        /* Toast title */
+        .toast-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #222;
+        }
+
+        /* Close button */
+        .toast-close {
+            background: none;
+            border: none;
+            color: #999;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 5px;
+            margin-left: 10px;
+            transition: color 0.2s;
+        }
+
+        .toast-close:hover {
+            color: #666;
+        }
+
+        /* Progress bar */
+        .toast-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            width: 100%;
+            background-color: rgba(76, 175, 80, 0.2);
+        }
+
+        .toast-progress::before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            height: 100%;
+            width: 100%;
+            background-color: #4CAF50;
+            animation: progress 3s linear forwards;
+        }
+        /* Modern Table Styles */
+        .content-area {
+            padding: 20px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 20px 30px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+        }
+
+        .btn-add {
+            background: #4361ee;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-add:hover {
+            background: #3a56d4;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            padding: 0 30px 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 15px;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            padding: 16px 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #495057;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        td {
+            padding: 16px 12px;
+            border-bottom: 1px solid #e9ecef;
+            color: #495057;
+            vertical-align: middle;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-edit {
+            background: #4cc9f0;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-edit:hover {
+            background: #3bb4da;
+            transform: translateY(-1px);
+        }
+
+        .btn-delete {
+            background: #f72585;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-delete:hover {
+            background: #e31273;
+            transform: translateY(-1px);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 0;
+            color: #6c757d;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #dee2e6;
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .role-admin {
+            background: #ffe5e5;
+            color: #ff6b6b;
+        }
+
+        .role-user {
+            background: #e3f2fd;
+            color: #2196f3;
+        }
+
+        .role-mod {
+            background: #e8f5e9;
+            color: #4caf50;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            th, td {
+                padding: 12px 8px;
+            }
+            
+            .btn-add, .btn-edit, .btn-delete {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<x-navbar/>
+<x-sidebar />
+
+@if(session('success'))
+<div id="toast" class="toast">
+    <div class="toast-icon"></div>
+    <div class="toast-content">
+        <div class="toast-title">Success!</div>
+        <div class="toast-message">{{ session('success') }}</div>
+    </div>
+    <button class="toast-close">&times;</button>
+    <div class="toast-progress"></div>
+</div>
+@endif
+
+<div class="content-wrapper" id="content-wrapper">
+    <div class="breadcrumb-container">
+        <div class="breadcrumb">
+            <ul>
+                <li><a href="#"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li>Manage User</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="content-area">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-title">Daftar User</h1>
+                <a href="/halaman-registrasi" class="btn-add">
+                    <i class="fas fa-plus"></i> Tambah Pengguna
+                </a>
+            </div>
+            
+            <div class="table-container">
+                @if($users->count() > 0)
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nama</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($users as $user)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>
+                                @if($user->role)
+                                <span class="role-badge role-{{ strtolower($user->role) }}">{{ $user->role }}</span>
+                                @else
+                                <span class="role-badge">-</span>
+                                @endif
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="{{ route('manage-user.edit', $user->id) }}" class="btn-edit">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                    <form action="{{ route('manage-user.delete', $user->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus user ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn-delete">
+                                            <i class="fas fa-trash"></i> Hapus
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                @else
+                <div class="empty-state">
+                    <i class="fas fa-users"></i>
+                    <p>Tidak ada data user</p>
+                </div>
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const toast = document.getElementById('toast');
+        if(toast) {
+            // Show toast with animation
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 100);
+            
+            // Close toast when close button is clicked
+            const closeBtn = toast.querySelector('.toast-close');
+            closeBtn.addEventListener('click', () => {
+                toast.classList.remove('show');
+            });
+            
+            // Auto-hide after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    });
+</script>
+</html>

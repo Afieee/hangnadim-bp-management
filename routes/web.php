@@ -44,19 +44,10 @@ Route::put('/inspeksi-gedung/{id}/update-status', [App\Http\Controllers\Inspeksi
     ->name('inspeksi-gedung.updateStatus');
 
 
-Route::get('/test', function () {
-    return view('emails.jadwal-inspeksi');
-})->name('test');
 
 
+Route::get('/manage-user', [AuthController::class, 'halamanManageUser'])->name('manage-user');
+Route::delete('/manage-user/{id}', [AuthController::class, 'hapusUser'])->name('manage-user.delete');
 
-
-
-// Route::get('/tes-email', function () {
-//     Mail::raw('Ini email percobaan Laravel SMTP Gmail', function ($message) {
-//         $message->to('afiwijaya555@gmail.com')
-//                 ->subject('Tes SMTP Gmail Laravel');
-//     });
-
-//     return 'Email sudah dikirim!';
-// });
+Route::get('/manage-user/{id}/edit', [AuthController::class, 'halamanEditProfile'])->name('manage-user.edit');
+Route::put('/manage-user/{id}', [AuthController::class, 'updateProfile'])->name('manage-user.update');
