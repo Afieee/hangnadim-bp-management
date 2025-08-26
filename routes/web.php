@@ -28,26 +28,29 @@ Route::post('/gedung/store', [GedungController::class, 'simpanGedung'])->name('g
 
 Route::get('/jadwalkan-inspeksi', [InspeksiGedungController::class, 'halamanInspeksi'])->name('jadwalkan.inspeksi');
 Route::post('/jadwalkan-inspeksi', [InspeksiGedungController::class, 'store'])->name('jadwalkan.inspeksi.store');
-Route::put('/inspeksi/{id}/update-field', [InspeksiGedungController::class, 'updateDetailInspeksi'])->name('inspeksi.update.field');
 
 Route::get('/halaman-inspeksi-petugas', [InspeksiGedungController::class, 'halamanInspeksiPetugas'])->name('halaman.inspeksi.petugas');
-Route::get('/tampil-detail-inspeksi/{id_inspeksi}', [InspeksiGedungController::class, 'tampilDetailInspeksi'])->name('tampil.detail.inspeksi');
 
 Route::get('/halaman-upload-bukti-kerusakan', [BuktiKerusakanController::class, 'halamanUploadBuktiKerusakan'])->name('bukti-kerusakan.create');
 Route::post('/upload-bukti-kerusakan', [BuktiKerusakanController::class, 'uploadBuktiKerusakan'])->name('bukti-kerusakan.store');
 
 
-Route::get('/halaman-upload-bukti-perbaikan/{id_buktiKerusakan}', [BuktiPerbaikanController::class, 'halamanUploadBuktiPerbaikan'])->name('bukti-perbaikan.create');
 Route::post('/bukti-perbaikan/store', [BuktiPerbaikanController::class, 'store'])->name('bukti-perbaikan.store');
 
-Route::put('/inspeksi-gedung/{id}/update-status', [App\Http\Controllers\InspeksiGedungController::class, 'updateStatus'])
-    ->name('inspeksi-gedung.updateStatus');
 
 
 
 
 Route::get('/manage-user', [AuthController::class, 'halamanManageUser'])->name('manage-user');
-Route::delete('/manage-user/{id}', [AuthController::class, 'hapusUser'])->name('manage-user.delete');
 
+
+
+
+Route::put('/inspeksi/{id}/update-field', [InspeksiGedungController::class, 'updateDetailInspeksi'])->name('inspeksi.update.field');
 Route::get('/manage-user/{id}/edit', [AuthController::class, 'halamanEditProfile'])->name('manage-user.edit');
 Route::put('/manage-user/{id}', [AuthController::class, 'updateProfile'])->name('manage-user.update');
+Route::delete('/manage-user/{id}', [AuthController::class, 'hapusUser'])->name('manage-user.delete');
+Route::put('/inspeksi-gedung/{id}/update-status', [App\Http\Controllers\InspeksiGedungController::class, 'updateStatus'])
+    ->name('inspeksi-gedung.updateStatus');
+Route::get('/halaman-upload-bukti-perbaikan/{id_buktiKerusakan}', [BuktiPerbaikanController::class, 'halamanUploadBuktiPerbaikan'])->name('bukti-perbaikan.create');
+Route::get('/tampil-detail-inspeksi/{id_inspeksi}', [InspeksiGedungController::class, 'tampilDetailInspeksi'])->name('tampil.detail.inspeksi');
