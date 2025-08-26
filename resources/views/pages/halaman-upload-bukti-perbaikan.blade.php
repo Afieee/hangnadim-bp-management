@@ -13,6 +13,19 @@
 </head>
 <x-navbar/>
 <x-sidebar/>
+@if(session('success'))
+<div id="toast" class="toast">
+    <div class="toast-icon">
+        <i class="fas fa-check" style="color: white; display: none;"></i>
+    </div>
+    <div class="toast-content">
+        <div class="toast-title">Success!</div>
+        <div class="toast-message">{{ session('success') }}</div>
+    </div>
+    <button class="toast-close">&times;</button>
+    <div class="toast-progress"></div>
+</div>
+@endif
 <body>
     <!-- Content Wrapper -->
     <div class="content-wrapper" id="content-wrapper">
@@ -162,6 +175,8 @@
     </script>
 </body>
 <script src="{{ asset('js/components.js') }}"></script>
+<script src="{{ asset('js/halaman-upload-bukti-perbaikan.js') }}"></script>
+
 </html>
 
 
@@ -196,6 +211,19 @@
 </head>
 <x-navbar/>
 <x-sidebar/>
+@if(session('success'))
+<div id="toast" class="toast">
+    <div class="toast-icon">
+        <i class="fas fa-check" style="color: white; display: none;"></i>
+    </div>
+    <div class="toast-content">
+        <div class="toast-title">Success!</div>
+        <div class="toast-message">{{ session('success') }}</div>
+    </div>
+    <button class="toast-close">&times;</button>
+    <div class="toast-progress"></div>
+</div>
+@endif
 <body>
     <!-- Content Wrapper -->
     <div class="content-wrapper" id="content-wrapper">
@@ -308,6 +336,8 @@
     </script>
 </body>
 <script src="{{ asset('js/components.js') }}"></script>
+<script src="{{ asset('js/halaman-upload-bukti-perbaikan.js') }}"></script>
+
 </html>
 
 
