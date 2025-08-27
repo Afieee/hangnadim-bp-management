@@ -1,0 +1,172 @@
+        :root {
+            --primary-color: #0d47a1;
+            --secondary-color: #b8860b;
+            --background-color: #f8f9fa;
+            --text-color: #333;
+            --border-color: #ddd;
+            --success-color: #4caf50;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f5f5f5;
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)), 
+                              url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect fill="none" stroke="%23f0f0f0" stroke-width="0.5" x="0" y="0" width="100" height="100"/></svg>');
+            background-size: 30px 30px;
+        }
+        
+        .thank-you-container {
+            max-width: 700px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            text-align: center;
+            position: relative;
+        }
+        
+        .thank-you-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+        
+        .header {
+            padding: 40px 30px 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .logo {
+            margin-bottom: 20px;
+        }
+        
+        .logo img {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+        }
+        
+        h1 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary-color);
+            font-size: 32px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .subtitle {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .message {
+            font-size: 18px;
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+        
+        .highlight {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .icon-container {
+            margin: 30px 0;
+        }
+        
+        .icon-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: rgba(76, 175, 80, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .icon-circle svg {
+            color: var(--success-color);
+            width: 50px;
+            height: 50px;
+        }
+        
+        .button-container {
+            margin-top: 30px;
+        }
+        
+        .home-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-color), #1565c0);
+            color: white;
+            text-decoration: none;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+        
+        .home-button:hover {
+            background: linear-gradient(135deg, #0c3d8a, #1154a5);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(13, 71, 161, 0.2);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+            color: #777;
+            border-top: 1px solid var(--border-color);
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+        
+        @media (max-width: 600px) {
+            .thank-you-container {
+                border-radius: 0;
+            }
+            
+            .header, .content {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 28px;
+            }
+            
+            .message {
+                font-size: 16px;
+            }
+        }

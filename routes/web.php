@@ -88,4 +88,10 @@ Route::get('/tampil-detail-inspeksi/{id_inspeksi}', [InspeksiGedungController::c
 Route::get('/feedback.tamu/{id}', [PenjadwalanTamuController::class, 'halamanFeedbackTamu'])->name('halaman.feedback.tamu');
 
 
+// Route untuk feedback
 Route::post('/feedback/store', [FeedbackController::class, 'store'])->name('feedback.store');
+Route::get('/feedback/thankyou', [FeedbackController::class, 'halamanTerimakasih'])->name('feedback.thankyou');
+Route::get('/feedback/check-status/{id}', [FeedbackController::class, 'checkStatus'])->name('feedback.check-status');
+
+// Pastikan route untuk form feedback menggunakan method POST
+Route::post('/feedback-form', [FeedbackController::class, 'showForm'])->name('feedback.form');
