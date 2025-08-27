@@ -87,13 +87,14 @@ class FeedbackController extends Controller
     
     public function halamanDataFeedback()
     {
-        $feedback = Feedback::with('penjadwalanTamu')->get();
+        // Gunakan paginate, misalnya 10 data per halaman
+        $feedback = Feedback::with('penjadwalanTamu')->paginate(4);
 
         $verifyResult = Feedback::verifyChain();
         $errorMessage = null;
 
         if ($verifyResult !== true) {
-            $errorMessage = "⚠️ Data feedback dengan ID {$verifyResult} terdeteksi telah diubah! tolong untuk admin database agar segera menangani";
+            $errorMessage = "⚠️ Data feedback dengan ID {$verifyResult} terdeteksi telah diubah! Tolong untuk admin database agar segera menangani";
         }
 
         return view('pages.halaman-data-feedback', [
@@ -101,6 +102,7 @@ class FeedbackController extends Controller
             'errorMessage' => $errorMessage,
         ]);
     }
+
 
 
 
