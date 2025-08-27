@@ -908,7 +908,7 @@
                                                 <span class="damage-type">{{ $buktiKerusakan->tipe_kerusakan }}</span>
                                                     <a href="{{ route('bukti-perbaikan.create', \Illuminate\Support\Facades\Crypt::encryptString($buktiKerusakan->id)) }}" 
                                                     class="btn btn-success">
-                                                        <i class="fas fa-upload"></i> Upload Penanganan
+                                                        <i class="fas fa-upload"></i> Lihat Penanganan
                                                     </a>
                                             </div>
                                         </div>

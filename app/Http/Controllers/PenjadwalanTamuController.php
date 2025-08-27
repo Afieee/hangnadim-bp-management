@@ -9,10 +9,24 @@ use App\Models\PenjadwalanTamu;
 class PenjadwalanTamuController extends Controller
 {
 
-    public function tampilPenjadwalanTamu(){
-        $tamu = PenjadwalanTamu::all();
+    public function tampilPenjadwalanTamu(Request $request)
+    {
+        $search = $request->input('search');
+
+        $tamu = PenjadwalanTamu::when($search, function ($query) use ($search) {
+            $query->where('subjek_tamu', 'like', "%{$search}%")
+                ->orWhere('level_tamu', 'like', "%{$search}%")
+                ->orWhere('kode_penerbangan', 'like', "%{$search}%")
+                ->orWhere('kode_bandara_asal', 'like', "%{$search}%")
+                ->orWhereDate('waktu_tamu_berangkat', $search)
+                ->orWhereDate('waktu_tamu_mendarat', $search);
+        })
+        ->orderBy('id', 'desc')
+        ->paginate(4);
+
         return view('pages.manage-tamu', [
-            'tamu' => $tamu
+            'tamu' => $tamu,
+            'search' => $search
         ]);
     }
 

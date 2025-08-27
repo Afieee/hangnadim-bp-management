@@ -50,7 +50,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>NO</th>
                             <th>Nama</th>
                             <th>Email</th>
                             <th>Role</th>

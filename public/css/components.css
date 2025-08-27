@@ -362,14 +362,12 @@ cursor: pointer;
 /* Content Area Styles */
 .content-area {
     padding: 30px;
-    flex: 1;
 }
 
 .card {
     background: white;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
-    padding: 25px;
     margin-bottom: 25px;
     transition: var(--transition);
     border: 1px solid rgba(0, 0, 0, 0.03);
