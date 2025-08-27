@@ -10,6 +10,7 @@ class Feedback extends Model
     use HasFactory;
 
     protected $table = 'feedback';
+    protected $primaryKey = 'id';
 
     protected $fillable = [
         'catatan_feedback',
@@ -27,6 +28,11 @@ class Feedback extends Model
     public function penjadwalanTamu()
     {
         return $this->belongsTo(PenjadwalanTamu::class, 'id_penjadwalan_tamu');
+    }
+
+        public function backupFeedbacks()
+    {
+        return $this->hasMany(BackupFeedback::class, 'id_feedback');
     }
 
     /**
@@ -50,7 +56,7 @@ class Feedback extends Model
             );
 
             if ($feedback->hash !== $calculated_hash) {
-                return false; // Data diubah
+                return $feedback->id; // return ID yang diubah
             }
 
             $previous_hash = $feedback->hash;
@@ -58,4 +64,5 @@ class Feedback extends Model
 
         return true; // Semua data valid
     }
+
 }

@@ -95,3 +95,4 @@ Route::get('/feedback/check-status/{id}', [FeedbackController::class, 'checkStat
 
 // Pastikan route untuk form feedback menggunakan method POST
 Route::post('/feedback-form', [FeedbackController::class, 'showForm'])->name('feedback.form');
+Route::get('/halaman-data-feedback', [FeedbackController::class, 'halamanDataFeedback']);
