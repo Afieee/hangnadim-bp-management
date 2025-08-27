@@ -45,7 +45,7 @@
         <div class="content-area">
             <div class="card">
                 <div>
-                    <h2 class="card-title">Formulir Penjadwalan Tamu</h2>
+                    <h2 class="card-title" style="padding-top: 25px; padding-left:25px">Formulir Penjadwalan Tamu</h2>
                 </div>
                 <div class="container">
                     <form action="{{ route('penjadwalan-tamu.store') }}" method="POST" enctype="multipart/form-data">

@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\PenjadwalanTamu;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 
 class PenjadwalanTamuController extends Controller
 {
@@ -68,4 +69,44 @@ class PenjadwalanTamuController extends Controller
         return redirect()->back()->with('success', 'Penjadwalan tamu berhasil disimpan.');
     }
 
+
+
+
+
+        public function halamanFeedbackTamu($id)
+        {
+            try {
+                $decryptedId = Crypt::decryptString($id);
+                $tamu = PenjadwalanTamu::findOrFail($decryptedId);
+
+                $feedback = $tamu->feedbacks()->first();
+
+                return view('pages.feedback-tamu', [
+                    'tamu' => $tamu,
+                    'feedbackExists' => $feedback ? true : false,
+                    'feedback' => $feedback,
+                ]);
+
+            } catch (\Exception $e) {
+                abort(404); // Jika ID tidak valid atau gagal dekripsi
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
 }
+
+
+
+

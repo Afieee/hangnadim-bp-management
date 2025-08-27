@@ -28,4 +28,10 @@ class PenjadwalanTamu extends Model
     {
         return $this->belongsTo(User::class, 'id_user');
     }
+        public function feedbacks()
+    {
+        return $this->hasMany(\App\Models\Feedback::class, 'id_penjadwalan_tamu');
+    }
+
+    
 }

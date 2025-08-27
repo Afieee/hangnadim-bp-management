@@ -22,213 +22,33 @@
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="{{ asset('css/manage-tamu.css') }}">
 
-    <style>
-        /* Isolasi komponen x dari CSS yang sudah ada */
-        x-navbar, x-sidebar {
-            all: initial;
-        }
-    
-        .main-content {
-            margin-left: 250px;
-            padding: 20px;
-            transition: all 0.3s ease;
-        }
-        
-        .card-custom {
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
-            border: none;
-            overflow: hidden;
-        }
-        
-        .table-custom {
-            border-collapse: separate;
-            border-spacing: 0;
-            width: 100%;
-        }
-        
-        .table-custom thead th {
-            background-color: #f1f5f9;
-            color: #64748b;
-            font-weight: 600;
-            padding: 12px 15px;
-            border-bottom: 2px solid #e2e8f0;
-        }
-        
-        .table-custom tbody td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #e2e8f0;
-            vertical-align: middle;
-        }
-        
-        .table-custom tbody tr:last-child td {
-            border-bottom: none;
-        }
-        
-        .table-custom tbody tr:hover {
-            background-color: #f8fafc;
-        }
-        
-        .badge-time {
-            padding: 6px 10px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-        
-        .btn-jadwalkan {
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s ease;
-        }
-        
-        .btn-jadwalkan:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        .search-container {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-        
-        .search-input {
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-            padding: 10px 15px;
-            min-width: 280px;
-            transition: all 0.2s ease;
-            height: 42px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-        
-        .search-input:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-        }
-        
-        .search-btn {
-            height: 42px;
-            border-radius: 8px;
-            padding: 0 20px;
-            font-weight: 500;
-        }
-        
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-        
-        .page-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #1e293b;
-            margin: 0;
-        }
-        
-        .pagination {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        
-        .page-item {
-            display: inline-block;
-        }
-        
-        .page-link {
-            padding: 8px 15px;
-            border-radius: 6px;
-            border: 1px solid #e2e8f0;
-            color: #64748b;
-            text-decoration: none;
-            transition: all 0.2s ease;
-        }
-        
-        .page-link:hover {
-            background-color: #f1f5f9;
-            color: #3b82f6;
-        }
-        
-        .page-item.active .page-link {
-            background-color: #3b82f6;
-            border-color: #3b82f6;
-            color: white;
-        }
-        
-        .alert-success {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: #10b981;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            animation: fadeIn 0.3s ease, fadeOut 0.5s ease 2.5s forwards;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes fadeOut {
-            from { opacity: 1; transform: translateY(0); }
-            to { opacity: 0; transform: translateY(-10px); }
-        }
-        
-        @media (max-width: 992px) {
-            .main-content {
-                margin-left: 0;
-                padding: 15px;
-            }
-            
-            .header-container {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .search-container {
-                width: 100%;
-            }
-            
-            .search-input {
-                min-width: auto;
-                flex-grow: 1;
-            }
-        }
-        
-        @media (max-width: 576px) {
-            .search-container {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .search-input, .search-btn {
-                width: 100%;
-            }
-        }
-    </style>
+
+
 </head>
 
+<style>
+
+<style>
+.toast {
+    opacity: 0;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #198754;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: opacity 0.3s ease;
+}
+
+.toast.show {
+    opacity: 1;
+}
+</style>
+
+</style>
 <body>
     <!-- Komponen x diisolasi dari CSS halaman -->
     <div style="all: initial">
@@ -238,6 +58,24 @@
     <div style="all: initial">
         <x-sidebar />
     </div>
+    <div id="toastCopy" class="toast">Link berhasil disalin!</div>
+
+
+    @if(session('success'))
+    <div id="toast" class="toast">
+        <div class="toast-icon">
+            <i class="fas fa-check" style="color: white; display: none;"></i>
+        </div>
+        <div class="toast-content">
+            <div class="toast-title">Success!</div>
+            <div class="toast-message">{{ session('success') }}</div>
+        </div>
+        <button class="toast-close">&times;</button>
+        <div class="toast-progress"></div>
+    </div>
+    @endif
+
+
     
     <div class="content-wrapper" id="content-wrapper">
         <!-- Breadcrumb Navigation -->
@@ -290,40 +128,53 @@
                                 </thead>
                                 <tbody>
                                     @forelse($tamu as $item)
-                                    <tr>
-                                        <td>{{ $loop->iteration + ($tamu->currentPage() - 1) * $tamu->perPage() }}</td>
-                                        <td class="fw-medium">{{ $item->subjek_tamu }}</td>
-                                        <td><span class="badge bg-secondary">{{ $item->level_tamu }}</span></td>
-                                        <td>
-                                            <span class="badge-time bg-blue-100 text-blue-800">
-                                                {{ \Carbon\Carbon::parse($item->waktu_tamu_berangkat)
-                                                    ->locale('id')
-                                                    ->translatedFormat('l, d F Y • H:i') }} WIB
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span class="badge-time bg-green-100 text-green-800">
-                                                {{ \Carbon\Carbon::parse($item->waktu_tamu_mendarat)
-                                                    ->locale('id')
-                                                    ->translatedFormat('l, d F Y • H:i') }} WIB
-                                            </span>
-                                        </td>
-                                        <td><code>{{ $item->kode_penerbangan }}</code></td>
-                                        <td><code>{{ $item->kode_bandara_asal }}</code></td>
-                                        <td>
-                                            @if($item->lembar_disposisi)
-                                                <a href="{{ asset('storage/'.$item->lembar_disposisi) }}" target="_blank"
-                                                class="text-primary text-decoration-none">
-                                                    <i class="fas fa-file-alt me-1"></i> Lihat
-                                                </a>
-                                            @else
-                                                <span class="text-muted fst-italic">Tidak ada</span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <a href=""></a>
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <td>{{ $loop->iteration + ($tamu->currentPage() - 1) * $tamu->perPage() }}</td>
+                                            <td class="fw-medium">{{ $item->subjek_tamu }}</td>
+                                            <td><span class="badge bg-secondary">{{ $item->level_tamu }}</span></td>
+                                            <td>
+                                                <span class="badge-time bg-blue-100 text-blue-800">
+                                                    {{ \Carbon\Carbon::parse($item->waktu_tamu_berangkat)
+                                                        ->locale('id')
+                                                        ->translatedFormat('l, d F Y • H:i') }} WIB
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span class="badge-time bg-green-100 text-green-800">
+                                                    {{ \Carbon\Carbon::parse($item->waktu_tamu_mendarat)
+                                                        ->locale('id')
+                                                        ->translatedFormat('l, d F Y • H:i') }} WIB
+                                                </span>
+                                            </td>
+                                            <td><code>{{ $item->kode_penerbangan }}</code></td>
+                                            <td><code>{{ $item->kode_bandara_asal }}</code></td>
+                                            <td>
+                                                @if($item->lembar_disposisi)
+                                                    <a href="{{ asset('storage/'.$item->lembar_disposisi) }}" target="_blank"
+                                                    class="text-primary text-decoration-none">
+                                                        <i class="fas fa-file-alt me-1"></i> Lihat
+                                                    </a>
+                                                @else
+                                                    <span class="text-muted fst-italic">Tidak ada</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if($item->feedbacks()->exists())
+                                                    <span style="color: gray; cursor: not-allowed;">Feedback Sudah Ada</span>
+                                                @else
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <input type="text" 
+                                                            value="{{ route('halaman.feedback.tamu', ['id' => Crypt::encryptString($item->id)]) }}"
+                                                            class="form-control form-control-sm" 
+                                                            readonly 
+                                                            id="feedbackLink{{ $item->id }}">
+                                                        <button class="btn btn-sm btn-outline-primary" onclick="copyLink({{ $item->id }})">
+                                                            <i class="fas fa-copy"></i>
+                                                        </button>
+                                                    </div>
+                                                @endif
+                                            </td>
+                                        </tr>
                                     @empty
                                     <tr>
                                         <td colspan="8" class="text-center py-4 text-muted">
@@ -345,5 +196,8 @@
     </div>
 
     <script src="{{ asset('js/components.js') }}"></script>
+    <script src="{{ asset('js/manage-tamu.js') }}"></script>
+
+
 </body>
 </html>

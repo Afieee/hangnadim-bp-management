@@ -1,9 +1,11 @@
 <?php
 
+use App\Models\PenjadwalanTamu;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GedungController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\BuktiKerusakanController;
 use App\Http\Controllers\BuktiPerbaikanController;
 use App\Http\Controllers\InspeksiGedungController;
@@ -82,3 +84,8 @@ Route::put('/inspeksi-gedung/{id}/update-status', [InspeksiGedungController::cla
 Route::get('/halaman-upload-bukti-perbaikan/{id_buktiKerusakan}', [BuktiPerbaikanController::class, 'halamanUploadBuktiPerbaikan'])->name('bukti-perbaikan.create');
 // 
 Route::get('/tampil-detail-inspeksi/{id_inspeksi}', [InspeksiGedungController::class, 'tampilDetailInspeksi'])->name('tampil.detail.inspeksi');
+// 
+Route::get('/feedback.tamu/{id}', [PenjadwalanTamuController::class, 'halamanFeedbackTamu'])->name('halaman.feedback.tamu');
+
+
+Route::post('/feedback/store', [FeedbackController::class, 'store'])->name('feedback.store');
