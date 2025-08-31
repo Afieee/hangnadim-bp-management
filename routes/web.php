@@ -21,6 +21,20 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 Route::get('dashboard', [AuthController::class, 'dashboard'])->name('dashboard');   
+Route::post('/dashboard/filter', [AuthController::class, 'filterDashboard'])->name('dashboard.filter');
+Route::post('/dashboard/filter-damage-type', [AuthController::class, 'filterDamageType'])->name('dashboard.filter.damage-type');
+
+Route::get('/halaman-laporan-pribadi', [BuktiKerusakanController::class, 'halamanLaporanPribadi'])->name('laporan.pribadi');
+Route::post('/upload-bukti-kerusakan-pribadi', [BuktiKerusakanController::class, 'uploadBuktiKerusakanPribadi'])->name('bukti-kerusakan-pribadi.store');
+
+
+
+
+
+
+
+
+
 
 Route::get('/halaman-registrasi', [AuthController::class, 'halamanRegister'])->name('halaman-registrasi');
 Route::post('/proses-registrasi', [AuthController::class, 'store'])->name('proses-registrasi');
@@ -38,6 +52,11 @@ Route::get('/halaman-upload-bukti-kerusakan', [BuktiKerusakanController::class, 
 Route::post('/upload-bukti-kerusakan', [BuktiKerusakanController::class, 'uploadBuktiKerusakan'])->name('bukti-kerusakan.store');
 
 
+
+
+
+
+
 Route::post('/bukti-perbaikan/store', [BuktiPerbaikanController::class, 'store'])->name('bukti-perbaikan.store');
 Route::get('/manage-user', [AuthController::class, 'halamanManageUser'])->name('manage-user');
 Route::get('/halaman-manage-kedatangan', [PenjadwalanTamuController::class, 'halamanPenjadwalanTamu'])->name('halaman.manage.kedatangan');
@@ -46,6 +65,7 @@ Route::get('/manage-kedatangan', [PenjadwalanTamuController::class, 'tampilPenja
 Route::post('/penjadwalan-tamu', [PenjadwalanTamuController::class, 'simpanPenjadwalan'])->name('penjadwalan-tamu.store');
 
 
+Route::get('/halaman-manajemen-kerusakan-parah', [BuktiKerusakanController::class, 'halamanManajemenKerusakan'])->name('manajemen.kerusakan');
 
 
 

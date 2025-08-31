@@ -22,4 +22,10 @@ class Gedung extends Model
     {
         return $this->hasMany(PenjadwalanTamu::class, 'id_gedung');
     }
+
+    public function buktiKerusakan()
+{
+    return $this->hasMany(BuktiKerusakan::class, 'id_gedung', 'id');
+}
+
 }

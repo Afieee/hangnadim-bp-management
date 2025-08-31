@@ -17,6 +17,7 @@ class BuktiKerusakan extends Model
         'tipe_kerusakan',
         'file_bukti_kerusakan',
         'id_inspeksi_gedung',
+        'id_gedung',
         'id_user_inspektor',
     ];
 
@@ -36,4 +37,8 @@ class BuktiKerusakan extends Model
 }
 
     
+    public function gedung()
+    {
+        return $this->belongsTo(Gedung::class, 'id_gedung');
+    }
 }

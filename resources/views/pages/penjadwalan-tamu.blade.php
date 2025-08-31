@@ -72,13 +72,13 @@
                         <div class="form-row">
                             <div class="form-col">
                                 <div class="form-group">
-                                    <label for="waktu_tamu_berangkat">Waktu Tamu Berangkat Dari Airport Sebelumnya:</label>
+                                    <label for="waktu_tamu_berangkat">Waktu Keberangkatan Sebelumnya:</label>
                                     <input type="datetime-local" name="waktu_tamu_berangkat" id="waktu_tamu_berangkat">
                                 </div>
                             </div>
                             <div class="form-col">
                                 <div class="form-group">
-                                    <label for="waktu_tamu_mendarat">Waktu Tamu Mendarat di BTH:</label>
+                                    <label for="waktu_tamu_mendarat">Waktu Mendarat:</label>
                                     <input type="datetime-local" name="waktu_tamu_mendarat" id="waktu_tamu_mendarat">
                                 </div>
                             </div>

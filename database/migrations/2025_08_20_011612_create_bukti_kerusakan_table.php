@@ -28,9 +28,18 @@ return new class extends Migration
 
             // Kolom untuk menyimpan bukti kerusakan
             $table->foreignId('id_inspeksi_gedung')
-                  ->constrained('inspeksi_gedung')
+                ->nullable()
+                ->constrained('inspeksi_gedung')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+
+            $table->foreignId('id_gedung')
+                  ->nullable()
+                  ->constrained('gedung')
                   ->onDelete('cascade')
                   ->onUpdate('cascade');
+
             
             // Relasi ke tabel inspeksi_gedung
             $table->foreignId('id_user_inspektor')
