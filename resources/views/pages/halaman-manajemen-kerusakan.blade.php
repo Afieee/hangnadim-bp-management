@@ -11,16 +11,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
     <style>
+        /* CSS yang sudah ada tetap dipertahankan */
         .content-area {
             padding: 20px;
         }
         
         .card {
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             overflow: hidden;
             margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
         }
         
         .table-container {
@@ -30,13 +32,12 @@
         
         table {
             width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
+            border-collapse: collapse;
             font-size: 14px;
         }
         
         thead {
-            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            background-color: #4b6cb7;
             color: white;
         }
         
@@ -54,13 +55,11 @@
         }
         
         tbody tr {
-            transition: all 0.2s ease;
+            transition: background-color 0.2s ease;
         }
         
         tbody tr:hover {
-            background-color: #f8faff;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            background-color: #f5f7ff;
         }
         
         tbody tr.selected {
@@ -99,19 +98,17 @@
             font-size: 14px;
         }
         
-/* congz */
         .btn i {
             margin-right: 6px;
         }
         
         .btn-primary {
-            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            background-color: #4b6cb7;
             color: white;
-            box-shadow: 0 2px 6px rgba(75, 108, 183, 0.3);
         }
         
         .btn-primary:hover {
-            transform: translateY(-2px);
+            background-color: #3a5a9f;
         }
         
         .btn-outline-primary {
@@ -121,9 +118,7 @@
         }
         
         .btn-outline-primary:hover {
-            background-color: #4b6cb7;
-            color: white;
-            transform: translateY(-2px);
+            background-color: #f0f4ff;
         }
         
         .selected-count {
@@ -153,8 +148,8 @@
         }
         
         .image-preview:hover {
-            transform: scale(1.08);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
         
         .no-image {
@@ -167,6 +162,13 @@
             white-space: nowrap;
             color: #495057;
             font-size: 13px;
+        }
+        
+        .description-cell {
+            max-width: 300px;
+            overflow: hidden;
+            white-space: normal;
+            word-wrap: break-word;
         }
         
         .modal {
@@ -221,6 +223,10 @@
                 padding: 8px 14px;
                 font-size: 13px;
             }
+            
+            .description-cell {
+                max-width: 200px;
+            }
         }
         
         @media (max-width: 768px) {
@@ -238,9 +244,12 @@
                 font-size: 14px;
                 padding: 6px 12px;
             }
+            
+            .description-cell {
+                max-width: 150px;
+            }
         }
         
-        /* Zebra striping for better readability */
         tbody tr:nth-child(even) {
             background-color: #f9fafb;
         }
@@ -292,70 +301,93 @@
         </div>
 
         <div class="content-area">
-            <div class="card">
-                <div class="table-actions">
-                    <div style="display: flex; gap: 10px;">
-                        <button id="selectAllBtn" class="btn btn-outline-primary">
-                            <i class="fas fa-check-square"></i> Pilih Semua
-                        </button>
-                        <button id="deselectAllBtn" class="btn btn-outline-primary">
-                            <i class="fas fa-times-circle"></i> Batalkan
-                        </button>
+            <div class="card">            
+                <div class="container">
+                    <h2 style="margin: 20px">Laporan Kerusakan Parah</h2>
+
+                    <div class="table-actions">
+                        <div style="display: flex; gap: 10px;">
+                            <button id="selectAllBtn" class="btn btn-outline-primary">
+                                <i class="fas fa-check-square"></i> Pilih Semua
+                            </button>
+                            <button id="deselectAllBtn" class="btn btn-outline-primary">
+                                <i class="fas fa-times-circle"></i> Batalkan
+                            </button>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <span id="selectedCount" class="selected-count">0 data terpilih</span>
+                            <button id="exportPdfBtn" class="btn btn-primary" disabled>
+                                <i class="fas fa-file-pdf"></i> Ekspor ke PDF
+                            </button>
+                        </div>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 15px;">
-                        <span id="selectedCount" class="selected-count">0 data terpilih</span>
-                        <button id="exportPdfBtn" class="btn btn-primary" disabled>
-                            <i class="fas fa-file-pdf"></i> Ekspor ke PDF
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="table-container">
-                    <table id="kerusakanTable">
-                        <thead>
-                            <tr>
-                                <th class="checkbox-cell">
-                                    <input type="checkbox" id="selectAll">
-                                </th>
-                                <th>ID</th>
-                                <th>Nama Gedung</th>
-                                <th>Judul Kerusakan</th>
-                                <th>Deskripsi</th>
-                                <th>Tanggal Dilaporkan</th>
-                                <th>Bukti Lampiran</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($kerusakanList as $kerusakan)
-                                <tr data-id="{{ $kerusakan->id }}">
-                                    <td class="checkbox-cell">
-                                        <input type="checkbox" class="row-checkbox">
-                                    </td>
-                                    <td>{{ $kerusakan->id }}</td>
-                                    <td>{{ $kerusakan->inspeksiGedung->gedung->nama_gedung ?? '-' }}</td>
-                                    <td>{{ $kerusakan->judul_bukti_kerusakan ?? '-' }}</td>
-                                    <td>{{ $kerusakan->deskripsi_bukti_kerusakan ?? '-' }}</td>
-                                    <td class="date-cell">
-                                        @if($kerusakan->created_at)
-                                            {{ \Carbon\Carbon::parse($kerusakan->created_at)->translatedFormat('d F Y, H:i') }}
-                                        @else
-                                            -
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if($kerusakan->file_bukti_kerusakan)
-                                            <img src="{{ asset('storage/' . $kerusakan->file_bukti_kerusakan) }}" 
-                                                 alt="Foto Kerusakan" 
-                                                 class="image-preview"
-                                                 data-src="{{ asset('storage/' . $kerusakan->file_bukti_kerusakan) }}">
-                                        @else
-                                            <span class="no-image">Tidak ada gambar</span>
-                                        @endif
-                                    </td>
+                    
+                    <div class="table-container">
+                        <table id="kerusakanTable">
+                            <thead>
+                                <tr>
+                                    <th class="checkbox-cell">
+                                        <input type="checkbox" id="selectAll">
+                                    </th>
+                                    <th>ID</th>
+                                    <th>Objek Kerusakan</th>
+                                    <th>Gedung Lokasi Kerusakan</th>
+                                    <th>Catatan Petugas</th>
+                                    <th>Tipe Kerusakan</th>
+                                    <th>Tanggal Dilaporkan</th>
+                                    <th>Petugas Pelapor</th>
+                                    <th>Email Petugas</th>
+                                    <th>Bukti Lampiran</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach($kerusakanList as $kerusakan)
+                                    <tr data-id="{{ $kerusakan->id }}">
+                                        <td class="checkbox-cell">
+                                            <input type="checkbox" class="row-checkbox">
+                                        </td>
+                                        <td>{{ $kerusakan->id }}</td>
+                                        <td>{{ $kerusakan->judul_bukti_kerusakan ?? '-' }}</td>
+
+                                        <td>
+                                            @php
+                                                $gedungInspeksi = $kerusakan->inspeksiGedung->gedung->nama_gedung ?? null;
+                                                $gedungLangsung = $kerusakan->gedung->nama_gedung ?? null;
+                                            @endphp
+
+                                            {{ implode(' / ', array_filter([$gedungInspeksi, $gedungLangsung])) ?: '-' }}
+                                        </td>
+                                        <td class="description-cell">
+                                            {{ $kerusakan->deskripsi_bukti_kerusakan ?? '-' }}
+                                        </td>
+
+                                        <td>{{ $kerusakan->tipe_kerusakan }}</td>
+
+                                        <td class="date-cell">
+                                            @if($kerusakan->created_at)
+                                                {{ \Carbon\Carbon::parse($kerusakan->created_at)->translatedFormat('d F Y, H:i') }}
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                        <td>{{ $kerusakan->userInspektor->name }}</td>
+                                        <td>{{ $kerusakan->userInspektor->email }}</td>
+
+                                        <td>
+                                            @if($kerusakan->file_bukti_kerusakan)
+                                                <img src="{{ asset('storage/' . $kerusakan->file_bukti_kerusakan) }}" 
+                                                    alt="Foto Kerusakan" 
+                                                    class="image-preview"
+                                                    data-src="{{ asset('storage/' . $kerusakan->file_bukti_kerusakan) }}">
+                                            @else
+                                                <span class="no-image">Tidak ada gambar</span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -481,168 +513,272 @@
                 }
             }
             
+            // Fungsi untuk mengonversi logo BP ke base64
+            function getLogoBase64() {
+                return new Promise((resolve, reject) => {
+                    const logoImg = new Image();
+                    logoImg.crossOrigin = "Anonymous";
+                    logoImg.src = "{{ asset('/storage/images/logo_bp.png') }}";
+                    
+                    logoImg.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        
+                        // Set ukuran canvas sesuai dengan gambar
+                        canvas.width = logoImg.width;
+                        canvas.height = logoImg.height;
+                        
+                        // Gambar gambar ke canvas
+                        ctx.drawImage(logoImg, 0, 0);
+                        
+                        // Dapatkan data base64
+                        try {
+                            const dataURL = canvas.toDataURL('image/png');
+                            resolve(dataURL);
+                        } catch (e) {
+                            reject(e);
+                        }
+                    };
+                    
+                    logoImg.onerror = function() {
+                        reject(new Error('Gagal memuat logo'));
+                    };
+                });
+            }
+            
             // Ekspor ke PDF
-            exportPdfBtn.addEventListener('click', async function() {
-                // Tampilkan loading
-                exportPdfBtn.disabled = true;
-                const originalText = exportPdfBtn.innerHTML;
-                exportPdfBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
-                
-                try {
-                    // Siapkan data yang dipilih
-                    const selectedData = [];
-                    const headers = ['ID', 'Nama Gedung', 'Judul Kerusakan', 'Deskripsi', 'Tanggal Dilaporkan', 'Gambar Bukti'];
+    exportPdfBtn.addEventListener('click', async function() {
+        // Tampilkan loading
+        exportPdfBtn.disabled = true;
+        const originalText = exportPdfBtn.innerHTML;
+        exportPdfBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+        
+        try {
+            // Siapkan data yang dipilih
+            const selectedData = [];
+            const headers = ['ID', 'Objek Kerusakan', 'Gedung', 'Catatan Petugas', 'Tipe Kerusakan', 'Tanggal Dilaporkan', 'Petugas'];
+            
+            // Kumpulkan semua gambar yang perlu diproses
+            const imagePromises = [];
+            const rowImages = [];
+            
+            document.querySelectorAll('tr[data-id]').forEach(row => {
+                const id = row.getAttribute('data-id');
+                if (selectedRows.has(id)) {
+                    const cells = row.querySelectorAll('td');
+                    const imgElement = row.querySelector('img');
                     
-                    // Kumpulkan semua gambar yang perlu diproses
-                    const imagePromises = [];
-                    const rowImages = [];
+                    // Lewati sel checkbox (indeks 0)
+                    const rowData = {
+                        id: cells[1].textContent,
+                        objek: cells[2].textContent,
+                        gedung: cells[3].textContent,
+                        catatan: cells[4].textContent,
+                        tipe: cells[5].textContent,
+                        tanggal: cells[6].textContent,
+                        petugas: cells[7].textContent,
+                        hasImage: imgElement !== null
+                    };
                     
-                    document.querySelectorAll('tr[data-id]').forEach(row => {
-                        const id = row.getAttribute('data-id');
-                        if (selectedRows.has(id)) {
-                            const cells = row.querySelectorAll('td');
-                            const imgElement = row.querySelector('img');
-                            
-                            // Lewati sel checkbox (indeks 0)
-                            const rowData = {
-                                id: cells[1].textContent,
-                                gedung: cells[2].textContent,
-                                judul: cells[3].textContent,
-                                deskripsi: cells[4].textContent,
-                                tanggal: cells[5].textContent,
-                                hasImage: imgElement !== null
-                            };
-                            
-                            if (imgElement) {
-                                // Tambahkan promise untuk konversi gambar
-                                imagePromises.push(
-                                    getBase64Image(imgElement).then(base64 => {
-                                        rowImages.push({
-                                            id: id,
-                                            base64: base64
-                                        });
-                                    })
-                                );
-                            } else {
+                    if (imgElement) {
+                        // Tambahkan promise untuk konversi gambar
+                        imagePromises.push(
+                            getBase64Image(imgElement).then(base64 => {
                                 rowImages.push({
                                     id: id,
-                                    base64: null
+                                    base64: base64
                                 });
-                            }
-                            
-                            selectedData.push(rowData);
-                        }
-                    });
+                            })
+                        );
+                    } else {
+                        rowImages.push({
+                            id: id,
+                            base64: null
+                        });
+                    }
                     
-                    // Tunggu semua gambar selesai diproses
-                    await Promise.all(imagePromises);
-                    
-                    // Buat dokumen PDF
-                    const doc = new jsPDF();
-                    
-                    // Judul laporan
-                    const title = "LAPORAN KERUSAKAN GEDUNG";
-                    doc.setFontSize(18);
-                    doc.setTextColor(41, 128, 185);
-                    doc.text(title, 105, 20, { align: 'center' });
-                    
-                    // Garis pemisah
-                    doc.setDrawColor(200, 200, 200);
-                    doc.line(14, 25, 196, 25);
-                    
-                    // Tanggal ekspor
-                    const exportDate = new Date().toLocaleDateString('id-ID', {
-                        weekday: 'long',
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                    });
-                    
-                    doc.setFontSize(10);
-                    doc.setTextColor(100, 100, 100);
-                    doc.text(`Diekspor pada: ${exportDate}`, 14, 35);
-                    
-                    // Siapkan data untuk tabel
-                    const tableData = selectedData.map(row => [
-                        row.id,
-                        row.gedung,
-                        row.judul,
-                        row.deskripsi.length > 50 ? row.deskripsi.substring(0, 50) + '...' : row.deskripsi,
-                        formatDateForPdf(row.tanggal),
-                        row.hasImage ? "Tersedia" : "Tidak tersedia"
-                    ]);
-                    
-                    // Buat tabel
-                    doc.setFontSize(11);
-                    doc.setTextColor(0, 0, 0);
-                    
-                    // Buat tabel utama
-                    doc.autoTable({
-                        head: [headers],
-                        body: tableData,
-                        startY: 45,
-                        theme: 'grid',
-                        styles: {
-                            fontSize: 10,
-                            cellPadding: 4,
-                            overflow: 'linebreak',
-                            lineColor: [220, 220, 220]
-                        },
-                        headStyles: {
-                            fillColor: [75, 108, 183],
-                            textColor: 255,
-                            fontStyle: 'bold',
-                            fontSize: 11
-                        },
-                        alternateRowStyles: {
-                            fillColor: [245, 247, 250]
-                        },
-                        margin: { top: 45 },
-                        // Tambahkan gambar setelah tabel
-                        didDrawPage: function(data) {
-                            // Jika ini halaman terakhir, tambahkan gambar
-                            if (data.pageCount === data.pageNumber) {
-                                let yPosition = data.cursor.y + 15;
-                                
-                                selectedData.forEach((row, index) => {
-                                    if (row.hasImage) {
-                                        const imageInfo = rowImages.find(img => img.id === row.id);
-                                        if (imageInfo && imageInfo.base64) {
-                                            // Tambahkan judul untuk gambar
-                                            if (yPosition > 200) {
-                                                doc.addPage();
-                                                yPosition = 20;
-                                            }
-                                            
-                                            doc.setFontSize(12);
-                                            doc.setTextColor(75, 108, 183);
-                                            doc.text(`Bukti Kerusakan - ID: ${row.id} - ${row.judul}`, 14, yPosition);
-                                            yPosition += 8;
-                                            
-                                            // Tambahkan gambar (maksimal lebar 120, tinggi 90)
-                                            doc.addImage(imageInfo.base64, 'JPEG', 14, yPosition, 120, 90);
-                                            yPosition += 100;
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                    });
-                    
-                    // Simpan PDF
-                    doc.save('laporan-kerusakan-gedung.pdf');
-                    
-                } catch (error) {
-                    console.error('Error generating PDF:', error);
-                    alert('Terjadi kesalahan saat membuat PDF. Silakan coba lagi.');
-                } finally {
-                    // Kembalikan tombol ke keadaan semula
-                    exportPdfBtn.disabled = selectedRows.size === 0;
-                    exportPdfBtn.innerHTML = originalText;
+                    selectedData.push(rowData);
                 }
             });
+            
+            // Tunggu semua gambar selesai diproses
+            await Promise.all(imagePromises);
+            
+            // Dapatkan base64 logo BP
+            const logoBase64 = await getLogoBase64();
+            
+            // Buat dokumen PDF
+            const doc = new jsPDF();
+            
+            // Tambahkan Times New Roman font
+            doc.setFont("Times", "normal");
+            
+            // Tambahkan logo BP di pojok kiri atas
+            doc.addImage(logoBase64, 'PNG', 14, 10, 30, 30);
+            
+            // Judul laporan
+            const title = "LAPORAN KERUSAKAN INSPEKSI";
+            doc.setFontSize(16); // Diperkecil dari 18
+            doc.setTextColor(0, 0, 0);
+            doc.text(title, 105, 20, { align: 'center' });
+            
+            // Informasi instansi di bawah judul
+            doc.setFontSize(10); // Diperkecil dari 12
+            doc.setTextColor(0, 0, 0);
+            doc.text("DIREKTORAT PENGELOLAAN KAWASAN BANDARA", 105, 27, { align: 'center' });
+            doc.setFontSize(9); // Diperkecil dari 10
+            doc.text("AERO-CITY", 105, 32, { align: 'center' });
+            
+            // Garis pemisah
+            doc.setDrawColor(0, 0, 0);
+            doc.line(14, 40, 196, 40); // Dipindah lebih atas
+            
+            // Tanggal ekspor
+            const exportDate = new Date().toLocaleDateString('id-ID', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            doc.setFontSize(8); // Diperkecil dari 10
+            doc.setTextColor(0, 0, 0);
+            doc.text(`Dicetak pada: ${exportDate}`, 14, 37);
+            
+            // Siapkan data untuk tabel
+            const tableData = selectedData.map(row => [
+                row.id,
+                {content: row.objek, styles: {cellWidth: 25}},
+                {content: row.gedung, styles: {cellWidth: 25}},
+                {content: row.catatan, styles: {cellWidth: 40, valign: 'top'}},
+                {content: row.tipe, styles: {cellWidth: 20}},
+                {content: formatDateForPdf(row.tanggal), styles: {cellWidth: 30}},
+                {content: row.petugas, styles: {cellWidth: 30}}
+            ]);
+            
+            // Buat tabel
+            doc.setFontSize(9); // Diperkecil dari 11
+            
+            // Buat tabel utama
+            const tableOptions = {
+                head: [headers],
+                body: tableData,
+                startY: 45, // Dipindah lebih atas
+                theme: 'grid',
+                styles: {
+                    font: "Times",
+                    fontStyle: "normal",
+                    fontSize: 8, // Diperkecil dari 10
+                    cellPadding: 3, // Diperkecil dari 4
+                    overflow: 'linebreak',
+                    lineColor: [0, 0, 0],
+                    textColor: [0, 0, 0],
+                    valign: 'top', // Pastikan align top
+                    halign: 'left' // Pastikan align left
+                },
+                headStyles: {
+                    fillColor: [75, 108, 183],
+                    textColor: 255,
+                    fontStyle: 'bold',
+                    fontSize: 9, // Diperkecil dari 11
+                    halign: 'left',
+                    valign: 'middle'
+                },
+                bodyStyles: {
+                    halign: 'left',
+                    valign: 'top' // Pastikan align top untuk body
+                },
+                alternateRowStyles: {
+                    fillColor: [245, 247, 250],
+                    halign: 'left',
+                    valign: 'top'
+                },
+                columnStyles: {
+                    0: {cellWidth: 15, valign: 'top'},
+                    1: {cellWidth: 25, valign: 'top'},
+                    2: {cellWidth: 25, valign: 'top'},
+                    3: {cellWidth: 40, valign: 'top'},
+                    4: {cellWidth: 20, valign: 'top'},
+                    5: {cellWidth: 30, valign: 'top'},
+                    6: {cellWidth: 30, valign: 'top'}
+                },
+                margin: { top: 45 },
+                pageBreak: 'auto',
+                tableWidth: 'wrap'
+            };
+            
+            // Generate tabel
+            doc.autoTable(tableOptions);
+            
+            // Tambahkan gambar setelah tabel selesai
+            let yPosition = doc.lastAutoTable.finalY + 10;
+            
+            // Hanya tambahkan gambar jika ada gambar yang tersedia
+            if (selectedData.some(row => row.hasImage)) {
+                // Cek jika perlu halaman baru untuk bagian gambar
+                if (yPosition > 160) {
+                    doc.addPage();
+                    yPosition = 20;
+                }
+                
+                // Judul bagian gambar
+                doc.setFontSize(12); // Diperkecil dari 14
+                doc.setTextColor(0, 0, 0);
+                doc.text("BUKTI FOTO KERUSAKAN", 105, yPosition, { align: 'center' });
+                yPosition += 8;
+                
+                // Loop untuk setiap data yang dipilih
+                for (let i = 0; i < selectedData.length; i++) {
+                    const row = selectedData[i];
+                    if (row.hasImage) {
+                        const imageInfo = rowImages.find(img => img.id === row.id);
+                        if (imageInfo && imageInfo.base64) {
+                            // Cek jika perlu halaman baru
+                            if (yPosition > 120) {
+                                doc.addPage();
+                                yPosition = 20;
+                            }
+                            
+                            // Tambahkan judul untuk gambar
+                            doc.setFontSize(9);
+                            doc.setTextColor(0, 0, 0);
+                            doc.text(`Kasus ID: ${row.id} - ${row.objek}`, 14, yPosition);
+                            yPosition += 6;
+                            
+                            // Tambahkan gambar (diperkecil dari 120x90 menjadi 100x75)
+                            try {
+                                doc.addImage(imageInfo.base64, 'JPEG', 14, yPosition, 100, 75);
+                            } catch (e) {
+                                console.error("Error adding image to PDF:", e);
+                                doc.text("Gagal memuat gambar", 14, yPosition + 35);
+                            }
+                            yPosition += 80;
+                            
+                            // Tambahkan garis pemisah antar gambar
+                            if (i < selectedData.length - 1) {
+                                doc.setDrawColor(200, 200, 200);
+                                doc.line(14, yPosition, 196, yPosition);
+                                yPosition += 10;
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // Simpan PDF
+            doc.save('laporan-kerusakan-gedung.pdf');
+            
+        } catch (error) {
+            console.error('Error generating PDF:', error);
+            alert('Terjadi kesalahan saat membuat PDF. Silakan coba lagi.');
+        } finally {
+            // Kembalikan tombol ke keadaan semula
+            exportPdfBtn.disabled = selectedRows.size === 0;
+            exportPdfBtn.innerHTML = originalText;
+        }
+    });
             
             // Tambahkan event listener untuk memilih baris dengan mengklik di mana saja pada baris
             document.querySelectorAll('tbody tr').forEach(row => {

@@ -54,9 +54,9 @@ public function uploadBuktiKerusakan(Request $request)
     public function halamanManajemenKerusakan()
     {
         // Menampilkan BuktiKerusakan yang belum memiliki relasi ke BuktiPerbaikan
-        $kerusakanList = BuktiKerusakan::with(['inspeksiGedung.gedung'])
+        $kerusakanList = BuktiKerusakan::with(['inspeksiGedung.gedung', 'gedung', 'userInspektor'])
             ->whereDoesntHave('buktiPerbaikan')
-            ->orderBy('created_at', 'desc')
+            ->orderBy('created_at', 'asc')
             ->get();
 
         return view('pages.halaman-manajemen-kerusakan', compact('kerusakanList'));
