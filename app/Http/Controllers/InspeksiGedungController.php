@@ -11,6 +11,7 @@ use App\Models\InspeksiGedung;
 use App\Mail\JadwalInspeksiMail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Crypt;
 
 class InspeksiGedungController extends Controller
 {
@@ -83,15 +84,23 @@ class InspeksiGedungController extends Controller
     }
 
 
-    public function tampilDetailInspeksi($id_inspeksi)
-    {
-        $buktiKerusakans = BuktiKerusakan::where('id_inspeksi_gedung', $id_inspeksi)->get();
-        $inspeksi = InspeksiGedung::with('gedung', 'user')->findOrFail($id_inspeksi);
-        return view('pages.detail-inspeksi-petugas', [
-            'inspeksi' => $inspeksi,
-            'buktiKerusakans' => $buktiKerusakans,
-        ]);
-    }
+            public function tampilDetailInspeksi($id_inspeksi_encrypted)
+            {
+                // Dekripsi ID
+                try {
+                    $id_inspeksi = Crypt::decryptString($id_inspeksi_encrypted);
+                } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
+                    abort(404); // kalau token tidak valid
+                }
+
+                $buktiKerusakans = BuktiKerusakan::where('id_inspeksi_gedung', $id_inspeksi)->get();
+                $inspeksi = InspeksiGedung::with('gedung', 'user')->findOrFail($id_inspeksi);
+
+                return view('pages.detail-inspeksi-petugas', [
+                    'inspeksi' => $inspeksi,
+                    'buktiKerusakans' => $buktiKerusakans,
+                ]);
+            }
 
 public function updateDetailInspeksi(Request $request, $id)
 {

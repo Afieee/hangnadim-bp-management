@@ -38,10 +38,6 @@ public function halamanUploadBuktiPerbaikan($id_buktiKerusakan)
 
 
 
-
-
-
-
     public function store(Request $request)
     {
         $request->validate([
@@ -83,4 +79,21 @@ public function halamanUploadBuktiPerbaikan($id_buktiKerusakan)
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
+
+
+
+    public function halamanTindakLanjutPribadi()
+    {
+        $buktiKerusakanPribadi = BuktiKerusakan::with(['userInspektor', 'gedung', 'buktiPerbaikan'])
+            ->whereNull('id_inspeksi_gedung')
+            ->withCount('buktiPerbaikan')
+            ->orderBy('bukti_perbaikan_count', 'asc')
+            ->orderBy('created_at', 'desc')
+            ->paginate(2); // Ubah get() menjadi paginate()
+
+        return view('pages.tindak-laporan-pribadi', [
+            'buktiKerusakanPribadi' => $buktiKerusakanPribadi,
+        ]);
+    }
+
 }

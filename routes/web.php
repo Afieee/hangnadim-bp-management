@@ -26,7 +26,7 @@ Route::post('/dashboard/filter-damage-type', [AuthController::class, 'filterDama
 
 Route::get('/halaman-laporan-pribadi', [BuktiKerusakanController::class, 'halamanLaporanPribadi'])->name('laporan.pribadi');
 Route::post('/upload-bukti-kerusakan-pribadi', [BuktiKerusakanController::class, 'uploadBuktiKerusakanPribadi'])->name('bukti-kerusakan-pribadi.store');
-
+Route::get('/halaman-tindak-lanjut-laporan-pribadi' , [BuktiPerbaikanController::class, 'halamanTindakLanjutPribadi'])->name('halaman.tindak.lanjut');
 
 
 

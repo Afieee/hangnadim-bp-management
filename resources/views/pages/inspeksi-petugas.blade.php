@@ -100,10 +100,10 @@
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Inspeksi Dibuka
                                 </th>
-
+{{-- 
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Lihat Detail
-                                </th>
+                                </th> --}}
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
@@ -118,9 +118,10 @@
                                             <i class="fas fa-building text-blue-500"></i>
                                         </div>
                                         <div class="ml-4">
-                                            <a href="{{ route('tampil.detail.inspeksi', $item->id) }}" class="text-sm font-medium text-blue-600 hover:text-blue-800">
-                                                {{ $item->gedung->nama_gedung }}
-                                            </a>
+                                                <a href="{{ route('tampil.detail.inspeksi', Crypt::encryptString($item->id)) }}"
+                                                class="text-sm font-medium text-blue-600 hover:text-blue-800">
+                                                    {{ $item->gedung->nama_gedung }}
+                                                </a>
                                             <div class="text-sm text-gray-500">{{ $item->gedung->lokasi }}</div>
                                         </div>
                                     </div>
@@ -128,13 +129,13 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                     {{ \Carbon\Carbon::parse($item->created_at)->format('M d, Y') }}
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                {{-- <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <div class="flex space-x-2">
                                         <a href="{{ route('tampil.detail.inspeksi', $item->id) }}" class="text-blue-600 hover:text-blue-900" title="View">
                                             <i class="fas fa-eye"></i>
                                         </a>
                                     </div>
-                                </td>
+                                </td> --}}
                             </tr>
                             @endforeach
                         </tbody>
