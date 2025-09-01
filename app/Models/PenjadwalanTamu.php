@@ -12,6 +12,7 @@ class PenjadwalanTamu extends Model
     protected $fillable = [
         'level_tamu',
         'subjek_tamu',
+        'instansi',
         'waktu_tamu_berangkat',
         'waktu_tamu_mendarat',
         'kode_penerbangan',

@@ -19,7 +19,7 @@
         <form action="{{ route('proses-login') }}" method="POST" class="login-form">
             @csrf
             <div class="form-content">
-                <h2>AEROCITY-BP Management System</h2>
+                <h2>Inspection Management System</h2>
 
                 @if(session('success'))
                     <div class="message success">{{ session('success') }}</div>

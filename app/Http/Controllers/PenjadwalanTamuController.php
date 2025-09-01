@@ -45,6 +45,7 @@ class PenjadwalanTamuController extends Controller
         $validated = $request->validate([
             'level_tamu' => 'required',
             'subjek_tamu' => 'required|string|max:255',
+            'instansi' => 'required|string|max:255',
             'waktu_tamu_berangkat' => 'nullable|date',
             'waktu_tamu_mendarat' => 'nullable|date',
             'kode_penerbangan' => 'nullable|string|max:255',

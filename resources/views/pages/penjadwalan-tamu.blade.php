@@ -68,6 +68,10 @@
                             <label for="subjek_tamu">Subjek Tamu:</label>
                             <input type="text" name="subjek_tamu" id="subjek_tamu" placeholder="Masukkan subjek tamu" required>
                         </div>
+                        <div class="form-group">
+                            <label for="subjek_tamu">Instansi:</label>
+                            <input type="text" name="instansi" id="instansi" placeholder="Masukkan Instansi" required>
+                        </div>
 
                         <div class="form-row">
                             <div class="form-col">

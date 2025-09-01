@@ -17,6 +17,8 @@ return new class extends Migration
                     ->default('Instansi Lain');
 
             $table->string('subjek_tamu');
+            $table->string('instansi');
+
 
             $table->timestamp('waktu_tamu_berangkat')
                     ->nullable()
