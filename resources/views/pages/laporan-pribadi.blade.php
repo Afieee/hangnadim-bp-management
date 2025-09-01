@@ -71,13 +71,14 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="judul_bukti_kerusakan">Objek Bukti Kerusakan</label>
+                            <label for="judul_bukti_kerusakan">Objek Kerusakan</label>
                             <input type="text" id="judul_bukti_kerusakan" name="judul_bukti_kerusakan" required>
                         </div>
 
                         <div class="form-group">
                             <label for="lokasi_bukti_kerusakan">Lokasi Spesifik</label>
                             <input type="text" id="lokasi_bukti_kerusakan" name="lokasi_bukti_kerusakan" required>
+
                         </div>
 
                         <div class="form-group">
