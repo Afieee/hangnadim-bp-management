@@ -57,14 +57,18 @@ public function uploadBuktiKerusakan(Request $request)
 
     public function halamanManajemenKerusakan()
     {
+        $userId = Auth::id(); // Ambil ID user yang login
+
         // Menampilkan BuktiKerusakan yang belum memiliki relasi ke BuktiPerbaikan
         $kerusakanList = BuktiKerusakan::with(['inspeksiGedung.gedung', 'gedung', 'userInspektor'])
+            ->where('id_user_inspektor', $userId) // Filter sesuai user yang login
             ->whereDoesntHave('buktiPerbaikan')
             ->orderBy('created_at', 'asc')
             ->get();
 
         return view('pages.halaman-manajemen-kerusakan', compact('kerusakanList'));
     }
+
 
 
 

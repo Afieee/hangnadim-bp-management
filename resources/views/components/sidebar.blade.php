@@ -23,7 +23,7 @@
 
                     <li><a href="/dashboard"><i class="fas fa-home"></i> Home</a></li>
                     <li><a href="/halaman-inspeksi-petugas"><i class="fas fa-clipboard-check"></i> Proses Inspeksi Mingguan</a></li>
-                    <li><a href="/halaman-manajemen-kerusakan-parah"><i class="fas fa-clipboard-check"></i> Laporans Kerusakan Parah</a></li>
+                    <li><a href="/halaman-manajemen-kerusakan-parah"><i class="fas fa-clipboard-check"></i> Laporan Kerusakan Parah</a></li>
 
                     <li><a href="/halaman-tindak-lanjut-laporan-pribadi"><i class="fas fa-exclamation-triangle"></i> Tindak Crash Condition</a></li>
                     <li><a href="/halaman-laporan-pribadi"><i class="fas fa-file-alt"></i> Laporan Pribadi</a></li>
