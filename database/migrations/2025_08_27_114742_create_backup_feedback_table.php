@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('backup_feedback', function (Blueprint $table) {
             $table->id();
             $table->text('catatan_feedback')->nullable();
+            $table->string('perwakilan_atau_pengisi');
             $table->string('indeks_rating_pelayanan')->required();
             $table->string('mutu_rating_pelayanan');
             $table->string('predikat_rating_pelayanan');

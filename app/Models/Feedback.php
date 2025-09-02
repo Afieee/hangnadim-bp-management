@@ -14,6 +14,7 @@ class Feedback extends Model
 
     protected $fillable = [
         'catatan_feedback',
+        'perwakilan_atau_pengisi',
         'indeks_rating_pelayanan',
         'mutu_rating_pelayanan',
         'predikat_rating_pelayanan',
@@ -41,13 +42,14 @@ class Feedback extends Model
     public static function verifyChain()
     {
         $feedbacks = self::orderBy('id')->get();
-        $previous_hash = null;
+        $invalidIds = [];
 
         foreach ($feedbacks as $feedback) {
             $calculated_hash = hash(
                 'sha256',
                 $feedback->id_penjadwalan_tamu .
                 $feedback->catatan_feedback .
+                $feedback->perwakilan_atau_pengisi .
                 $feedback->indeks_rating_pelayanan .
                 $feedback->mutu_rating_pelayanan .
                 $feedback->predikat_rating_pelayanan .
@@ -56,13 +58,12 @@ class Feedback extends Model
             );
 
             if ($feedback->hash !== $calculated_hash) {
-                return $feedback->id; // return ID yang diubah
+                $invalidIds[] = $feedback->id; // simpan ID yang salah
             }
-
-            $previous_hash = $feedback->hash;
         }
 
-        return true; // Semua data valid
+        return empty($invalidIds) ? true : $invalidIds;
     }
+
 
 }

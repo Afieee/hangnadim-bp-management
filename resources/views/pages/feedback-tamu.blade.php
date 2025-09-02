@@ -48,6 +48,17 @@
             <form action="{{ route('feedback.store') }}" method="POST" id="feedbackForm">
                 @csrf
                 <input type="hidden" name="id_penjadwalan_tamu" value="{{ $tamu->id }}">
+
+                <div class="form-group">
+                    <label for="perwakilan_atau_pengisi">Perwakilan atau Pengisi:</label>
+                    <input type="text" 
+                        name="perwakilan_atau_pengisi" 
+                        id="perwakilan_atau_pengisi"
+                        value="{{ old('perwakilan_atau_pengisi', $feedback->perwakilan_atau_pengisi ?? '') }}"
+                        @if($feedbackExists) disabled @endif
+                        placeholder="Masukkan nama perwakilan">
+                </div>
+
                 
                 <div class="form-group">
                     <label for="catatan_feedback">Catatan Feedback:</label>

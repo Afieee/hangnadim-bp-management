@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('feedback', function (Blueprint $table) {
             $table->id();
+            $table->string('perwakilan_atau_pengisi');
             $table->text('catatan_feedback')->nullable();
             $table->string('indeks_rating_pelayanan')->required();
             $table->string('mutu_rating_pelayanan');

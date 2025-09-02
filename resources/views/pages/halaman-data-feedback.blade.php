@@ -240,22 +240,12 @@
                 <div class="card-custom p-4">
                     <div class="header-container">
                         <h2 class="page-title">Daftar Feedback Tamu</h2>
-                        
-                        <!-- Filter options -->
-                        <div class="filter-container">
-                            <h2>Conver ke excel</h2>
-                            
-                            <select class="filter-select" id="sortFilter">
-                                <option value="newest">blabla</option>
-                            </select>
-                        </div>
 
-                    @if ($errorMessage)
+                    @if($errorMessage)
                         <div class="alert alert-danger">
-                            {{ $errorMessage }}
+                            {!! $errorMessage !!}
                         </div>
                     @endif
-
                         <table class="modern-table">
                             <thead>
                                 <tr>

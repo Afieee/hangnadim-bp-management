@@ -11,6 +11,7 @@ class BackupFeedback extends Model
 
     protected $fillable = [
         'catatan_feedback',
+        'perwakilan_atau_pengisi',
         'indeks_rating_pelayanan',
         'mutu_rating_pelayanan',
         'predikat_rating_pelayanan',
