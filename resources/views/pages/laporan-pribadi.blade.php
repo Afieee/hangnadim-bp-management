@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laporan Kerusakan Pribadi</title>
+    <title>Laporan Crash Condition</title>
+    <link rel="icon" href="{{ asset('/storage/images/logo_bp.png') }}" type="image/png">
 
     <link rel="stylesheet" href="{{ asset('css/components.css') }}">    
     <link rel="stylesheet" href="{{ asset('css/laporan-pribadi.css') }}">

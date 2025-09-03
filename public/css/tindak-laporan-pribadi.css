@@ -1,0 +1,246 @@
+        /* Modal untuk foto */
+        .modal-image {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            padding-top: 50px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+            animation: fadeIn 0.3s;
+        }
+        
+        .modal-image-content {
+            display: block;
+            margin: 0 auto;
+            max-width: 90%;
+            max-height: 80%;
+            border-radius: 5px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            animation: zoomIn 0.3s;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .close-modal:hover,
+        .close-modal:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        @keyframes zoomIn {
+            from {transform: scale(0.8); opacity: 0;}
+            to {transform: scale(1); opacity: 1;}
+        }
+        
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+        
+        /* Tabel styling */
+        .table-container {
+            border-radius: 10px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+        
+        .table-title {
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            font-weight: 600;
+        }
+        
+        .table-modern {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 0.9rem;
+        }
+        
+        .table-modern thead th {
+            background-color: #4e73df;
+            color: white;
+            font-weight: 600;
+            padding: 12px 15px;
+            border: none;
+            text-align: left;
+        }
+        
+        .table-modern tbody td {
+            padding: 12px 15px;
+            vertical-align: middle;
+            border-bottom: 1px solid #eef1f7;
+        }
+        
+        .table-modern tbody tr:hover {
+            background-color: #f8f9fc;
+        }
+        
+        .status-chip {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .status-closed {
+            background-color: #1cc88a;
+            color: white;
+        }
+        
+        .status-waiting {
+            background-color: #f6c23e;
+            color: #2c2929;
+        }
+        
+        .thumbnail-img {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .thumbnail-img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .btn-upload {
+            background: #4e73df;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+            display: inline-block;
+            text-decoration: none;
+        }
+        
+        .btn-upload:hover {
+            background: #2e59d9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(78, 115, 223, 0.3);
+            color: white;
+        }
+        
+        /* Pagination styling - SEDERHANA DAN MODERN */
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .pagination-info {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .pagination {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            gap: 8px;
+        }
+        
+        .pagination li {
+            margin: 0;
+        }
+        
+        .pagination a, 
+        .pagination span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 38px;
+            height: 38px;
+            padding: 0 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            color: #4e73df;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            background: white;
+        }
+        
+        .pagination a:hover {
+            background-color: #f0f4ff;
+            border-color: #4e73df;
+        }
+        
+        .pagination .active span {
+            background-color: #4e73df;
+            color: white;
+            border-color: #4e73df;
+        }
+        
+        .pagination .disabled span {
+            color: #b0b0b0;
+            background-color: #f9f9f9;
+            border-color: #e0e0e0;
+        }
+        
+        /* Table responsive */
+        @media (max-width: 992px) {
+            .table-container {
+                padding: 15px;
+            }
+            
+            .table-modern {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .pagination-container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .pagination-info {
+                order: 2;
+                margin-top: 10px;
+            }
+            
+            .pagination {
+                order: 1;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .pagination {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .pagination a, 
+            .pagination span {
+                min-width: 34px;
+                height: 34px;
+                font-size: 0.85rem;
+            }
+        }
