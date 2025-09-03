@@ -8,17 +8,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #4361EE;
-            --primary-dark: #3A56D4;
-            --secondary: #6C63FF;
-            --accent: #FF6B6B;
-            --light: #F8FAFF;
+            --primary: #2563EB;
+            --primary-dark: #1D4ED8;
+            --primary-light: #93C5FD;
+            --secondary: #3B82F6;
+            --accent: #60A5FA;
+            --light: #F0F9FF;
             --dark: #1E293B;
             --gray: #64748B;
             --gray-light: #E2E8F0;
             --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
             --border-radius: 12px;
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --shadow: 0 10px 30px rgba(37, 99, 235, 0.08);
             --transition: all 0.3s ease;
         }
         
@@ -148,7 +151,7 @@
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            box-shadow: 0 4px 10px rgba(67, 97, 238, 0.15);
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.15);
         }
         
         .notification-content {
@@ -195,6 +198,31 @@
             font-weight: 700;
         }
         
+        .chip {
+            display: inline-block;
+            padding: 6px 12px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 20px;
+            color: white;
+        }
+        
+        .chip-biru {
+            background-color: var(--primary);
+        }
+        
+        .chip-kuning {
+            background-color: var(--warning);
+        }
+        
+        .chip-hijau {
+            background-color: var(--success);
+        }
+        
+        .chip-merah {
+            background-color: var(--danger);
+        }
+        
         .action-button {
             display: block;
             width: 100%;
@@ -207,7 +235,7 @@
             font-weight: 600;
             margin: 30px 0;
             transition: var(--transition);
-            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.2);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.2);
             position: relative;
             overflow: hidden;
         }
@@ -225,7 +253,7 @@
         
         .action-button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.3);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
         }
         
         .action-button:hover::before {
@@ -309,7 +337,7 @@
         
         .warning-note {
             background: #FFF9ED;
-            border-left: 4px solid #FFB020;
+            border-left: 4px solid var(--warning);
             padding: 16px;
             margin-top: 25px;
             border-radius: 4px;
@@ -320,8 +348,28 @@
         }
         
         .warning-note i {
-            color: #FFB020;
+            color: var(--warning);
             font-size: 18px;
+        }
+        
+        .detail-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+        
+        .detail-list li {
+            margin: 12px 0;
+            padding: 12px 16px;
+            background: var(--light);
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+        }
+        
+        .detail-list strong {
+            min-width: 150px;
+            color: var(--gray);
         }
         
         @media (max-width: 640px) {
@@ -349,6 +397,16 @@
             .footer-links {
                 flex-direction: column;
                 gap: 10px;
+            }
+            
+            .detail-list li {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            
+            .detail-list strong {
+                min-width: unset;
             }
         }
     </style>
@@ -391,17 +449,10 @@
                     <div class="info-value">{{ $inspeksi->user->name }}</div>
                 </div>
 
-                <div class="info-item" style="display: flex; flex-direction: column; gap: 4px; padding: 10px; border-radius: 8px; background: #f8f9fa; box-shadow: 0 2px 6px rgba(0,0,0,0.08); max-width: 300px;">
-                    <div class="info-label" style="font-weight: 600; color: #555; font-size: 14px;">
-                        📅 Tanggal Inspeksi Dijadwalkan
-                    </div>
-                    <div class="info-value" style="font-size: 16px; font-weight: 500; color: #2b2b2b;">
-                        {{ \Carbon\Carbon::parse($inspeksi->created_at)->translatedFormat('d F Y, H:i') }} WIB
-                    </div>
+                <div class="info-item">
+                    <div class="info-label">TANGGAL INSPEKSI</div>
+                    <div class="info-value">{{ \Carbon\Carbon::parse($inspeksi->created_at)->translatedFormat('d F Y, H:i') }} WIB</div>
                 </div>
-
-
-
                 
                 <div class="info-item">
                     <div class="info-label">STATUS</div>

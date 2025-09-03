@@ -129,7 +129,7 @@ public function uploadBuktiKerusakanPribadi(Request $request)
         ]);
 
         // 📌 Ambil semua email Kepala Seksi & Staff Pelaksana
-        $recipients = User::whereIn('role', ['Kepala Seksi', 'Staff Pelaksana'])
+        $recipients = User::whereIn('role', ['Kepala Seksi'])
                         ->pluck('email')
                         ->toArray();
 

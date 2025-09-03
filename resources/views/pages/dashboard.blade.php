@@ -48,7 +48,7 @@
                         <div class="stat-icon" style="background-color: rgba(40, 167, 69, 0.2); color: #28a745;">
                             <i class="fas fa-clipboard-check"></i>
                         </div>
-                        <h3>Total Inspeksi</h3>
+                        <h3>Inspeksi Mingguan Yang Berjalan</h3>
                     </div>
                     <div class="stat-content">
                         <div class="stat-value">{{ $jumlahInspeksi }}</div>
@@ -179,9 +179,9 @@
                     <div class="stat-icon" style="background-color: rgba(40, 167, 69, 0.2); color: #28a745;">
                         <i class="fas fa-clipboard-check"></i>
                     </div>
-                    <h3 class="stat-title">Total Inspeksi</h3>
+                    <h3 class="stat-title">Inspeksi Mingguan Yang Berjalan</h3>
                 </div>
-                <div class="stat-content">
+                <div class="stat-content">  
                     <div class="stat-value" id="stat-jumlah-inspeksi">{{ $jumlahInspeksi }}</div>
                     <div class="stat-trend trend-up">
                     </div>

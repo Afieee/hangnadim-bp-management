@@ -407,6 +407,7 @@
         <span class="close-modal" onclick="closeImageModal()">&times;</span>
         <img class="modal-image-content" id="modalImage">
     </div>
+    <script src="{{ asset('js/components.js') }}"></script>
 
     <script>
         // Fungsi untuk menampilkan modal gambar

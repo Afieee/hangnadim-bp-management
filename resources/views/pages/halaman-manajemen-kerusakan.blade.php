@@ -406,88 +406,96 @@
 
     <script src="{{ asset('js/components.js') }}"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // jsPDF init
-            window.jsPDF = window.jspdf.jsPDF;
+    document.addEventListener('DOMContentLoaded', function() {
+        // jsPDF init
+        window.jsPDF = window.jspdf.jsPDF;
 
-            const selectAll = document.getElementById('selectAll');
-            const selectAllBtn = document.getElementById('selectAllBtn');
-            const deselectAllBtn = document.getElementById('deselectAllBtn');
-            const exportPdfBtn = document.getElementById('exportPdfBtn');
-            const selectedCount = document.getElementById('selectedCount');
-            const modal = document.getElementById('imageModal');
-            const modalImg = document.getElementById('modalImage');
-            const closeModal = document.querySelector('.close');
+        const selectAll = document.getElementById('selectAll');
+        const selectAllBtn = document.getElementById('selectAllBtn');
+        const deselectAllBtn = document.getElementById('deselectAllBtn');
+        const exportPdfBtn = document.getElementById('exportPdfBtn');
+        const selectedCount = document.getElementById('selectedCount');
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const closeModal = document.querySelector('.close');
 
-            let selectedRows = new Set();
+        let selectedRows = new Set();
+        
+        // Dapatkan semua checkbox setelah DOM dimuat
+        const checkboxes = document.querySelectorAll('.row-checkbox');
 
-            // update counter
-            function updateSelectedCount() {
-                selectedCount.textContent = `${selectedRows.size} data terpilih`;
-                exportPdfBtn.disabled = selectedRows.size === 0;
+        // update counter
+        function updateSelectedCount() {
+            selectedCount.textContent = `${selectedRows.size} data terpilih`;
+            exportPdfBtn.disabled = selectedRows.size === 0;
+        }
+
+        // checkbox housekeeping
+        function setRowChecked(rowCheckbox, checked) {
+            rowCheckbox.checked = checked;
+            const row = rowCheckbox.closest('tr');
+            const id = row.getAttribute('data-id');
+            
+            if (checked) {
+                selectedRows.add(id);
+                row.classList.add('selected');
+            } else {
+                selectedRows.delete(id);
+                row.classList.remove('selected');
             }
+            
+            // refresh master checkbox state
+            const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+            const someChecked = Array.from(checkboxes).some(cb => cb.checked);
+            
+            selectAll.checked = allChecked;
+            selectAll.indeterminate = someChecked && !allChecked;
+            
+            updateSelectedCount();
+        }
 
-            // checkbox housekeeping
-            const checkboxesNodeList = document.querySelectorAll('.row-checkbox');
+        // master checkbox
+        selectAll.addEventListener('change', function() {
+            checkboxes.forEach(cb => setRowChecked(cb, this.checked));
+        });
 
-            function setRowChecked(rowCheckbox, checked) {
-                rowCheckbox.checked = checked;
-                const row = rowCheckbox.closest('tr');
-                const id = row.getAttribute('data-id');
-                if (checked) {
-                    selectedRows.add(id);
-                    row.classList.add('selected');
-                } else {
-                    selectedRows.delete(id);
-                    row.classList.remove('selected');
+        selectAllBtn.addEventListener('click', function() {
+            checkboxes.forEach(cb => setRowChecked(cb, true));
+        });
+
+        deselectAllBtn.addEventListener('click', function() {
+            checkboxes.forEach(cb => setRowChecked(cb, false));
+        });
+
+        // individual checkbox listeners
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', function() {
+                setRowChecked(this, this.checked);
+            });
+        });
+
+        // row click toggles checkbox (excluding actual checkbox clicks)
+        document.querySelectorAll('tbody tr').forEach(row => {
+            const rb = row.querySelector('.row-checkbox');
+            row.addEventListener('click', function(e) {
+                if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'LABEL' && e.target.tagName !== 'IMG') {
+                    setRowChecked(rb, !rb.checked);
                 }
-                // refresh master checkbox state
-                const allChecked = Array.from(checkboxesNodeList).every(cb => cb.checked);
-                selectAll.checked = allChecked;
-                updateSelectedCount();
-            }
-
-            // master checkbox
-            selectAll.addEventListener('change', function() {
-                checkboxesNodeList.forEach(cb => setRowChecked(cb, this.checked));
             });
+        });
 
-            selectAllBtn.addEventListener('click', function() {
-                selectAll.checked = true;
-                selectAll.dispatchEvent(new Event('change'));
+        // image modal
+        document.querySelectorAll('.image-preview').forEach(img => {
+            img.addEventListener('click', function(e) {
+                modal.style.display = 'block';
+                modalImg.src = this.getAttribute('data-src') || this.src;
             });
-
-            deselectAllBtn.addEventListener('click', function() {
-                selectAll.checked = false;
-                selectAll.dispatchEvent(new Event('change'));
-            });
-
-            // row click toggles checkbox (excluding actual checkbox clicks)
-            document.querySelectorAll('tbody tr').forEach(row => {
-                const rb = row.querySelector('.row-checkbox');
-                row.addEventListener('click', function(e) {
-                    if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'LABEL' && e.target.tagName !== 'IMG') {
-                        setRowChecked(rb, !rb.checked);
-                    }
-                });
-            });
-
-            // individual checkbox listeners
-            checkboxesNodeList.forEach(cb => {
-                cb.addEventListener('change', function() {
-                    setRowChecked(this, this.checked);
-                });
-            });
-
-            // image modal
-            document.querySelectorAll('.image-preview').forEach(img => {
-                img.addEventListener('click', function(e) {
-                    modal.style.display = 'block';
-                    modalImg.src = this.getAttribute('data-src');
-                });
-            });
-            closeModal.addEventListener('click', () => modal.style.display = 'none');
-            window.addEventListener('click', function(ev) { if (ev.target === modal) modal.style.display = 'none'; });
+        });
+        
+        closeModal.addEventListener('click', () => modal.style.display = 'none');
+        window.addEventListener('click', function(ev) { 
+            if (ev.target === modal) modal.style.display = 'none'; 
+        });
 
             // --- Utility: convert <img> DOM element to base64 safely ---
             function getBase64Image(img) {
@@ -640,12 +648,11 @@
                     }
                     doc.setFontSize(16);
                     doc.setTextColor(30, 30, 30);
-                    doc.text('LAPORAN KERUSAKAN INSPEKSI', pageWidth / 2, y + 8, { align: 'center' });
+                    doc.text('LAPORAN INSPEKSI KERUSAKAN BERAT ', pageWidth / 2, y + 8, { align: 'center' });
 
                     doc.setFontSize(10);
                     doc.text('DIREKTORAT PENGELOLAAN KAWASAN BANDARA', pageWidth / 2, y + 14, { align: 'center' });
                     doc.setFontSize(9);
-                    doc.text('AERO-CITY', pageWidth / 2, y + 18, { align: 'center' });
 
                     // garis
                     doc.setDrawColor(200, 200, 200);
