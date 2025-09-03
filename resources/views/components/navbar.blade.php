@@ -18,9 +18,9 @@
             
                 <!-- Profile Dropdown -->
                 <div class="profile-dropdown">
-                    <a href="#"><i class="fas fa-user"></i> Profile</a>
-                    <a href="#"><i class="fas fa-cog"></i> Settings</a>
-                    <a href="#"><i class="fas fa-envelope"></i> Messages</a>
+                        <a href="{{ route('profile', Crypt::encryptString(Auth::id())) }}">
+                            <i class="fas fa-user"></i> Profile
+                        </a>
                     <div class="divider"></div>
 
 

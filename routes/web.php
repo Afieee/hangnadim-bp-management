@@ -29,6 +29,10 @@ Route::post('/upload-bukti-kerusakan-pribadi', [BuktiKerusakanController::class,
 Route::get('/halaman-tindak-lanjut-laporan-pribadi' , [BuktiPerbaikanController::class, 'halamanTindakLanjutPribadi'])->name('halaman.tindak.lanjut');
 
 
+Route::get('profile/{id}', [AuthController::class, 'halamanEditProfilePribadi'])
+    ->name('profile');
+
+
 
 
 

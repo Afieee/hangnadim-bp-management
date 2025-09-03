@@ -51,6 +51,11 @@
                     
                     <div class="form-container">
                         <div class="form-group">
+                            <label class="form-label">NIP/NUP</label>
+                            <input type="text" name="nip_atau_nup" value="{{ old('nip_atau_nup', $user->nip_atau_nup) }}" class="form-input" placeholder="Masukkan nama lengkap" required>
+                        </div>
+
+                        <div class="form-group">
                             <label class="form-label">Nama Lengkap</label>
                             <input type="text" name="name" value="{{ old('name', $user->name) }}" class="form-input" placeholder="Masukkan nama lengkap" required>
                         </div>

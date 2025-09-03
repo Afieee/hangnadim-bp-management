@@ -24,6 +24,7 @@ class AuthController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'nip_atau_nup' => 'required|string|max:255',
             'name'     => 'required|string|max:255',
             'email'    => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
@@ -31,6 +32,7 @@ class AuthController extends Controller
         ]);
 
         User::create([
+            'nip_atau_nup' => $request->nip_atau_nup,
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
@@ -50,7 +52,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'email'    => 'required|email',
+            'nip_atau_nup' => 'required|string|max:50',
             'password' => 'required|string',
         ]);
 
@@ -60,7 +62,7 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'Email atau Password salah.',
+            'error' => 'NIP/NUP atau Password salah.',
         ]);
     }
 
@@ -335,6 +337,7 @@ public function filterDashboard(Request $request)
 
         // Validasi input
         $validated = $request->validate([
+            'nip_atau_nup' => 'required|string|max:255',
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $id,
             'role' => 'required|string|max:50',
@@ -342,6 +345,7 @@ public function filterDashboard(Request $request)
         ]);
 
         // Update data
+        $user->nip_atau_nup = $validated['nip_atau_nup'];
         $user->name = $validated['name'];
         $user->email = $validated['email'];
         $user->role = $validated['role'];
@@ -355,6 +359,65 @@ public function filterDashboard(Request $request)
 
         return redirect()->route('manage-user')->with('success', 'User berhasil diperbarui!');
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function halamanEditProfilePribadi($encryptedId)
+    {
+        $id = Crypt::decryptString($encryptedId); // Ubah kembali ke ID asli
+        $user = User::findOrFail($id);
+
+        // Pastikan yang bisa akses hanya user yang login sendiri
+        if ($user->id !== Auth::id()) {
+            abort(403, 'Akses ditolak');
+        }
+
+        return view('auth.user-edit', compact('user'));
+    }
+
+
+    public function updateProfilePribadi(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        // Validasi input
+        $validated = $request->validate([
+            'nip_atau_nup' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'role' => 'required|string|max:50',
+            'password' => 'nullable|min:6|confirmed'
+        ]);
+
+        // Update data
+        $user->nip_atau_nup = $validated['nip_atau_nup'];
+        $user->name = $validated['name'];
+        $user->email = $validated['email'];
+        $user->role = $validated['role'];
+
+        // Update password jika diisi
+        if (!empty($validated['password'])) {
+            $user->password = Hash::make($validated['password']);
+        }
+
+        $user->save();
+
+        return redirect()->route('manage-user')->with('success', 'User berhasil diperbarui!');
+    }
+
 
 
 }

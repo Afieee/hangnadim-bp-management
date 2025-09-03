@@ -28,8 +28,7 @@
             transition: var(--transition);
         }
         
-        .breadcrumb-container {
-        }
+
         
         .breadcrumb ul {
             display: flex;

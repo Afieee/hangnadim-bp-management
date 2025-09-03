@@ -51,6 +51,7 @@
                     <thead>
                         <tr>
                             <th>NO</th>
+                            <th>NIP/NUP</th>
                             <th>Nama</th>
                             <th>Email</th>
                             <th>Role</th>
@@ -61,6 +62,7 @@
                         @foreach($users as $user)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
+                            <td>{{ $user->nip_atau_nup }}</td>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>

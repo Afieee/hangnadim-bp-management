@@ -2,8 +2,7 @@
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <h3>                    
-                    <img src="{{ asset('/storage/images/logo_bp.png') }}" alt="User Profile" style="width: 100px; height: 100px;">
-                    BP Batam
+                    <img src="{{ asset('/storage/images/logo_aero.png') }}" alt="User Profile" style="width: 260px; height: 140px;">
                 </h3>
                 <div class="sidebar-close" id="sidebar-close">
                     <i class="fas fa-times"></i>

@@ -20,11 +20,11 @@ class User extends Authenticatable
     protected $table = 'users';
     protected $primaryKey = 'id';
     protected $fillable = [
+        'nip_atau_nup',
         'name',
         'email',
         'password',
         'role',
-
     ];
 
 
