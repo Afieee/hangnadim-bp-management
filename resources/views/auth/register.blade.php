@@ -37,6 +37,7 @@
             <div class="breadcrumb">
                 <ul>
                     <li><a href="/dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="/manage-user"><i class="fas fa-user"></i> Manage User</a></li>
                     <li class="active"><i class="fas fa-eye"></i> Tambah Pengguna</li>
                 </ul>
             </div>

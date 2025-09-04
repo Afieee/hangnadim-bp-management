@@ -18,9 +18,9 @@
     <div class="breadcrumb-container">
         <div class="breadcrumb">
             <ul>
-                <li><a href="#"><i class="fas fa-home"></i> Dashboard</a></li>
-                <li><a href="{{ route('manage-user') }}">Manage User</a></li>
-                <li>Edit User</li>
+                <li><a href="/dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="{{ route('manage-user') }}"> <i class="fas fa-user"></i> Manage User</a></li>
+                <li><a href=""> <i class="fas fa-user"></i> Edit User</a></li>
             </ul>
         </div>
     </div>
@@ -107,4 +107,6 @@
     </div>
 </div>
 </body>
+<script src="{{ asset('js/components.js') }}"></script>
+
 </html>

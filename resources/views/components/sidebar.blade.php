@@ -1,13 +1,18 @@
     <!-- Sidebar -->
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <h3>                    
-                    <img src="{{ asset('/storage/images/logo_aero.png') }}" alt="User Profile" style="width: 260px; height: 140px;">
-                </h3>
+                <div class="logo-container">
+                    <img src="{{ asset('/storage/images/logo_bp.png') }}" alt="User Profile">
+                    <div class="logo-text">
+                        <strong>BP BATAM</strong><br>
+                        <div style="color: #d49c24">Direktorat Pengelolaan Kawasan Bandara</div>
+                    </div>
+                </div>
                 <div class="sidebar-close" id="sidebar-close">
                     <i class="fas fa-times"></i>
-                </div> 
+                </div>
             </div>
+
             <ul class="sidebar-menu">
                 @if (Auth::user()->role == "Kepala Seksi")
                     <li><a href="/dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
@@ -22,8 +27,8 @@
 
                     <li><a href="/dashboard"><i class="fas fa-home"></i> Home</a></li>
                     <li><a href="/halaman-inspeksi-petugas"><i class="fas fa-clipboard-check"></i> Proses Inspeksi Mingguan</a></li>
-                    <li><a href="/halaman-manajemen-kerusakan-parah"><i class="fas fa-clipboard-check"></i> Laporan Kerusakan Parah</a></li>
-                    <li><a href="/halaman-laporan-pribadi"><i class="fas fa-file-alt"></i> Laporan Pribadi</a></li>
+                    <li><a href="/halaman-manajemen-kerusakan-parah"><i class="fas fa-exclamation-triangle"></i> Laporan Kerusakan Parah</a></li>
+                    <li><a href="/halaman-laporan-pribadi"><i class="fas fa-file-alt"></i> Laporkan Crash Condition</a></li>
                     <li><a href="/halaman-tindak-lanjut-laporan-pribadi"><i class="fas fa-exclamation-triangle"></i> Tindak Crash Condition</a></li>
                 @endif
             </ul>

@@ -434,7 +434,7 @@
                     <div class="message success">{{ session('success') }}</div>
                 @endif
 
-                @error('errors')
+                @error('error')
                     <div class="message error">{{ $message }}</div>
                 @enderror
 
@@ -471,10 +471,10 @@
         // Auto typer functionality
         function initAutoTyper() {
             const texts = [
-                "Secure Access Portal",
-                "Aerocity Inspection System",
+                "Inspection System Management",
+                "Information System",
                 "Advanced Management Platform",
-                "Building Performance Analysis"
+                "Systematic Data Maintain"
             ];
             const typingTextElement = document.getElementById('typing-text');
             let textIndex = 0;

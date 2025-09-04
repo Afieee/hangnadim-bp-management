@@ -48,13 +48,30 @@ body {
 }
 
 .sidebar-header {
-    padding: 25px;
+    padding: 20px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-between; /* logo di kiri, tombol close di kanan */
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* jarak antara gambar dan teks */
+}
+
+.logo-container img {
+    width: 70px;
+    height: 70px;
+    border-radius: 8px; /* opsional, biar rapi */
+}
+
+.logo-text {
+    color: white;
+    font-size: 14px;
+    line-height: 1.4;
+}
 .sidebar-header h3 {
     color: white;
     font-weight: 700;
