@@ -440,7 +440,7 @@
                 <li><strong>Pelapor:</strong> {{ $data['nama_pelapor'] }}</li>
             </ul>
             
-            <a href="{{ url('/login') }}" class="action-button">
+            <a href="{{ url('/') }}" class="action-button">
                 <i class="fas fa-clipboard-list"></i> Lihat Detail Laporan
             </a>
             

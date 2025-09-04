@@ -460,13 +460,13 @@
                 </div>
             </div>
             
-            <a href="{{ url('/login') }}" class="action-button">
+            <a href="{{ url('/') }}" class="action-button">
                 <i class="fas fa-sign-in-alt"></i> Login ke Sistem
             </a>
             
             <div class="url-alternative">
                 <p>Jika tombol di atas tidak bekerja, salin dan tempel URL berikut di browser Anda:</p>
-                <a href="{{ url('/login') }}">{{ url('/login') }}</a>
+                <a href="{{ url('/') }}">{{ url('/') }}</a>
             </div>
             
             <div class="warning-note">
