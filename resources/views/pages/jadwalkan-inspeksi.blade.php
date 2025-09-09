@@ -66,7 +66,7 @@
                                     $isDisabled = in_array(1, $gedungDenganInspeksiTerbuka);
                                 @endphp
                                 <button type="submit" class="btn-schedule" {{ $isDisabled ? 'disabled' : '' }}>
-                                    <i class="fas fa-calendar-plus"></i> Schedule Inspection
+                                    <i class="fas fa-calendar-plus"></i> Jadwalkan Inspeksi
                                 </button>
                                 @if($isDisabled)
                                     <p style="color: red; font-size: 12px; margin-top: 5px;">
@@ -97,7 +97,7 @@
                                     $isDisabled = in_array(2, $gedungDenganInspeksiTerbuka);
                                 @endphp
                                 <button type="submit" class="btn-schedule" {{ $isDisabled ? 'disabled' : '' }}>
-                                    <i class="fas fa-calendar-plus"></i> Schedule Inspection
+                                    <i class="fas fa-calendar-plus"></i> Jadwalkan Inspeksi
                                 </button>
                                 @if($isDisabled)
                                     <p style="color: red; font-size: 12px; margin-top: 5px;">
@@ -128,7 +128,7 @@
                                     $isDisabled = in_array(3, $gedungDenganInspeksiTerbuka);
                                 @endphp
                                 <button type="submit" class="btn-schedule" {{ $isDisabled ? 'disabled' : '' }}>
-                                    <i class="fas fa-calendar-plus"></i> Schedule Inspection
+                                    <i class="fas fa-calendar-plus"></i> Jadwalkan Inspeksi
                                 </button>
                                 @if($isDisabled)
                                     <p style="color: red; font-size: 12px; margin-top: 5px;">
@@ -159,7 +159,7 @@
                                     $isDisabled = in_array(4, $gedungDenganInspeksiTerbuka);
                                 @endphp
                                 <button type="submit" class="btn-schedule" {{ $isDisabled ? 'disabled' : '' }}>
-                                    <i class="fas fa-calendar-plus"></i> Schedule Inspection
+                                    <i class="fas fa-calendar-plus"></i> Jadwalkan Inspeksi
                                 </button>
                                 @if($isDisabled)
                                     <p style="color: red; font-size: 12px; margin-top: 5px;">
@@ -190,7 +190,7 @@
                                     $isDisabled = in_array(5, $gedungDenganInspeksiTerbuka);
                                 @endphp
                                 <button type="submit" class="btn-schedule" {{ $isDisabled ? 'disabled' : '' }}>
-                                    <i class="fas fa-calendar-plus"></i> Schedule Inspection
+                                    <i class="fas fa-calendar-plus"></i> Jadwalkan Inspeksi
                                 </button>
                                 @if($isDisabled)
                                     <p style="color: red; font-size: 12px; margin-top: 5px;">
@@ -221,7 +221,7 @@
                                     $isDisabled = in_array(6, $gedungDenganInspeksiTerbuka);
                                 @endphp
                                 <button type="submit" class="btn-schedule" {{ $isDisabled ? 'disabled' : '' }}>
-                                    <i class="fas fa-calendar-plus"></i> Schedule Inspection
+                                    <i class="fas fa-calendar-plus"></i> Jadwalkan Inspeksi
                                 </button>
                                 @if($isDisabled)
                                     <p style="color: red; font-size: 12px; margin-top: 5px;">
@@ -252,7 +252,7 @@
                                     $isDisabled = in_array(7, $gedungDenganInspeksiTerbuka);
                                 @endphp
                                 <button type="submit" class="btn-schedule" {{ $isDisabled ? 'disabled' : '' }}>
-                                    <i class="fas fa-calendar-plus"></i> Schedule Inspection
+                                    <i class="fas fa-calendar-plus"></i> Jadwalkan Inspeksi
                                 </button>
                                 @if($isDisabled)
                                     <p style="color: red; font-size: 12px; margin-top: 5px;">
