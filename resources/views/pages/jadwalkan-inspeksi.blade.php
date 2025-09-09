@@ -8,25 +8,25 @@
     <link rel="stylesheet" href="{{ asset('css/components.css') }}">
     <link rel="stylesheet" href="{{ asset('css/jadwalkan-inspeksi.css') }}">
     <link rel="icon" href="{{ asset('/storage/images/logo_bp.png') }}" type="image/png">
-
-
 </head>
 <body>
     <x-navbar />
     <x-sidebar />
-@if(session('success'))
-<div id="toast" class="toast">
-    <div class="toast-icon">
-        <i class="fas fa-check" style="color: white; display: none;"></i>
+
+    @if(session('success'))
+    <div id="toast" class="toast">
+        <div class="toast-icon">
+            <i class="fas fa-check" style="color: white; display: none;"></i>
+        </div>
+        <div class="toast-content">
+            <div class="toast-title">Success!</div>
+            <div class="toast-message">{{ session('success') }}</div>
+        </div>
+        <button class="toast-close">&times;</button>
+        <div class="toast-progress"></div>
     </div>
-    <div class="toast-content">
-        <div class="toast-title">Success!</div>
-        <div class="toast-message">{{ session('success') }}</div>
-    </div>
-    <button class="toast-close">&times;</button>
-    <div class="toast-progress"></div>
-</div>
-@endif
+    @endif
+
     <div class="content-wrapper" id="content-wrapper">
         <!-- Breadcrumb Navigation -->
         <div class="breadcrumb-container">
@@ -44,13 +44,14 @@
                 <div class="container">
                     <h2 class="section-title"><i class="fas fa-building"></i> Building Inspection Scheduling</h2>
                     <div class="inspection-container">
-                        <!-- Building A -->
+                        
+                        {{-- GEDUNG A --}}
                         <div class="inspection-card">
                             <h3><i class="fas fa-university"></i> GEDUNG A</h3>
                             <div class="building-image" style="background-image: url('{{ asset('/storage/images/gedung_a.jpeg') }}');"></div>
                             <form action="{{ route('jadwalkan.inspeksi.store') }}" method="POST">
                                 @csrf
-                                <input type="hidden" name="furniture" value="Belum Diperiksa">
+                                {{-- Hidden fields --}}
                                 <input type="hidden" name="furniture" value="Belum Diperiksa">
                                 <input type="hidden" name="fire_system" value="Belum Diperiksa">
                                 <input type="hidden" name="bangunan" value="Belum Diperiksa">
@@ -60,18 +61,28 @@
                                 <input type="hidden" name="eksterior" value="Belum Diperiksa">
                                 <input type="hidden" name="sanitasi" value="Belum Diperiksa">
                                 <input type="hidden" name="id_gedung" value="1">
-                                <button type="submit" class="btn-schedule">
+
+                                @php
+                                    $isDisabled = in_array(1, $gedungDenganInspeksiTerbuka);
+                                @endphp
+                                <button type="submit" class="btn-schedule" {{ $isDisabled ? 'disabled' : '' }}>
                                     <i class="fas fa-calendar-plus"></i> Schedule Inspection
                                 </button>
+                                @if($isDisabled)
+                                    <p style="color: red; font-size: 12px; margin-top: 5px;">
+                                        Inspeksi sedang berlangsung.
+                                    </p>
+                                @endif
                             </form>
                         </div>
 
-                        <!-- Building B -->
+                        {{-- GEDUNG B --}}
                         <div class="inspection-card">
                             <h3><i class="fas fa-university"></i> GEDUNG B</h3>
                             <div class="building-image" style="background-image: url('{{ asset('/storage/images/gedung_b.jpeg') }}');"></div>
                             <form action="{{ route('jadwalkan.inspeksi.store') }}" method="POST">
                                 @csrf
+                                {{-- Hidden fields --}}
                                 <input type="hidden" name="furniture" value="Belum Diperiksa">
                                 <input type="hidden" name="fire_system" value="Belum Diperiksa">
                                 <input type="hidden" name="bangunan" value="Belum Diperiksa">
@@ -81,18 +92,28 @@
                                 <input type="hidden" name="eksterior" value="Belum Diperiksa">
                                 <input type="hidden" name="sanitasi" value="Belum Diperiksa">
                                 <input type="hidden" name="id_gedung" value="2">
-                                <button type="submit" class="btn-schedule">
+
+                                @php
+                                    $isDisabled = in_array(2, $gedungDenganInspeksiTerbuka);
+                                @endphp
+                                <button type="submit" class="btn-schedule" {{ $isDisabled ? 'disabled' : '' }}>
                                     <i class="fas fa-calendar-plus"></i> Schedule Inspection
                                 </button>
+                                @if($isDisabled)
+                                    <p style="color: red; font-size: 12px; margin-top: 5px;">
+                                        Inspeksi sedang berlangsung.
+                                    </p>
+                                @endif
                             </form>
                         </div>
 
-                        <!-- Building C -->
+                        {{-- GEDUNG C --}}
                         <div class="inspection-card">
                             <h3><i class="fas fa-university"></i> GEDUNG C</h3>
                             <div class="building-image" style="background-image: url('{{ asset('/storage/images/gedung_c.jpeg') }}');"></div>
                             <form action="{{ route('jadwalkan.inspeksi.store') }}" method="POST">
                                 @csrf
+                                {{-- Hidden fields --}}
                                 <input type="hidden" name="furniture" value="Belum Diperiksa">
                                 <input type="hidden" name="fire_system" value="Belum Diperiksa">
                                 <input type="hidden" name="bangunan" value="Belum Diperiksa">
@@ -102,18 +123,28 @@
                                 <input type="hidden" name="eksterior" value="Belum Diperiksa">
                                 <input type="hidden" name="sanitasi" value="Belum Diperiksa">
                                 <input type="hidden" name="id_gedung" value="3">
-                                <button type="submit" class="btn-schedule">
+
+                                @php
+                                    $isDisabled = in_array(3, $gedungDenganInspeksiTerbuka);
+                                @endphp
+                                <button type="submit" class="btn-schedule" {{ $isDisabled ? 'disabled' : '' }}>
                                     <i class="fas fa-calendar-plus"></i> Schedule Inspection
                                 </button>
+                                @if($isDisabled)
+                                    <p style="color: red; font-size: 12px; margin-top: 5px;">
+                                        Inspeksi sedang berlangsung.
+                                    </p>
+                                @endif
                             </form>
                         </div>
 
-                        <!-- Equipment Building -->
+                        {{-- GEDUNG PERLENGKAPAN --}}
                         <div class="inspection-card">
                             <h3><i class="fas fa-tools"></i> GEDUNG PERLENGKAPAN</h3>
                             <div class="building-image" style="background-image: url('{{ asset('/storage/images/gedung_perlengkapan.jpeg') }}');"></div>
                             <form action="{{ route('jadwalkan.inspeksi.store') }}" method="POST">
                                 @csrf
+                                {{-- Hidden fields --}}
                                 <input type="hidden" name="furniture" value="Belum Diperiksa">
                                 <input type="hidden" name="fire_system" value="Belum Diperiksa">
                                 <input type="hidden" name="bangunan" value="Belum Diperiksa">
@@ -123,21 +154,28 @@
                                 <input type="hidden" name="eksterior" value="Belum Diperiksa">
                                 <input type="hidden" name="sanitasi" value="Belum Diperiksa">
                                 <input type="hidden" name="id_gedung" value="4">
-                                <button type="submit" class="btn-schedule">
+
+                                @php
+                                    $isDisabled = in_array(4, $gedungDenganInspeksiTerbuka);
+                                @endphp
+                                <button type="submit" class="btn-schedule" {{ $isDisabled ? 'disabled' : '' }}>
                                     <i class="fas fa-calendar-plus"></i> Schedule Inspection
                                 </button>
+                                @if($isDisabled)
+                                    <p style="color: red; font-size: 12px; margin-top: 5px;">
+                                        Inspeksi sedang berlangsung.
+                                    </p>
+                                @endif
                             </form>
                         </div>
 
-
-
-
-                        <!-- VVIP Building -->
+                        {{-- GEDUNG VVIP --}}
                         <div class="inspection-card">
                             <h3><i class="fas fa-tools"></i> GEDUNG VVIP</h3>
                             <div class="building-image" style="background-image: url('{{ asset('/storage/images/gedung_vvip.jpeg') }}');"></div>
                             <form action="{{ route('jadwalkan.inspeksi.store') }}" method="POST">
                                 @csrf
+                                {{-- Hidden fields --}}
                                 <input type="hidden" name="furniture" value="Belum Diperiksa">
                                 <input type="hidden" name="fire_system" value="Belum Diperiksa">
                                 <input type="hidden" name="bangunan" value="Belum Diperiksa">
@@ -146,20 +184,29 @@
                                 <input type="hidden" name="interior" value="Belum Diperiksa">
                                 <input type="hidden" name="eksterior" value="Belum Diperiksa">
                                 <input type="hidden" name="sanitasi" value="Belum Diperiksa">
-                                <input type="hidden" name="id_gedung" value="5">    
-                                <button type="submit" class="btn-schedule">
+                                <input type="hidden" name="id_gedung" value="5">
+
+                                @php
+                                    $isDisabled = in_array(5, $gedungDenganInspeksiTerbuka);
+                                @endphp
+                                <button type="submit" class="btn-schedule" {{ $isDisabled ? 'disabled' : '' }}>
                                     <i class="fas fa-calendar-plus"></i> Schedule Inspection
                                 </button>
+                                @if($isDisabled)
+                                    <p style="color: red; font-size: 12px; margin-top: 5px;">
+                                        Inspeksi sedang berlangsung.
+                                    </p>
+                                @endif
                             </form>
                         </div>
 
-
-                        <!-- POS GT Building -->
+                        {{-- GEDUNG POS GT --}}
                         <div class="inspection-card">
                             <h3><i class="fas fa-warehouse"></i> GEDUNG POS GT</h3>
                             <div class="building-image" style="background-image: url('{{ asset('/storage/images/gedung_pos_gt.jpeg') }}');"></div>
                             <form action="{{ route('jadwalkan.inspeksi.store') }}" method="POST">
                                 @csrf
+                                {{-- Hidden fields --}}
                                 <input type="hidden" name="furniture" value="Belum Diperiksa">
                                 <input type="hidden" name="fire_system" value="Belum Diperiksa">
                                 <input type="hidden" name="bangunan" value="Belum Diperiksa">
@@ -169,18 +216,28 @@
                                 <input type="hidden" name="eksterior" value="Belum Diperiksa">
                                 <input type="hidden" name="sanitasi" value="Belum Diperiksa">
                                 <input type="hidden" name="id_gedung" value="6">
-                                <button type="submit" class="btn-schedule">
+
+                                @php
+                                    $isDisabled = in_array(6, $gedungDenganInspeksiTerbuka);
+                                @endphp
+                                <button type="submit" class="btn-schedule" {{ $isDisabled ? 'disabled' : '' }}>
                                     <i class="fas fa-calendar-plus"></i> Schedule Inspection
                                 </button>
+                                @if($isDisabled)
+                                    <p style="color: red; font-size: 12px; margin-top: 5px;">
+                                        Inspeksi sedang berlangsung.
+                                    </p>
+                                @endif
                             </form>
                         </div>
 
-                        <!-- Cargo Building -->
+                        {{-- GEDUNG MASJID TANJAK --}}
                         <div class="inspection-card">
                             <h3><i class="fas fa-city"></i> Gedung Masjid Tanjak</h3>
                             <div class="building-image" style="background-image: url('{{ asset('/storage/images/gedung_masjid_tanjak.jpeg') }}');"></div>
                             <form action="{{ route('jadwalkan.inspeksi.store') }}" method="POST">
                                 @csrf
+                                {{-- Hidden fields --}}
                                 <input type="hidden" name="furniture" value="Belum Diperiksa">
                                 <input type="hidden" name="fire_system" value="Belum Diperiksa">
                                 <input type="hidden" name="bangunan" value="Belum Diperiksa">
@@ -190,11 +247,21 @@
                                 <input type="hidden" name="eksterior" value="Belum Diperiksa">
                                 <input type="hidden" name="sanitasi" value="Belum Diperiksa">
                                 <input type="hidden" name="id_gedung" value="7">
-                                <button type="submit" class="btn-schedule">
+
+                                @php
+                                    $isDisabled = in_array(7, $gedungDenganInspeksiTerbuka);
+                                @endphp
+                                <button type="submit" class="btn-schedule" {{ $isDisabled ? 'disabled' : '' }}>
                                     <i class="fas fa-calendar-plus"></i> Schedule Inspection
                                 </button>
+                                @if($isDisabled)
+                                    <p style="color: red; font-size: 12px; margin-top: 5px;">
+                                        Inspeksi sedang berlangsung.
+                                    </p>
+                                @endif
                             </form>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -204,37 +271,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="{{ asset('js/components.js') }}"></script>
     <script>
-        // You can add additional JavaScript here if needed
-        $(document).ready(function() {
-            // Add any interactive functionality here
+        document.addEventListener('DOMContentLoaded', function() {
+            const toast = document.getElementById('toast');
+            if (toast) {
+                setTimeout(() => toast.classList.add('show'), 100);
+                toast.querySelector('.toast-close').addEventListener('click', () => toast.classList.remove('show'));
+                setTimeout(() => toast.classList.remove('show'), 3000);
+            }
         });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const toast = document.getElementById('toast');
-        if(toast) {
-            // Show toast with animation
-            setTimeout(() => {
-                toast.classList.add('show');
-            }, 100);
-            
-            // Close toast when close button is clicked
-            const closeBtn = toast.querySelector('.toast-close');
-            closeBtn.addEventListener('click', () => {
-                toast.classList.remove('show');
-            });
-            
-            // Auto-hide after 3 seconds
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-    });
     </script>
-
-
-
-
-
-
 </body>
 </html>

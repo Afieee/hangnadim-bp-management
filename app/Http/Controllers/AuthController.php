@@ -103,6 +103,7 @@ class AuthController extends Controller
         $hitungFeedbackKurangBaik = Feedback::where('predikat_rating_pelayanan', 'Kurang Baik')->count();
         $hitungFeedbackTidakBaik = Feedback::where('predikat_rating_pelayanan', 'Tidak Baik')->count();
 
+        $jumlahStaffPelaksana = User::where('role', 'Staff Pelaksana')->count();
 
 
 
@@ -145,6 +146,7 @@ class AuthController extends Controller
             'buktiKerusakanEksterior'=> $buktiKerusakanEksterior,
             'buktiKerusakanEksterior'=> $buktiKerusakanEksterior,
             'buktiKerusakanSanitasi' => $buktiKerusakanSanitasi,
+            'jumlahStaffPelaksana' => $jumlahStaffPelaksana,
         ]);
     }
     

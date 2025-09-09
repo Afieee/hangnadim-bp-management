@@ -200,7 +200,7 @@
                     <div class="stat-label">Bukti kerusakan yang masih menunggu perbaikan</div>
                 </div>
             </div>
-            <div class="stat-card">
+            <!-- <div class="stat-card">
                 <div class="stat-header">
                     <div class="stat-icon" style="background-color: rgba(108, 117, 125, 0.2); color: #6c757d;">
                         <i class="fas fa-exclamation-triangle"></i>
@@ -212,8 +212,8 @@
                     <div class="stat-trend trend-down">
                     </div>
                 </div>
-            </div>
-
+            </div> -->
+<!-- 
             <div class="stat-card">
                 <div class="stat-header">
                     <div class="stat-icon" style="background-color: rgba(23, 162, 184, 0.2); color: #17a2b8;">
@@ -225,7 +225,7 @@
                     <div class="stat-value" id="stat-perbaikan-dilakukan">{{ $buktiPerbaikanPenutupKerusakan }}</div>
                     <div class="stat-label">Jumlah Perbaikan Dari Semua Kerusakan</div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="stat-card">
                 <div class="stat-header">
@@ -250,6 +250,20 @@
                 <div class="stat-content">
                     <div class="stat-value" id="stat-rating-pelayanan">{{ number_format($indeksRatingPelayananRataRata, 1) }}%</div>
                     <div class="stat-label">Rata-rata penilaian tamu</div>
+                </div>
+            </div>
+
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon" style="background-color: rgba(40, 167, 69, 0.2); color: #28a745;">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="stat-title">Jumlah Staff Pelaksana</h3>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value" id="stat-staff-pelaksana">{{ $jumlahStaffPelaksana }}</div>
+                    <div class="stat-label">Total staff yang aktif</div>
                 </div>
             </div>
         </div>

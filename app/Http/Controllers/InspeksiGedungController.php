@@ -15,11 +15,19 @@ use Illuminate\Support\Facades\Crypt;
 
 class InspeksiGedungController extends Controller
 {
-    public function halamanInspeksi()
-    {
-        $gedungs = Gedung::all();
-        return view('pages.jadwalkan-inspeksi', compact('gedungs'));
-    }
+public function halamanInspeksi()
+{
+    $gedungs = Gedung::all();
+
+    // Ambil id_gedung yang memiliki status inspeksi Terbuka
+    $gedungDenganInspeksiTerbuka = InspeksiGedung::where('status_keseluruhan_inspeksi', 'Terbuka')
+        ->pluck('id_gedung')
+        ->toArray();
+
+    return view('pages.jadwalkan-inspeksi', compact('gedungs', 'gedungDenganInspeksiTerbuka'));
+}
+
+
 
      public function store(Request $request)
     {

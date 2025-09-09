@@ -39,31 +39,32 @@ class Feedback extends Model
     /**
      * Fungsi verifikasi hash chain
      */
-    public static function verifyChain()
-    {
-        $feedbacks = self::orderBy('id')->get();
-        $invalidIds = [];
+public static function verifyChain()
+{
+    $feedbacks = self::orderBy('id')->get();
+    $invalidIds = [];
 
-        foreach ($feedbacks as $feedback) {
-            $calculated_hash = hash(
-                'sha256',
-                $feedback->id_penjadwalan_tamu .
-                $feedback->catatan_feedback .
-                $feedback->perwakilan_atau_pengisi .
-                $feedback->indeks_rating_pelayanan .
-                $feedback->mutu_rating_pelayanan .
-                $feedback->predikat_rating_pelayanan .
-                $feedback->previous_hash .
-                $feedback->created_at
-            );
+    foreach ($feedbacks as $feedback) {
+        $calculated_hash = hash(
+            'sha256',
+            $feedback->id_penjadwalan_tamu .
+            $feedback->catatan_feedback .
+            $feedback->perwakilan_atau_pengisi .
+            $feedback->indeks_rating_pelayanan .
+            $feedback->mutu_rating_pelayanan .
+            $feedback->predikat_rating_pelayanan .
+            $feedback->previous_hash .
+            $feedback->created_at
+        );
 
-            if ($feedback->hash !== $calculated_hash) {
-                $invalidIds[] = $feedback->id; // simpan ID yang salah
-            }
+        if ($feedback->hash !== $calculated_hash) {
+            $invalidIds[] = $feedback->id; // simpan ID yang salah
         }
-
-        return empty($invalidIds) ? true : $invalidIds;
     }
+
+    // Selalu return array (bisa kosong)
+    return $invalidIds;
+}
 
 
 }

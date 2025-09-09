@@ -95,10 +95,10 @@ class FeedbackController extends Controller
     
 public function halamanDataFeedback()
 {
-    // Gunakan paginate, misalnya 4 data per halaman
+    // Gunakan paginate
     $feedback = Feedback::with('penjadwalanTamu')->paginate(4);
 
-    // Ambil daftar semua ID yang bermasalah
+    // Selalu array karena verifyChain sudah dikoreksi
     $invalidIds = Feedback::verifyChain();
     $errorMessage = null;
 
@@ -112,6 +112,7 @@ public function halamanDataFeedback()
         'errorMessage' => $errorMessage,
     ]);
 }
+
 
 
 
