@@ -225,7 +225,6 @@
 @elseif (in_array(Auth::user()->role, ['Admin','Direktur', 'Kepala Sub Direktorat','Kepala Seksi', 'Tata Usaha']))
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -234,13 +233,235 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.css">
     <link rel="stylesheet" href="{{ asset('css/components.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
     <link rel="icon" href="{{ asset('/storage/images/logo_bp.png') }}" type="image/png">
+    <style>
+        /* Tambahan style untuk responsivitas dan perbaikan layout */
+        .dashboard-container {
+            padding: 15px;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        
+        .filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        
+        .filter-item {
+            display: flex;
+            flex-direction: column;
+            min-width: 120px;
+            flex: 1;
+        }
+        
+        .filter-select {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-top: 5px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .filter-button {
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 23px;
+            white-space: nowrap;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s;
+        }
+        
+        .stat-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        
+        .stat-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #6c757d;
+            margin: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        
+        .stat-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #343a40;
+        }
+        
+        .charts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .chart-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chart-header {
+            margin-bottom: 15px;
+        }
+        
+        .chart-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #343a40;
+            margin: 0 0 10px 0;
+        }
+        
+        .chart-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 12px;
+        }
+        
+        .chart-filter label {
+            margin-right: 5px;
+            white-space: nowrap;
+        }
+        
+        .chart-year-filter, .chart-month-filter, .chart-week-filter {
+            padding: 5px;
+            border-radius: 3px;
+            border: 1px solid #ddd;
+            margin-right: 10px;
+            max-width: 80px;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 250px;
+            width: 100%;
+        }
+        
+        /* Media Queries untuk Responsivitas */
+        @media (max-width: 768px) {
+            .filter-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .filter-item {
+                width: 100%;
+            }
+            
+            .filter-button {
+                margin-top: 10px;
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .chart-filter {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .chart-year-filter, .chart-month-filter, .chart-week-filter {
+                max-width: 100%;
+                margin-right: 0;
+                margin-bottom: 5px;
+            }
+            
+            .stat-value {
+                font-size: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .dashboard-container {
+                padding: 10px;
+            }
+            
+            .stat-card {
+                padding: 10px;
+            }
+            
+            .chart-card {
+                padding: 15px;
+            }
+            
+            .chart-container {
+                height: 200px;
+            }
+        }
+        
+        /* Perbaikan untuk zoom in/out */
+        body {
+            overflow-x: hidden;
+        }
+        
+        .content-wrapper {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+    </style>
 </head>
-
 <body>
 <x-navbar/>
-<x-sidebar/>
+<x-sidebar />
 
 @if(session('success'))
 <div id="toast" class="toast">
@@ -258,7 +479,6 @@
 
 <!-- Content Wrapper -->
 <div class="content-wrapper" id="content-wrapper">
-
     <!-- Content Area -->
     <div class="dashboard-container">
         <!-- Filter Controls -->
@@ -270,7 +490,33 @@
                 </select>
             </div>
             <div class="filter-item">
-            </div>            
+                <label for="month-filter">Bulan:</label>
+                <select id="month-filter" class="filter-select">
+                    <option value="all">Semua Bulan</option>
+                    <option value="1">Januari</option>
+                    <option value="2">Februari</option>
+                    <option value="3">Maret</option>
+                    <option value="4">April</option>
+                    <option value="5">Mei</option>
+                    <option value="6">Juni</option>
+                    <option value="7">Juli</option>
+                    <option value="8">Agustus</option>
+                    <option value="9">September</option>
+                    <option value="10">Oktober</option>
+                    <option value="11">November</option>
+                    <option value="12">Desember</option>
+                </select>
+            </div>
+            <div class="filter-item">
+                <label for="week-filter">Minggu:</label>
+                <select id="week-filter" class="filter-select">
+                    <option value="all">Semua Minggu</option>
+                    <option value="1">Minggu 1 (tgl 1-7)</option>
+                    <option value="2">Minggu 2 (tgl 8-14)</option>
+                    <option value="3">Minggu 3 (tgl 15-21)</option>
+                    <option value="4">Minggu 4 (tgl 22-akhir)</option>
+                </select>
+            </div>
             <button class="filter-button" id="apply-filter">
                 <i class="fas fa-filter"></i> Terapkan Filter
             </button>
@@ -285,26 +531,37 @@
                     </div>
                     <h3 class="stat-title">Inspeksi Mingguan Yang Berjalan</h3>
                 </div>
-                <div class="stat-content">  
+                <div class="stat-content">
                     <div class="stat-value" id="stat-jumlah-inspeksi">{{ $jumlahInspeksi }}</div>
-                    <div class="stat-trend trend-up">
-                    </div>
+                    <div class="stat-trend trend-up"></div>
                 </div>
             </div>
-            
+
             <div class="stat-card">
                 <div class="stat-header">
-                    <div class="stat-icon" style="background-color: rgba(220, 53, 69, 0.2); color: #dc3545;">
+                    <div class="stat-icon" style="background-color: rgba(255, 193, 7, 0.2); color: #ffc107;">
                         <i class="fas fa-tools"></i>
                     </div>
-                    <h3 class="stat-title">Kerusakan Belum Diperbaiki</h3>
+                    <h3 class="stat-title">Belum Diperbaiki</h3>
                 </div>
                 <div class="stat-content">
                     <div class="stat-value" id="stat-belum-diperbaiki">{{ $buktiKerusakanYangBelumDiperbaiki }}</div>
-                    <div class="stat-label">Bukti kerusakan yang masih menunggu perbaikan</div>
                 </div>
             </div>
-            <!-- <div class="stat-card">
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon" style="background-color: rgba(23, 162, 184, 0.2); color: #17a2b8;">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3 class="stat-title">Perbaikan Dilakukan</h3>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value" id="stat-perbaikan-dilakukan">{{ $buktiPerbaikanPenutupKerusakan }}</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
                 <div class="stat-header">
                     <div class="stat-icon" style="background-color: rgba(108, 117, 125, 0.2); color: #6c757d;">
                         <i class="fas fa-exclamation-triangle"></i>
@@ -313,61 +570,18 @@
                 </div>
                 <div class="stat-content">
                     <div class="stat-value" id="stat-total-kerusakan">{{ $totalKerusakan }}</div>
-                    <div class="stat-trend trend-down">
-                    </div>
-                </div>
-            </div> -->
-<!-- 
-            <div class="stat-card">
-                <div class="stat-header">
-                    <div class="stat-icon" style="background-color: rgba(23, 162, 184, 0.2); color: #17a2b8;">
-                        <i class="fas fa-wrench"></i>
-                    </div>
-                    <h3 class="stat-title">Perbaikan Dilakukan</h3>
-                </div>
-                <div class="stat-content">
-                    <div class="stat-value" id="stat-perbaikan-dilakukan">{{ $buktiPerbaikanPenutupKerusakan }}</div>
-                    <div class="stat-label">Jumlah Perbaikan Dari Semua Kerusakan</div>
-                </div>
-            </div> -->
-
-            <div class="stat-card">
-                <div class="stat-header">
-                    <div class="stat-icon" style="background-color: rgba(255, 193, 7, 0.2); color: #ffc107;">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3 class="stat-title">Ratio Perbaikan</h3>
-                </div>
-                <div class="stat-content">
-                    <div class="stat-value" id="stat-ratio-perbaikan">{{ number_format(($buktiPerbaikanPenutupKerusakan / max($totalKerusakan, 1)) * 100, 2) }}%</div>
-                    <div class="stat-label">Persentase perbaikan terhadap kerusakan</div>
                 </div>
             </div>
 
             <div class="stat-card">
                 <div class="stat-header">
-                    <div class="stat-icon" style="background-color: rgba(111, 66, 193, 0.2); color: #6f42c1;">
+                    <div class="stat-icon" style="background-color: rgba(0,123,255,0.1); color: #007bff;">
                         <i class="fas fa-star"></i>
                     </div>
-                    <h3 class="stat-title">Rata-rata Rating Tamu VVIP</h3>
+                    <h3 class="stat-title">Indeks Rating Pelayanan (%)</h3>
                 </div>
                 <div class="stat-content">
-                    <div class="stat-value" id="stat-rating-pelayanan">{{ number_format($indeksRatingPelayananRataRata, 1) }}%</div>
-                    <div class="stat-label">Rata-rata penilaian tamu</div>
-                </div>
-            </div>
-
-
-            <div class="stat-card">
-                <div class="stat-header">
-                    <div class="stat-icon" style="background-color: rgba(40, 167, 69, 0.2); color: #28a745;">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <h3 class="stat-title">Jumlah Staff Pelaksana</h3>
-                </div>
-                <div class="stat-content">
-                    <div class="stat-value" id="stat-staff-pelaksana">{{ $jumlahStaffPelaksana }}</div>
-                    <div class="stat-label">Total staff yang aktif</div>
+                    <div class="stat-value" id="stat-rating-pelayanan">{{ $indeksRatingPelayananRataRata }}%</div>
                 </div>
             </div>
         </div>
@@ -379,8 +593,30 @@
                     <h3 class="chart-title">Distribusi Feedback Pelayanan</h3>
                     <div class="chart-filter">
                         <label for="feedback-year-filter">Tahun:</label>
-                        <select id="feedback-year-filter" class="chart-year-filter">
-                            <!-- Opsi tahun akan diisi secara dinamis oleh JavaScript -->
+                        <select id="feedback-year-filter" class="chart-year-filter"></select>
+                        <label for="feedback-month-filter">Bulan:</label>
+                        <select id="feedback-month-filter" class="chart-month-filter">
+                            <option value="all">Semua Bulan</option>
+                            <option value="1">Januari</option>
+                            <option value="2">Februari</option>
+                            <option value="3">Maret</option>
+                            <option value="4">April</option>
+                            <option value="5">Mei</option>
+                            <option value="6">Juni</option>
+                            <option value="7">Juli</option>
+                            <option value="8">Agustus</option>
+                            <option value="9">September</option>
+                            <option value="10">Oktober</option>
+                            <option value="11">November</option>
+                            <option value="12">Desember</option>
+                        </select>
+                        <label for="feedback-week-filter">Minggu:</label>
+                        <select id="feedback-week-filter" class="chart-week-filter">
+                            <option value="all">Semua Minggu</option>
+                            <option value="1">Minggu 1</option>
+                            <option value="2">Minggu 2</option>
+                            <option value="3">Minggu 3</option>
+                            <option value="4">Minggu 4</option>
                         </select>
                     </div>
                 </div>
@@ -394,8 +630,30 @@
                     <h3 class="chart-title">Status Perbaikan Kerusakan</h3>
                     <div class="chart-filter">
                         <label for="repair-year-filter">Tahun:</label>
-                        <select id="repair-year-filter" class="chart-year-filter">
-                            <!-- Opsi tahun akan diisi secara dinamis oleh JavaScript -->
+                        <select id="repair-year-filter" class="chart-year-filter"></select>
+                        <label for="repair-month-filter">Bulan:</label>
+                        <select id="repair-month-filter" class="chart-month-filter">
+                            <option value="all">Semua Bulan</option>
+                            <option value="1">Januari</option>
+                            <option value="2">Februari</option>
+                            <option value="3">Maret</option>
+                            <option value="4">April</option>
+                            <option value="5">Mei</option>
+                            <option value="6">Juni</option>
+                            <option value="7">Juli</option>
+                            <option value="8">Agustus</option>
+                            <option value="9">September</option>
+                            <option value="10">Oktober</option>
+                            <option value="11">November</option>
+                            <option value="12">Desember</option>
+                        </select>
+                        <label for="repair-week-filter">Minggu:</label>
+                        <select id="repair-week-filter" class="chart-week-filter">
+                            <option value="all">Semua Minggu</option>
+                            <option value="1">Minggu 1</option>
+                            <option value="2">Minggu 2</option>
+                            <option value="3">Minggu 3</option>
+                            <option value="4">Minggu 4</option>
                         </select>
                     </div>
                 </div>
@@ -403,14 +661,36 @@
                     <canvas id="repairStatusChart"></canvas>
                 </div>
             </div>
-            
+
             <div class="chart-card">
                 <div class="chart-header">
                     <h3 class="chart-title">Distribusi Tipe Kerusakan</h3>
                     <div class="chart-filter">
                         <label for="damage-year-filter">Tahun:</label>
-                        <select id="damage-year-filter" class="chart-year-filter">
-                            <!-- Opsi tahun akan diisi secara dinamis oleh JavaScript -->
+                        <select id="damage-year-filter" class="chart-year-filter"></select>
+                        <label for="damage-month-filter">Bulan:</label>
+                        <select id="damage-month-filter" class="chart-month-filter">
+                            <option value="all">Semua Bulan</option>
+                            <option value="1">Januari</option>
+                            <option value="2">Februari</option>
+                            <option value="3">Maret</option>
+                            <option value="4">April</option>
+                            <option value="5">Mei</option>
+                            <option value="6">Juni</option>
+                            <option value="7">Juli</option>
+                            <option value="8">Agustus</option>
+                            <option value="9">September</option>
+                            <option value="10">Oktober</option>
+                            <option value="11">November</option>
+                            <option value="12">Desember</option>
+                        </select>
+                        <label for="damage-week-filter">Minggu:</label>
+                        <select id="damage-week-filter" class="chart-week-filter">
+                            <option value="all">Semua Minggu</option>
+                            <option value="1">Minggu 1</option>
+                            <option value="2">Minggu 2</option>
+                            <option value="3">Minggu 3</option>
+                            <option value="4">Minggu 4</option>
                         </select>
                     </div>
                 </div>
@@ -424,26 +704,21 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{{ asset('js/components.js') }}"></script>
-<script src="{{ asset('js/dashboard.js') }}"></script>
-
-<script>
+</body>
+</html><script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Fungsi untuk menghasilkan opsi tahun
+    // Fungsi untuk menghasilkan opsi tahun (±4 tahun)
     function generateYearOptions(selectElement, selectedYear = null) {
         const currentYear = new Date().getFullYear();
-        
-        // Kosongkan opsi yang ada
         selectElement.innerHTML = '';
-        
-        // Tambahkan opsi untuk semua tahun
+
         const optionAll = document.createElement('option');
         optionAll.value = 'all';
         optionAll.textContent = 'Semua Tahun';
         optionAll.selected = selectedYear === null || selectedYear === 'all';
         selectElement.appendChild(optionAll);
-        
-        // Tambahkan opsi untuk 6 tahun ke belakang dan 6 tahun ke depan
-        for (let year = currentYear - 6; year <= currentYear + 6; year++) {
+
+        for (let year = currentYear - 4; year <= currentYear + 4; year++) {
             const option = document.createElement('option');
             option.value = year;
             option.textContent = year;
@@ -451,14 +726,14 @@ document.addEventListener('DOMContentLoaded', function() {
             selectElement.appendChild(option);
         }
     }
-    
-    // Panggil fungsi untuk menghasilkan opsi tahun untuk semua filter
+
+    // Generate untuk semua select tahun
     generateYearOptions(document.getElementById('year-filter'));
     generateYearOptions(document.getElementById('feedback-year-filter'));
     generateYearOptions(document.getElementById('repair-year-filter'));
     generateYearOptions(document.getElementById('damage-year-filter'));
 
-    // Data dari controller
+    // Data dari controller (initial)
     let feedbackData = {
         sangatBaik: {{ $hitungFeedbackSangatBaik }},
         baik: {{ $hitungFeedbackBaik }},
@@ -466,7 +741,6 @@ document.addEventListener('DOMContentLoaded', function() {
         tidakBaik: {{ $hitungFeedbackTidakBaik }}
     };
 
-    // Data tipe kerusakan dari controller
     let damageTypeData = {
         furniture: {{ $buktiKerusakanFurniture }},
         fireSystem: {{ $buktiKerusakanFireSystem }},
@@ -478,14 +752,12 @@ document.addEventListener('DOMContentLoaded', function() {
         sanitasi: {{ $buktiKerusakanSanitasi }}
     };
 
-    // Inisialisasi variabel chart
+    // Chart variables
     let feedbackPieChart;
     let repairStatusChart;
     let damageTypeChart;
 
-    // Fungsi untuk inisialisasi chart
     function initCharts() {
-        // Pie Chart untuk Feedback
         const feedbackPieCtx = document.getElementById('feedbackPieChart').getContext('2d');
         feedbackPieChart = new Chart(feedbackPieCtx, {
             type: 'pie',
@@ -517,16 +789,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: {
-                        position: 'right',
-                    },
+                    legend: { position: 'right' },
                     tooltip: {
                         callbacks: {
                             label: function(context) {
                                 const label = context.label || '';
                                 const value = context.raw || 0;
                                 const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                const percentage = Math.round((value / total) * 100);
+                                const percentage = total ? Math.round((value / total) * 100) : 0;
                                 return `${label}: ${value} (${percentage}%)`;
                             }
                         }
@@ -535,7 +805,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Doughnut Chart untuk Status Perbaikan
         const repairStatusCtx = document.getElementById('repairStatusChart').getContext('2d');
         repairStatusChart = new Chart(repairStatusCtx, {
             type: 'doughnut',
@@ -561,16 +830,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: {
-                        position: 'right',
-                    },
+                    legend: { position: 'right' },
                     tooltip: {
                         callbacks: {
                             label: function(context) {
                                 const label = context.label || '';
                                 const value = context.raw || 0;
                                 const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                const percentage = Math.round((value / total) * 100);
+                                const percentage = total ? Math.round((value / total) * 100) : 0;
                                 return `${label}: ${value} (${percentage}%)`;
                             }
                         }
@@ -579,20 +846,13 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Pie Chart untuk Tipe Kerusakan
         const damageTypeCtx = document.getElementById('damageTypeChart').getContext('2d');
         damageTypeChart = new Chart(damageTypeCtx, {
             type: 'pie',
             data: {
                 labels: [
-                    'Furniture', 
-                    'Fire System', 
-                    'Bangunan', 
-                    'Mekanikal Elektrikal', 
-                    'IT', 
-                    'Interior', 
-                    'Eksterior', 
-                    'Sanitasi'
+                    'Furniture', 'Fire System', 'Bangunan', 'Mekanikal Elektrikal',
+                    'IT', 'Interior', 'Eksterior', 'Sanitasi'
                 ],
                 datasets: [{
                     data: [
@@ -606,14 +866,14 @@ document.addEventListener('DOMContentLoaded', function() {
                         damageTypeData.sanitasi
                     ],
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.8)',    // Merah muda
-                        'rgba(54, 162, 235, 0.8)',    // Biru
-                        'rgba(255, 206, 86, 0.8)',    // Kuning
-                        'rgba(75, 192, 192, 0.8)',    // Hijau kebiruan
-                        'rgba(153, 102, 255, 0.8)',   // Ungu
-                        'rgba(255, 159, 64, 0.8)',    // Jingga
-                        'rgba(199, 199, 199, 0.8)',   // Abu-abu
-                        'rgba(83, 102, 255, 0.8)'     // Biru tua
+                        'rgba(255, 99, 132, 0.8)',
+                        'rgba(54, 162, 235, 0.8)',
+                        'rgba(255, 206, 86, 0.8)',
+                        'rgba(75, 192, 192, 0.8)',
+                        'rgba(153, 102, 255, 0.8)',
+                        'rgba(255, 159, 64, 0.8)',
+                        'rgba(199, 199, 199, 0.8)',
+                        'rgba(83, 102, 255, 0.8)'
                     ],
                     borderColor: [
                         'rgba(255, 99, 132, 1)',
@@ -632,16 +892,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: {
-                        position: 'right',
-                    },
+                    legend: { position: 'right' },
                     tooltip: {
                         callbacks: {
                             label: function(context) {
                                 const label = context.label || '';
                                 const value = context.raw || 0;
                                 const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                const percentage = Math.round((value / total) * 100);
+                                const percentage = total ? Math.round((value / total) * 100) : 0;
                                 return `${label}: ${value} (${percentage}%)`;
                             }
                         }
@@ -651,53 +909,50 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Inisialisasi chart pertama kali
     initCharts();
 
-    // Event listener untuk filter utama
-    document.getElementById('apply-filter').addEventListener('click', function() {
+    // helper: ambil nilai filter umum (year, month, week)
+    function getMainFilters() {
         const year = document.getElementById('year-filter').value;
-        
-        // Tampilkan loading state
-        const filterButton = document.getElementById('apply-filter');
+        const month = document.getElementById('month-filter').value;
+        const week = document.getElementById('week-filter').value;
+        return {
+            year: year === 'all' ? null : year,
+            month: month === 'all' ? null : month,
+            week: week === 'all' ? null : week
+        };
+    }
+
+    // klik tombol apply utama -> update semua statistik dan charts
+    document.getElementById('apply-filter').addEventListener('click', function() {
+        const filters = getMainFilters();
+        const filterButton = this;
         filterButton.classList.add('loading');
-        
-        // Kirim permintaan AJAX untuk mengambil data terfilter
+
         fetch('/dashboard/filter', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
             },
-            body: JSON.stringify({
-                year: year === 'all' ? null : year,
-                month: null
-            })
+            body: JSON.stringify(filters)
         })
         .then(response => response.json())
         .then(data => {
-            // Perbarui statistik
+            // update stat values
             document.getElementById('stat-jumlah-inspeksi').textContent = data.jumlahInspeksi;
             document.getElementById('stat-belum-diperbaiki').textContent = data.buktiKerusakanYangBelumDiperbaiki;
             document.getElementById('stat-perbaikan-dilakukan').textContent = data.buktiPerbaikanPenutupKerusakan;
             document.getElementById('stat-total-kerusakan').textContent = data.totalKerusakan;
-            
-            // Hitung dan perbarui ratio perbaikan
-            const ratio = (data.buktiPerbaikanPenutupKerusakan / Math.max(data.totalKerusakan, 1)) * 100;
-            document.getElementById('stat-ratio-perbaikan').textContent = ratio.toFixed(2) + '%';
-            
-            // Perbarui rating pelayanan
-            document.getElementById('stat-rating-pelayanan').textContent = data.indeksRatingPelayananRataRata.toFixed(1) + '%';
-            
-            // Perbarui data feedback
+            document.getElementById('stat-rating-pelayanan').textContent = (data.indeksRatingPelayananRataRata || 0).toFixed(2) + '%';
+
+            // update feedback data & chart
             feedbackData = {
                 sangatBaik: data.hitungFeedbackSangatBaik,
                 baik: data.hitungFeedbackBaik,
                 kurangBaik: data.hitungFeedbackKurangBaik,
                 tidakBaik: data.hitungFeedbackTidakBaik
             };
-            
-            // Perbarui semua chart
             feedbackPieChart.data.datasets[0].data = [
                 feedbackData.sangatBaik,
                 feedbackData.baik,
@@ -705,65 +960,119 @@ document.addEventListener('DOMContentLoaded', function() {
                 feedbackData.tidakBaik
             ];
             feedbackPieChart.update();
-            
+
+            // update repair chart
             repairStatusChart.data.datasets[0].data = [
                 data.buktiPerbaikanPenutupKerusakan,
                 data.buktiKerusakanYangBelumDiperbaiki
             ];
             repairStatusChart.update();
-            
-            // Perbarui URL dengan parameter filter
+
+            // update URL main params
             const url = new URL(window.location);
-            if (year === 'all') {
-                url.searchParams.delete('year');
-            } else {
-                url.searchParams.set('year', year);
-            }
+            if (!filters.year) url.searchParams.delete('year'); else url.searchParams.set('year', filters.year);
+            if (!filters.month) url.searchParams.delete('month'); else url.searchParams.set('month', filters.month);
+            if (!filters.week) url.searchParams.delete('week'); else url.searchParams.set('week', filters.week);
             window.history.pushState({}, '', url);
         })
-        .catch(error => {
-            console.error('Error:', error);
+        .catch(err => {
+            console.error(err);
             alert('Terjadi kesalahan saat memfilter data.');
         })
         .finally(() => {
-            // Hilangkan loading state
             filterButton.classList.remove('loading');
         });
     });
 
-    // Event listener untuk filter chart individu
-    document.getElementById('feedback-year-filter').addEventListener('change', function() {
-        const year = this.value;
-        filterChartData('feedback', year);
-    });
+    // chart filters -> memanggil filterChartData
+    function addChartFilterListeners(prefix, chartType) {
+        document.getElementById(prefix + '-year-filter').addEventListener('change', function() {
+            const year = this.value;
+            const month = document.getElementById(prefix + '-month-filter').value;
+            const week = document.getElementById(prefix + '-week-filter').value;
+            filterChartData(chartType, year || 'all', month || 'all', week || 'all');
+        });
+        document.getElementById(prefix + '-month-filter').addEventListener('change', function() {
+            const year = document.getElementById(prefix + '-year-filter').value;
+            const month = this.value;
+            const week = document.getElementById(prefix + '-week-filter').value;
+            filterChartData(chartType, year || 'all', month || 'all', week || 'all');
+        });
+        document.getElementById(prefix + '-week-filter').addEventListener('change', function() {
+            const year = document.getElementById(prefix + '-year-filter').value;
+            const month = document.getElementById(prefix + '-month-filter').value;
+            const week = this.value;
+            filterChartData(chartType, year || 'all', month || 'all', week || 'all');
+        });
+    }
 
-    document.getElementById('repair-year-filter').addEventListener('change', function() {
-        const year = this.value;
-        filterChartData('repair', year);
-    });
+    addChartFilterListeners('feedback', 'feedback');
+    addChartFilterListeners('repair', 'repair');
+    addChartFilterListeners('damage', 'damage');
 
-    document.getElementById('damage-year-filter').addEventListener('change', function() {
-        const year = this.value;
-        filterChartData('damage', year);
-    });
+    function filterChartData(chartType, year, month, week) {
+        // Jika chartType = 'damage' gunakan endpoint khusus untuk tipe kerusakan
+        const payload = {
+            year: year === 'all' ? null : year,
+            month: month === 'all' ? null : month,
+            week: week === 'all' ? null : week
+        };
 
-    // Fungsi untuk memfilter data berdasarkan tahun untuk chart tertentu
-    function filterChartData(chartType, year) {
-        // Kirim permintaan AJAX untuk mengambil data terfilter
+        if (chartType === 'damage') {
+            fetch('/dashboard/filter-damage-type', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(r => r.json())
+            .then(damageDataResp => {
+                const newDamage = {
+                    furniture: damageDataResp.buktiKerusakanFurniture,
+                    fireSystem: damageDataResp.buktiKerusakanFireSystem,
+                    bangunan: damageDataResp.buktiKerusakanBangunan,
+                    mekanikalElektrikal: damageDataResp.buktiKerusakanMekanikalElektrikal,
+                    it: damageDataResp.buktiKerusakanIT,
+                    interior: damageDataResp.buktiKerusakanInterior,
+                    eksterior: damageDataResp.buktiKerusakanEksterior,
+                    sanitasi: damageDataResp.buktiKerusakanSanitasi
+                };
+                damageTypeChart.data.datasets[0].data = [
+                    newDamage.furniture,
+                    newDamage.fireSystem,
+                    newDamage.bangunan,
+                    newDamage.mekanikalElektrikal,
+                    newDamage.it,
+                    newDamage.interior,
+                    newDamage.eksterior,
+                    newDamage.sanitasi
+                ];
+                damageTypeChart.update();
+
+                // update URL params for this chart
+                const url = new URL(window.location);
+                if (year === 'all' || !year) url.searchParams.delete('damageYear'); else url.searchParams.set('damageYear', year);
+                if (month === 'all' || !month) url.searchParams.delete('damageMonth'); else url.searchParams.set('damageMonth', month);
+                if (week === 'all' || !week) url.searchParams.delete('damageWeek'); else url.searchParams.set('damageWeek', week);
+                window.history.replaceState({}, '', url);
+            })
+            .catch(err => { console.error(err); alert('Terjadi kesalahan pada filter tipe kerusakan.'); });
+            return;
+        }
+
+        // Umum untuk feedback dan repair: panggil endpoint umum
         fetch('/dashboard/filter', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
             },
-            body: JSON.stringify({
-                year: year === 'all' ? null : year,
-                month: null
-            })
+            body: JSON.stringify(payload)
         })
-        .then(response => response.json())
+        .then(r => r.json())
         .then(data => {
-            // Perbarui data chart berdasarkan tipe
             if (chartType === 'feedback') {
                 feedbackData = {
                     sangatBaik: data.hitungFeedbackSangatBaik,
@@ -771,8 +1080,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     kurangBaik: data.hitungFeedbackKurangBaik,
                     tidakBaik: data.hitungFeedbackTidakBaik
                 };
-                
-                // Perbarui chart feedback
                 feedbackPieChart.data.datasets[0].data = [
                     feedbackData.sangatBaik,
                     feedbackData.baik,
@@ -780,105 +1087,72 @@ document.addEventListener('DOMContentLoaded', function() {
                     feedbackData.tidakBaik
                 ];
                 feedbackPieChart.update();
-            } 
-            else if (chartType === 'repair') {
-                // Perbarui chart status perbaikan
+
+                const url = new URL(window.location);
+                if (year === 'all' || !year) url.searchParams.delete('feedbackYear'); else url.searchParams.set('feedbackYear', year);
+                if (month === 'all' || !month) url.searchParams.delete('feedbackMonth'); else url.searchParams.set('feedbackMonth', month);
+                if (week === 'all' || !week) url.searchParams.delete('feedbackWeek'); else url.searchParams.set('feedbackWeek', week);
+                window.history.replaceState({}, '', url);
+            } else if (chartType === 'repair') {
                 repairStatusChart.data.datasets[0].data = [
                     data.buktiPerbaikanPenutupKerusakan,
                     data.buktiKerusakanYangBelumDiperbaiki
                 ];
                 repairStatusChart.update();
+
+                const url = new URL(window.location);
+                if (year === 'all' || !year) url.searchParams.delete('repairYear'); else url.searchParams.set('repairYear', year);
+                if (month === 'all' || !month) url.searchParams.delete('repairMonth'); else url.searchParams.set('repairMonth', month);
+                if (week === 'all' || !week) url.searchParams.delete('repairWeek'); else url.searchParams.set('repairWeek', week);
+                window.history.replaceState({}, '', url);
             }
-            else if (chartType === 'damage') {
-                // Untuk chart tipe kerusakan, kita perlu memanggil endpoint khusus
-                // karena data ini tidak termasuk dalam response filter biasa
-                fetch('/dashboard/filter-damage-type', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({
-                        year: year === 'all' ? null : year
-                    })
-                })
-                .then(response => response.json())
-                .then(damageData => {
-                    damageTypeData = {
-                        furniture: damageData.buktiKerusakanFurniture,
-                        fireSystem: damageData.buktiKerusakanFireSystem,
-                        bangunan: damageData.buktiKerusakanBangunan,
-                        mekanikalElektrikal: damageData.buktiKerusakanMekanikalElektrikal,
-                        it: damageData.buktiKerusakanIT,
-                        interior: damageData.buktiKerusakanInterior,
-                        eksterior: damageData.buktiKerusakanEksterior,
-                        sanitasi: damageData.buktiKerusakanSanitasi
-                    };
-                    
-                    // Perbarui chart tipe kerusakan
-                    damageTypeChart.data.datasets[0].data = [
-                        damageTypeData.furniture,
-                        damageTypeData.fireSystem,
-                        damageTypeData.bangunan,
-                        damageTypeData.mekanikalElektrikal,
-                        damageTypeData.it,
-                        damageTypeData.interior,
-                        damageTypeData.eksterior,
-                        damageTypeData.sanitasi
-                    ];
-                    damageTypeChart.update();
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Terjadi kesalahan saat memfilter data tipe kerusakan.');
-                });
-            }
-            
-            // Perbarui URL dengan parameter filter
-            const url = new URL(window.location);
-            const paramName = `${chartType}Year`;
-            if (year === 'all') {
-                url.searchParams.delete(paramName);
-            } else {
-                url.searchParams.set(paramName, year);
-            }
-            window.history.replaceState({}, '', url);
         })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Terjadi kesalahan saat memfilter data.');
-        });
+        .catch(err => { console.error(err); alert('Terjadi kesalahan saat memfilter data.'); });
     }
 
     // Baca parameter filter dari URL saat halaman dimuat
     const urlParams = new URLSearchParams(window.location.search);
     const yearParam = urlParams.get('year');
+    const monthParam = urlParams.get('month');
+    const weekParam = urlParams.get('week');
     const feedbackYearParam = urlParams.get('feedbackYear');
+    const feedbackMonthParam = urlParams.get('feedbackMonth');
+    const feedbackWeekParam = urlParams.get('feedbackWeek');
     const repairYearParam = urlParams.get('repairYear');
+    const repairMonthParam = urlParams.get('repairMonth');
+    const repairWeekParam = urlParams.get('repairWeek');
     const damageYearParam = urlParams.get('damageYear');
-    
-    if (yearParam) {
-        document.getElementById('year-filter').value = yearParam;
-    }
-    
-    if (feedbackYearParam) {
-        document.getElementById('feedback-year-filter').value = feedbackYearParam;
-        filterChartData('feedback', feedbackYearParam);
-    }
-    
-    if (repairYearParam) {
-        document.getElementById('repair-year-filter').value = repairYearParam;
-        filterChartData('repair', repairYearParam);
-    }
-    
-    if (damageYearParam) {
-        document.getElementById('damage-year-filter').value = damageYearParam;
-        filterChartData('damage', damageYearParam);
-    }
-    
-    // Terapkan filter otomatis jika parameter tahun utama ada
-    if (yearParam) {
+    const damageMonthParam = urlParams.get('damageMonth');
+    const damageWeekParam = urlParams.get('damageWeek');
+
+    if (yearParam) document.getElementById('year-filter').value = yearParam;
+    if (monthParam) document.getElementById('month-filter').value = monthParam;
+    if (weekParam) document.getElementById('week-filter').value = weekParam;
+
+    if (feedbackYearParam) document.getElementById('feedback-year-filter').value = feedbackYearParam;
+    if (feedbackMonthParam) document.getElementById('feedback-month-filter').value = feedbackMonthParam;
+    if (feedbackWeekParam) document.getElementById('feedback-week-filter').value = feedbackWeekParam;
+
+    if (repairYearParam) document.getElementById('repair-year-filter').value = repairYearParam;
+    if (repairMonthParam) document.getElementById('repair-month-filter').value = repairMonthParam;
+    if (repairWeekParam) document.getElementById('repair-week-filter').value = repairWeekParam;
+
+    if (damageYearParam) document.getElementById('damage-year-filter').value = damageYearParam;
+    if (damageMonthParam) document.getElementById('damage-month-filter').value = damageMonthParam;
+    if (damageWeekParam) document.getElementById('damage-week-filter').value = damageWeekParam;
+
+    // Terapkan filter jika ada param di URL
+    if (yearParam || monthParam || weekParam) {
         document.getElementById('apply-filter').click();
+    }
+    if (feedbackYearParam || feedbackMonthParam || feedbackWeekParam) {
+        filterChartData('feedback', feedbackYearParam || 'all', feedbackMonthParam || 'all', feedbackWeekParam || 'all');
+    }
+    if (repairYearParam || repairMonthParam || repairWeekParam) {
+        filterChartData('repair', repairYearParam || 'all', repairMonthParam || 'all', repairWeekParam || 'all');
+    }
+    if (damageYearParam || damageMonthParam || damageWeekParam) {
+        filterChartData('damage', damageYearParam || 'all', damageMonthParam || 'all', damageWeekParam || 'all');
     }
 });
 </script>

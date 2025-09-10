@@ -21,8 +21,9 @@ Route::post('/proses-login', [AuthController::class, 'login'])->name('proses-log
 Route::middleware(['auth'])->group(function () {
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
         Route::get('dashboard', [AuthController::class, 'dashboard'])->name('dashboard');   
-        Route::post('/dashboard/filter', [AuthController::class, 'filterDashboard'])->name('dashboard.filter');
-        Route::post('/dashboard/filter-damage-type', [AuthController::class, 'filterDamageType'])->name('dashboard.filter.damage-type');
+// web.php
+        Route::post('dashboard/filter', [AuthController::class, 'filterDashboard'])->name('dashboard.filter');
+        Route::post('dashboard/filter-damage-type', [AuthController::class, 'filterDamageType'])->name('dashboard.filter.damage');
 
         Route::get('/halaman-laporan-pribadi', [BuktiKerusakanController::class, 'halamanLaporanPribadi'])->name('laporan.pribadi');
         Route::post('/upload-bukti-kerusakan-pribadi', [BuktiKerusakanController::class, 'uploadBuktiKerusakanPribadi'])->name('bukti-kerusakan-pribadi.store');

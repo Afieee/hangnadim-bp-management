@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Feedback;
 use Illuminate\Http\Request;
 use App\Models\BuktiKerusakan;
-use App\Models\Feedback;
 use App\Models\InspeksiGedung;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -28,7 +29,7 @@ class AuthController extends Controller
             'name'     => 'required|string|max:255',
             'email'    => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
-            'role' => 'required|in:Kepala Seksi,Staff Pelaksana,Direktur,Kepala Bidang,Deputi', 'Tata Usaha',
+            'role' => 'required|in:Admin,Kepala Seksi,Staff Pelaksana,Direktur,Kepala Bidang,Deputi,Tata Usaha',
         ]);
 
         User::create([
@@ -154,137 +155,170 @@ class AuthController extends Controller
 
 
 
-// AuthController.php
+    protected function buildDateRange($year, $month, $week)
+    {
+        if (!$year && !$month && !$week) {
+            return [null, null];
+        }
 
-public function filterDamageType(Request $request)
-{
-    $year = $request->input('year');
-    
-    // Query untuk BuktiKerusakan dengan filter created_at
-    $buktiKerusakanQuery = BuktiKerusakan::query();
-    if ($year) {
-        $buktiKerusakanQuery->whereYear('created_at', $year);
+        // jika year kosong tapi month ada -> jangan terima. Namun client hanya mengirim month jika year ada. 
+        // Kita tetap handle month tanpa year: gunakan currentYear.
+        if ($month && !$year) $year = Carbon::now()->year;
+
+        if ($year && !$month) {
+            // filter seluruh tahun
+            $start = Carbon::create($year, 1, 1)->startOfDay();
+            $end = Carbon::create($year, 12, 31)->endOfDay();
+            return [$start, $end];
+        }
+
+        // sekarang year & month ada (atau hanya month but we set year)
+        $month = (int)$month;
+        $year = (int)$year;
+
+        // minggu 1 => 1-7, 2 => 8-14, 3 => 15-21, 4 => 22 - end of month
+        if (!$week) {
+            $start = Carbon::create($year, $month, 1)->startOfDay();
+            $end = Carbon::create($year, $month, Carbon::create($year, $month, 1)->daysInMonth)->endOfDay();
+            return [$start, $end];
+        }
+
+        $week = (int)$week;
+        if ($week === 1) {
+            $start = Carbon::create($year, $month, 1)->startOfDay();
+            $end = Carbon::create($year, $month, 7)->endOfDay();
+        } elseif ($week === 2) {
+            $start = Carbon::create($year, $month, 8)->startOfDay();
+            $end = Carbon::create($year, $month, 14)->endOfDay();
+        } elseif ($week === 3) {
+            $start = Carbon::create($year, $month, 15)->startOfDay();
+            $end = Carbon::create($year, $month, 21)->endOfDay();
+        } else { // week 4
+            $start = Carbon::create($year, $month, 22)->startOfDay();
+            $end = Carbon::create($year, $month, Carbon::create($year, $month, 1)->daysInMonth)->endOfDay();
+        }
+
+        return [$start, $end];
     }
-    
-    $buktiKerusakanFurniture = (clone $buktiKerusakanQuery)->where('tipe_kerusakan', 'Furniture')->count();
-    $buktiKerusakanFireSystem = (clone $buktiKerusakanQuery)->where('tipe_kerusakan', 'Fire System')->count();
-    $buktiKerusakanBangunan = (clone $buktiKerusakanQuery)->where('tipe_kerusakan', 'Bangunan')->count();
-    $buktiKerusakanMekanikalElektrikal = (clone $buktiKerusakanQuery)->where('tipe_kerusakan', 'Mekanikal Elektrikal')->count();
-    $buktiKerusakanIT = (clone $buktiKerusakanQuery)->where('tipe_kerusakan', 'IT')->count();
-    $buktiKerusakanInterior = (clone $buktiKerusakanQuery)->where('tipe_kerusakan', 'Interior')->count();
-    $buktiKerusakanEksterior = (clone $buktiKerusakanQuery)->where('tipe_kerusakan', 'Eksterior')->count();
-    $buktiKerusakanSanitasi = (clone $buktiKerusakanQuery)->where('tipe_kerusakan', 'Sanitasi')->count();
 
-    return response()->json([
-        'buktiKerusakanFurniture' => $buktiKerusakanFurniture,
-        'buktiKerusakanFireSystem' => $buktiKerusakanFireSystem,
-        'buktiKerusakanBangunan' => $buktiKerusakanBangunan,
-        'buktiKerusakanMekanikalElektrikal' => $buktiKerusakanMekanikalElektrikal,
-        'buktiKerusakanIT' => $buktiKerusakanIT,
-        'buktiKerusakanInterior' => $buktiKerusakanInterior,
-        'buktiKerusakanEksterior' => $buktiKerusakanEksterior,
-        'buktiKerusakanSanitasi' => $buktiKerusakanSanitasi,
-    ]);
-}
+    // endpoint POST untuk filter umum -> mengembalikan json untuk statistik + feedback + repair
+    public function filterDashboard(Request $request)
+    {
+        $year = $request->input('year');
+        $month = $request->input('month');
+        $week = $request->input('week');
 
+        [$startDate, $endDate] = $this->buildDateRange($year, $month, $week);
 
+        // helper closure to apply created_at range if present
+        $applyDateRange = function($query, $dateField = 'created_at') use ($startDate, $endDate) {
+            if ($startDate && $endDate) {
+                $query->whereBetween($dateField, [$startDate, $endDate]);
+            }
+            return $query;
+        };
 
+        // Feedback counts
+        $feedbackQuery = Feedback::query();
+        if ($startDate && $endDate) $feedbackQuery->whereBetween('created_at', [$startDate, $endDate]);
+        $hitungFeedbackSangatBaik = (clone $feedbackQuery)->where('predikat_rating_pelayanan', 'Sangat Baik')->count();
+        $hitungFeedbackBaik = (clone $feedbackQuery)->where('predikat_rating_pelayanan', 'Baik')->count();
+        $hitungFeedbackKurangBaik = (clone $feedbackQuery)->where('predikat_rating_pelayanan', 'Kurang Baik')->count();
+        $hitungFeedbackTidakBaik = (clone $feedbackQuery)->where('predikat_rating_pelayanan', 'Tidak Baik')->count();
+        $indeksRatingPelayananRataRata = $feedbackQuery->avg('indeks_rating_pelayanan');
+        $indeksRatingPelayananRataRata = $indeksRatingPelayananRataRata ? round($indeksRatingPelayananRataRata, 2) : 0;
 
+        // Bukti kerusakan counts (apply date on bukti_kerusakan.created_at)
+        $buktiKerusakanQuery = BuktiKerusakan::query();
+        if ($startDate && $endDate) $buktiKerusakanQuery->whereBetween('created_at', [$startDate, $endDate]);
+        $totalKerusakan = $buktiKerusakanQuery->count();
 
+        // bukti perbaikan (distinct id_bukti_kerusakan) - gunakan tanggal pada bukti_perbaikan jika filtering
+        $buktiPerbaikanQuery = DB::table('bukti_kerusakan')
+            ->join('bukti_perbaikan', 'bukti_kerusakan.id', '=', 'bukti_perbaikan.id_bukti_kerusakan');
 
+        if ($startDate && $endDate) {
+            // kita apply filter ke bukti_perbaikan.created_at OR bukti_kerusakan.created_at (pilih policy)
+            // di sini kita filter berdasarkan bukti_perbaikan.created_at supaya "perbaikan yang dilakukan di rentang ini"
+            $buktiPerbaikanQuery->whereBetween('bukti_perbaikan.created_at', [$startDate, $endDate]);
+        }
 
+        $buktiPerbaikanPenutupKerusakan = $buktiPerbaikanQuery
+            ->select(DB::raw('DISTINCT bukti_perbaikan.id_bukti_kerusakan'))
+            ->get()->count();
 
+        // bukti kerusakan yang belum diperbaiki: bukti_kerusakan tanpa relasi buktiPerbaikan.
+        $buktiKerusakanYangBelumDiperbaikiQuery = BuktiKerusakan::doesntHave('buktiPerbaikan');
+        if ($startDate && $endDate) $buktiKerusakanYangBelumDiperbaikiQuery->whereBetween('created_at', [$startDate, $endDate]);
+        $buktiKerusakanYangBelumDiperbaiki = $buktiKerusakanYangBelumDiperbaikiQuery->count();
 
+        // jumlah inspeksi (filter created_at jika ada)
+        $inspeksiQuery = InspeksiGedung::where('status_keseluruhan_inspeksi', 'Terbuka');
+        if ($startDate && $endDate) $inspeksiQuery->whereBetween('created_at', [$startDate, $endDate]);
+        $jumlahInspeksi = $inspeksiQuery->count();
 
+        // jumlah staff pelaksana (tidak terfilter per tanggal, tetap global)
+        $jumlahStaffPelaksana = User::where('role', 'Staff Pelaksana')->count();
 
-
-
-
-
-public function filterDashboard(Request $request)
-{
-    $year = $request->input('year');
-    $month = $request->input('month');
-    
-    // Query untuk Feedback dengan filter created_at
-    $feedbackQuery = Feedback::query();
-    if ($year) {
-        $feedbackQuery->whereYear('created_at', $year);
+        return response()->json([
+            'hitungFeedbackSangatBaik' => $hitungFeedbackSangatBaik,
+            'hitungFeedbackBaik' => $hitungFeedbackBaik,
+            'hitungFeedbackKurangBaik' => $hitungFeedbackKurangBaik,
+            'hitungFeedbackTidakBaik' => $hitungFeedbackTidakBaik,
+            'indeksRatingPelayananRataRata' => $indeksRatingPelayananRataRata,
+            'totalKerusakan' => $totalKerusakan,
+            'buktiPerbaikanPenutupKerusakan' => $buktiPerbaikanPenutupKerusakan,
+            'buktiKerusakanYangBelumDiperbaiki' => $buktiKerusakanYangBelumDiperbaiki,
+            'jumlahInspeksi' => $jumlahInspeksi,
+            'jumlahStaffPelaksana' => $jumlahStaffPelaksana,
+        ]);
     }
-    if ($month && $month !== 'all') {
-        $feedbackQuery->whereMonth('created_at', $month);
-    }
-    
-    $hitungFeedbackSangatBaik = (clone $feedbackQuery)->where('predikat_rating_pelayanan', 'Sangat Baik')->count();
-    $hitungFeedbackBaik = (clone $feedbackQuery)->where('predikat_rating_pelayanan', 'Baik')->count();
-    $hitungFeedbackKurangBaik = (clone $feedbackQuery)->where('predikat_rating_pelayanan', 'Kurang Baik')->count();
-    $hitungFeedbackTidakBaik = (clone $feedbackQuery)->where('predikat_rating_pelayanan', 'Tidak Baik')->count();
-    $indeksRatingPelayananRataRata = round((clone $feedbackQuery)->avg('indeks_rating_pelayanan'), 2);
 
-    // Query untuk BuktiKerusakan dengan filter created_at
-    $buktiKerusakanQuery = BuktiKerusakan::query();
-    if ($year) {
-        $buktiKerusakanQuery->whereYear('created_at', $year);
-    }
-    if ($month && $month !== 'all') {
-        $buktiKerusakanQuery->whereMonth('created_at', $month);
-    }
-    
-    $totalKerusakan = $buktiKerusakanQuery->count();
+    // endpoint POST khusus tipe kerusakan (return counts per tipe)
+    public function filterDamageType(Request $request)
+    {
+        $year = $request->input('year');
+        $month = $request->input('month');
+        $week = $request->input('week');
 
-    // Query untuk BuktiPerbaikan dengan filter created_at
-    $buktiPerbaikanQuery = DB::table('bukti_kerusakan')
-        ->select(
-            DB::raw('DISTINCT bukti_perbaikan.id_bukti_kerusakan'),
-            'bukti_kerusakan.judul_bukti_kerusakan',
-            'bukti_kerusakan.id'
-        )
-        ->from('bukti_kerusakan')
-        ->join('bukti_perbaikan', 'bukti_kerusakan.id', '=', 'bukti_perbaikan.id_bukti_kerusakan');
-    
-    if ($year) {
-        $buktiPerbaikanQuery->whereYear('bukti_kerusakan.created_at', $year);
-    }
-    if ($month && $month !== 'all') {
-        $buktiPerbaikanQuery->whereMonth('bukti_kerusakan.created_at', $month);
-    }
-    
-    $buktiPerbaikanPenutupKerusakan = $buktiPerbaikanQuery->count();
+        [$startDate, $endDate] = $this->buildDateRange($year, $month, $week);
 
-    // Query untuk BuktiKerusakan yang belum diperbaiki dengan filter created_at
-    $buktiKerusakanBelumDiperbaikiQuery = BuktiKerusakan::whereDoesntHave('buktiPerbaikan');
-    if ($year) {
-        $buktiKerusakanBelumDiperbaikiQuery->whereYear('created_at', $year);
-    }
-    if ($month && $month !== 'all') {
-        $buktiKerusakanBelumDiperbaikiQuery->whereMonth('created_at', $month);
-    }
-    
-    $buktiKerusakanYangBelumDiperbaiki = $buktiKerusakanBelumDiperbaikiQuery->count();
+        $applyRange = function($query) use ($startDate, $endDate) {
+            if ($startDate && $endDate) $query->whereBetween('created_at', [$startDate, $endDate]);
+            return $query;
+        };
 
-    // Query untuk InspeksiGedung dengan filter created_at
-    $inspeksiQuery = InspeksiGedung::where('status_keseluruhan_inspeksi', 'Terbuka');
-    if ($year) {
-        $inspeksiQuery->whereYear('created_at', $year);
-    }
-    if ($month && $month !== 'all') {
-        $inspeksiQuery->whereMonth('created_at', $month);
-    }
-    
-    $jumlahInspeksi = $inspeksiQuery->count();
+        $buktiKerusakanFurniture = $applyRange(BuktiKerusakan::where('tipe_kerusakan', 'Furniture'))->count();
+        $buktiKerusakanFireSystem = $applyRange(BuktiKerusakan::where('tipe_kerusakan', 'Fire System'))->count();
+        $buktiKerusakanBangunan = $applyRange(BuktiKerusakan::where('tipe_kerusakan', 'Bangunan'))->count();
+        $buktiKerusakanMekanikalElektrikal = $applyRange(BuktiKerusakan::where('tipe_kerusakan', 'Mekanikal Elektrikal'))->count();
+        $buktiKerusakanIT = $applyRange(BuktiKerusakan::where('tipe_kerusakan', 'IT'))->count();
+        $buktiKerusakanInterior = $applyRange(BuktiKerusakan::where('tipe_kerusakan', 'Interior'))->count();
+        $buktiKerusakanEksterior = $applyRange(BuktiKerusakan::where('tipe_kerusakan', 'Eksterior'))->count();
+        $buktiKerusakanSanitasi = $applyRange(BuktiKerusakan::where('tipe_kerusakan', 'Sanitasi'))->count();
 
-    return response()->json([
-        'buktiPerbaikanPenutupKerusakan' => $buktiPerbaikanPenutupKerusakan,
-        'buktiKerusakanYangBelumDiperbaiki' => $buktiKerusakanYangBelumDiperbaiki,
-        'jumlahInspeksi' => $jumlahInspeksi,
-        'totalKerusakan' => $totalKerusakan,
-        'indeksRatingPelayananRataRata' => $indeksRatingPelayananRataRata,
-        'hitungFeedbackSangatBaik' => $hitungFeedbackSangatBaik,
-        'hitungFeedbackBaik' => $hitungFeedbackBaik,
-        'hitungFeedbackKurangBaik' => $hitungFeedbackKurangBaik,
-        'hitungFeedbackTidakBaik' => $hitungFeedbackTidakBaik,
-    ]);
-}
+        return response()->json([
+            'buktiKerusakanFurniture' => $buktiKerusakanFurniture,
+            'buktiKerusakanFireSystem' => $buktiKerusakanFireSystem,
+            'buktiKerusakanBangunan' => $buktiKerusakanBangunan,
+            'buktiKerusakanMekanikalElektrikal' => $buktiKerusakanMekanikalElektrikal,
+            'buktiKerusakanIT' => $buktiKerusakanIT,
+            'buktiKerusakanInterior' => $buktiKerusakanInterior,
+            'buktiKerusakanEksterior' => $buktiKerusakanEksterior,
+            'buktiKerusakanSanitasi' => $buktiKerusakanSanitasi,
+        ]);
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
