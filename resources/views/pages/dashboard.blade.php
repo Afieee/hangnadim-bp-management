@@ -209,7 +209,20 @@
 
 
 
-@elseif (Auth::user()->role == "Kepala Seksi")
+
+
+
+
+
+
+
+
+
+
+
+
+
+@elseif (in_array(Auth::user()->role, ['Direktur', 'Kepala Sub Direktorat','Kepala Seksi']))
 <!DOCTYPE html>
 <html lang="en">
 

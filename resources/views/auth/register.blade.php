@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="{{ asset('css/components.css') }}">
     <link rel="stylesheet" href="{{ asset('css/register.css') }}">
     <link rel="icon" href="{{ asset('/storage/images/logo_bp.png') }}" type="image/png">
-
 </head>
 
 
@@ -60,6 +59,14 @@
                                 <input type="text" name="name" id="name" placeholder="Masukkan nama lengkap" required>
                             </div>
                         </div>
+                        
+                        <div class="form-group">
+                            <label for="nip_atau_nup">NIP/NUP</label>
+                            <div class="input-with-icon">
+                                <i class="input-icon fas fa-id-card"></i>
+                                <input type="text" name="nip_atau_nup" id="nip_atau_nup" placeholder="Masukkan NIP/NUP Pengguna" required>
+                            </div>
+                        </div>
         
                         <div class="form-group">
                             <label for="email">Alamat Email</label>
@@ -68,7 +75,9 @@
                                 <input type="email" name="email" id="email" placeholder="contoh@email.com" required>
                             </div>
                         </div>
-        
+
+
+                        
                         <div class="form-group">
                             <label for="password">Kata Sandi</label>
                             <div class="input-with-icon">
@@ -97,11 +106,10 @@
                                 <select name="role" id="role" required>
                                     <option value="Kepala Seksi">Kepala Seksi</option>
                                     <option value="Staff Pelaksana">Staff Pelaksana</option>
-                                    <option value="Kepala Sub Direktorat ">Staff Pelaksana</option>
+                                    <option value="Kepala Sub Direktorat ">Kepala Sub Direktorat</option>
                                     <option value="Direktur">Direktur</option>
-                                    <option value="Kepala Bidang">Kepala Bidang</option>
                                     <option value="Deputi">Deputi</option>
-                                    <option value="Kedatangan Schedulers">Deputi</option>
+                                    <option value="Kedatangan Schedulers">Schdulers</option>
                                 </select>
                             </div>
                         </div>

@@ -34,9 +34,17 @@
                     <li><a href="/halaman-tindak-lanjut-laporan-pribadi"><i class="fas fa-exclamation-triangle"></i> Tindak Crash Condition</a></li>
 
                 @elseif (Auth::user()->role == "Kedatangan Scheduler")
+                    <li><a href="/dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
                     <li><a href="/manage-kedatangan"><i class="fas fa-plane-arrival"></i>  Manage Kedatangan</a></li>
                     <li><a href="/halaman-data-feedback"><i class="fas fa-history"></i> History Feedback Tamu</a></li>
+
+                @elseif (in_array(Auth::user()->role, ['Direktur', 'Kepala Sub Direktorat']))
+                    <li><a href="/dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="/manage-kedatangan"><i class="fas fa-plane-arrival"></i>  Manage Kedatangan</a></li>
+                    <li><a href="/halaman-data-feedback"><i class="fas fa-history"></i> History Feedback Tamu</a></li>
+
                 @endif
+
             </ul>
         </div>
 
