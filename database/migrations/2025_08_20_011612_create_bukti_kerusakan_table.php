@@ -26,7 +26,7 @@ return new class extends Migration
 
             $table->string('file_bukti_kerusakan')->nullable();
 
-            $table->enum('tipe_pelaporan',['Laporan Mingguan', 'Laporan Pribadi']);
+            $table->enum('tipe_pelaporan',['Laporan Rutin', 'Laporan Crash Condition']);
 
             // Kolom untuk menyimpan bukti kerusakan
             $table->foreignId('id_inspeksi_gedung')
