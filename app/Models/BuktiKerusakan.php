@@ -17,6 +17,7 @@ class BuktiKerusakan extends Model
         'tipe_kerusakan',
         'file_bukti_kerusakan',
         'id_inspeksi_gedung',
+        'tipe_pelaporan',
         'id_gedung',
         'id_user_inspektor',
     ];

@@ -43,7 +43,7 @@ public function uploadBuktiKerusakan(Request $request)
             'tipe_kerusakan' => $request->tipe_kerusakan,
             'file_bukti_kerusakan' => $filePath,
             'id_inspeksi_gedung' => $request->id_inspeksi_gedung,
-            'tipe_pelaporan'=> 'Laporan Mingguan' ,
+            'tipe_pelaporan'=> 'Laporan Rutin',
             'id_user_inspektor' => $userId,
         ]);
 
@@ -124,7 +124,7 @@ public function uploadBuktiKerusakanPribadi(Request $request)
             'file_bukti_kerusakan' => $filePath,
             'id_gedung' => $request->id_gedung,
             'id_user_inspektor' => $userId,
-            'tipe_pelaporan' => 'Laporan Pribadi',
+            'tipe_pelaporan' => 'Laporan Crash Condition',
             'id_inspeksi_gedung' => $request->id_inspeksi_gedung ?: null,
         ]);
 
