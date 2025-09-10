@@ -97,9 +97,11 @@
                                 <select name="role" id="role" required>
                                     <option value="Kepala Seksi">Kepala Seksi</option>
                                     <option value="Staff Pelaksana">Staff Pelaksana</option>
+                                    <option value="Kepala Sub Direktorat ">Staff Pelaksana</option>
                                     <option value="Direktur">Direktur</option>
                                     <option value="Kepala Bidang">Kepala Bidang</option>
                                     <option value="Deputi">Deputi</option>
+                                    <option value="Kedatangan Schedulers">Deputi</option>
                                 </select>
                             </div>
                         </div>
