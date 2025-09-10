@@ -1,4 +1,4 @@
-@if (Auth::user()->role == "Kedatangan Scheduler")
+@if (Auth::user()->role == "Tata Usaha")
 <!DOCTYPE html>
 <html lang="en">
 
@@ -216,19 +216,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-@elseif(in_array(Auth::user()->role, ['Direktur', 'Kepala Seksi', 'Kepala Sub Direktorat', 'Deputi']))
+@elseif (in_array(Auth::user()->role, ['Direktur', 'Kepala Seksi', 'Kepala Sub Direktorat', 'Deputi']))
 <!DOCTYPE html>
 <html lang="en">
 

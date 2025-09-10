@@ -222,7 +222,7 @@
 
 
 
-@elseif (in_array(Auth::user()->role, ['Direktur', 'Kepala Sub Direktorat','Kepala Seksi']))
+@elseif (in_array(Auth::user()->role, ['Admin','Direktur', 'Kepala Sub Direktorat','Kepala Seksi', 'Tata Usaha']))
 <!DOCTYPE html>
 <html lang="en">
 
@@ -240,7 +240,7 @@
 
 <body>
 <x-navbar/>
-<x-sidebar />
+<x-sidebar/>
 
 @if(session('success'))
 <div id="toast" class="toast">
