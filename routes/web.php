@@ -29,6 +29,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/halaman-tindak-lanjut-laporan-pribadi' , [BuktiPerbaikanController::class, 'halamanTindakLanjutPribadi'])->name('halaman.tindak.lanjut');
 
 
+        Route::get('/halaman-rekapitulasi-kerusakan', [BuktiKerusakanController::class, 'halamanRekapitulasiKerusakan']);
+
+
+
+
+
         Route::get('profile/{id}', [AuthController::class, 'halamanEditProfilePribadi'])
             ->name('profile');
 

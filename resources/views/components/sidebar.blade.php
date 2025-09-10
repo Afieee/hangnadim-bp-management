@@ -18,7 +18,9 @@
                     <li><a href="/dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
                     <li><a href="/jadwalkan-inspeksi"><i class="fas fa-calendar-alt"></i> Jadwalkan Inspeksi</a></li>
                     <li><a href="/halaman-inspeksi-petugas"><i class="fas fa-clipboard-check"></i> Monitoring Inspeksi</a></li>
-                    <li><a href="/halaman-tindak-lanjut-laporan-pribadi"><i class="fas fa-exclamation-triangle"></i> Monitor Crash Condition</a></li>   
+                    <li><a href="/halaman-tindak-lanjut-laporan-pribadi"><i class="fas fa-exclamation-triangle"></i> Monitor Crash Condition</a></li>  
+                    <li><a href="/halaman-rekapitulasi-kerusakan"><i class="fas fa-exclamation-triangle"></i> Rekapitulasi Inspeksi</a></li>   
+ 
                     <li><a href="/manage-kedatangan"><i class="fas fa-plane-arrival"></i>  Manage Kedatangan</a></li>
                     <li><a href="/halaman-data-feedback"><i class="fas fa-history"></i> History Feedback Tamu</a></li>
                     <li><a href="/manage-user"><i class="fas fa-users"></i> Pengguna & Petugas</a></li>

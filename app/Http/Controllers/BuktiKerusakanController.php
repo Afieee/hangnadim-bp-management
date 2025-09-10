@@ -154,4 +154,20 @@ public function uploadBuktiKerusakanPribadi(Request $request)
 }
 
 
+
+
+
+
+public function halamanRekapitulasiKerusakan()
+{
+    $buktiKerusakan = BuktiKerusakan::with(['userInspektor', 'gedung', 'buktiPerbaikan'])
+        ->orderBy('created_at', 'desc')
+        ->paginate(5); // 10 item per halaman
+
+    return view('pages.halaman-rekapitulasi-kerusakan', [
+        'buktiKerusakan' => $buktiKerusakan,
+    ]);
+}
+
+
 }
