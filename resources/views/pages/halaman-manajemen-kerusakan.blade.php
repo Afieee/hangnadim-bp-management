@@ -82,6 +82,7 @@
                                     <th>Petugas Pelapor</th>
                                     <th>Email Petugas</th>
                                     <th>Bukti Lampiran</th>
+                                    <th>Tipe Pelaporan</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -122,6 +123,9 @@
                                         @else
                                             <span class="no-image">Tidak ada gambar</span>
                                         @endif
+                                    </td>
+                                    <td>
+                                        {{ $kerusakan->tipe_pelaporan }}
                                     </td>
                                 </tr>
                                 @endforeach
