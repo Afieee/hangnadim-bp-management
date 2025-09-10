@@ -75,9 +75,7 @@
                                 <input type="email" name="email" id="email" placeholder="contoh@email.com" required>
                             </div>
                         </div>
-
-
-                        
+        
                         <div class="form-group">
                             <label for="password">Kata Sandi</label>
                             <div class="input-with-icon">
@@ -104,12 +102,13 @@
                             <label for="role">Role</label>
                             <div class="input-with-icon">
                                 <select name="role" id="role" required>
+                                    <option value="Admin"> Admin</option>
                                     <option value="Kepala Seksi">Kepala Seksi</option>
                                     <option value="Staff Pelaksana">Staff Pelaksana</option>
                                     <option value="Kepala Sub Direktorat ">Kepala Sub Direktorat</option>
                                     <option value="Direktur">Direktur</option>
                                     <option value="Deputi">Deputi</option>
-                                    <option value="Kedatangan Schedulers">Schdulers</option>
+                                    <option value="Tata Usaha">Tata Usaha</option>
                                 </select>
                             </div>
                         </div>

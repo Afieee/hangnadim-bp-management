@@ -67,13 +67,15 @@
 
                         <div class="form-group">
                             <label class="form-label">Role</label>
-                            <select name="role" class="form-input" required>
-                                <option value="Kepala Seksi">Kepala Seksi</option>
-                                <option value="Staff Pelaksana">Staff Pelaksana</option>
-                                <option value="Direktur">Direktur</option>
-                                <option value="Kepala Bidang">Kepala Bidang</option>
-                                <option value="Deputi">Deputi</option>
-                            </select>
+                                <select name="role" class="form-input" id="role" required>
+                                    <option value="Admin"> Admin</option>
+                                    <option value="Kepala Seksi">Kepala Seksi</option>
+                                    <option value="Staff Pelaksana">Staff Pelaksana</option>
+                                    <option value="Kepala Sub Direktorat ">Kepala Sub Direktorat</option>
+                                    <option value="Direktur">Direktur</option>
+                                    <option value="Deputi">Deputi</option>
+                                    <option value="Tata Usaha">Tata Usaha</option>
+                                </select>
                         </div>
 
                         <div class="password-container">
