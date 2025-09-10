@@ -78,7 +78,7 @@
                         <table class="modern-table">
                             <thead>
                                 <tr>
-                                    <th>No</th>
+                                    <th>#</th>
                                     <th>ID Feedback</th>
                                     <th>Nama Tamu</th>
                                     <th>Catatan Feedback</th>

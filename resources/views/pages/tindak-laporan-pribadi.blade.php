@@ -64,7 +64,7 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Judul</th>
+                                        <th>Objek Kerusakan</th>
                                         <th>Deskripsi</th>
                                         <th>Gedung</th>
                                         <th>Pelapor</th>
