@@ -216,7 +216,7 @@
 
 
 
-@elseif (in_array(Auth::user()->role, ['Admin','Direktur', 'Kepala Seksi', 'Kepala Sub Direktorat', 'Deputi']))
+@elseif (in_array(Auth::user()->role, ['Direktur', 'Kepala Seksi', 'Kepala Sub Direktorat', 'Deputi']))
 <!DOCTYPE html>
 <html lang="en">
 
@@ -339,7 +339,7 @@
                                         <th>Kode Penerbangan</th>
                                         <th>Kode Bandara Asal</th>
                                         <th>Lembar Disposisi</th>
-                                        <th>Link Feedback</th>
+                                        {{-- <th>Link Feedback</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -374,7 +374,7 @@
                                                     <span class="text-muted fst-italic">Tidak ada</span>
                                                 @endif
                                             </td>
-                                            <td>
+                                            {{-- <td>
                                                 @if($item->feedbacks()->exists())
                                                     <span style="color: gray; cursor: not-allowed;">Feedback Sudah Ada</span>
                                                 @else
@@ -389,7 +389,7 @@
                                                         </button>
                                                     </div>
                                                 @endif
-                                            </td>
+                                            </td> --}}
                                         </tr>
                                     @empty
                                     <tr>

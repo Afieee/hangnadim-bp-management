@@ -20,7 +20,7 @@ return new class extends Migration
                   ->comment('Lokasi spesifik di mana kerusakan terjadi');
 
 
-            $table->enum('tipe_kerusakan',['Furniture', 'Fire System', 'Bangunan', 'Mekanikal Elektrikal', 'IT', 'Interior', 'Eksterior', 'Sanitasi'])
+            $table->enum('tipe_kerusakan',['Furniture', 'Fire System', 'Gedung & Bangunan', 'Mekanikal Elektrikal', 'IT', 'Jalanan & Jembatan', 'Jaringan Air', 'Drainase'])
                   ->default('Furniture')
                   ->comment('Tipe kerusakan yang dilaporkan');
 

@@ -104,7 +104,7 @@ public function uploadBuktiKerusakanPribadi(Request $request)
         'judul_bukti_kerusakan' => 'required|string|max:255',
         'deskripsi_bukti_kerusakan' => 'required|string',
         'lokasi_bukti_kerusakan' => 'required|string|max:255',
-        'tipe_kerusakan' => 'required|string|in:Furniture,Fire System,Bangunan,Mekanikal Elektrikal,IT,Interior,Eksterior,Sanitasi',
+        'tipe_kerusakan' => 'required|string|in:Furniture,Fire System,Gedung & Bangunan,Mekanikal Elektrikal,IT,Jalanan & Jembatan,Jaringan Air,Drainase',
         'file_bukti_kerusakan' => 'nullable|image|mimes:jpg,jpeg,png,webp,avif|max:2048',
         'id_inspeksi_gedung' => 'nullable',
         'id_gedung' => 'required',
@@ -129,7 +129,7 @@ public function uploadBuktiKerusakanPribadi(Request $request)
         ]);
 
         // 📌 Ambil semua email Kepala Seksi & Staff Pelaksana
-        $recipients = User::whereIn('role', ['Kepala Seksi'])
+        $recipients = User::whereIn('role', ['Admin','Kepala Seksi'])
                         ->pluck('email')
                         ->toArray();
 

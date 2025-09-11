@@ -37,12 +37,12 @@ public function halamanInspeksi()
         $inspeksi = InspeksiGedung::create([
             'furniture' => 'Belum Diperiksa',
             'fire_system' => 'Belum Diperiksa',
-            'bangunan' => 'Belum Diperiksa',
+            'gedung_dan_bangunan' => 'Belum Diperiksa',
             'mekanikal_elektrikal' => 'Belum Diperiksa',
             'it' => 'Belum Diperiksa',
-            'interior' => 'Belum Diperiksa',
-            'eksterior' => 'Belum Diperiksa',
-            'sanitasi' => 'Belum Diperiksa',
+            'jalan_dan_jembatan' => 'Belum Diperiksa',
+            'jaringan_air' => 'Belum Diperiksa',
+            'drainase' => 'Belum Diperiksa',
             'status_keseluruhan_inspeksi' => 'Terbuka',
             'id_gedung' => $request->input('id_gedung'),
             'id_user' => $userId,
@@ -55,7 +55,7 @@ public function halamanInspeksi()
             ->findOrFail($idInspeksiBaru);
 
         // Ambil semua email staff pelaksana dan kepala seksi
-        $staffs = User::whereIn('role', ['Staff Pelaksana', 'Kepala Seksi'])->get();
+        $staffs = User::whereIn('role', ['Admin','Staff Pelaksana', 'Kepala Seksi'])->get();
 
         // Kirim email
         foreach ($staffs as $staff) {
@@ -110,57 +110,65 @@ public function halamanInspeksi()
                 ]);
             }
 
-public function updateDetailInspeksi(Request $request, $id)
-{
-    // Tangkap user yang sedang login
-    $userLogin = Auth::user(); 
-    $informasiPengubahStatus = InspeksiGedung::with('gedung', 'user')->findOrFail($id);
+            
 
-    // Validasi input
-    $request->validate([
-        'field' => 'required|string',
-        'value' => 'required|string'
-    ]);
 
-    $allowedFields = [
-        'furniture', 'fire_system', 'bangunan', 
-        'mekanikal_elektrikal', 'it', 'interior', 
-        'eksterior', 'sanitasi'
-    ];
+    public function updateDetailInspeksi(Request $request, $id)
+    {
+        // Tangkap user yang sedang login
+        $userLogin = Auth::user(); 
+        $informasiPengubahStatus = InspeksiGedung::with('gedung', 'user')->findOrFail($id);
 
-    if (!in_array($request->field, $allowedFields)) {
-        return response()->json(['message' => 'Field tidak valid'], 400);
+        // Validasi input
+        $request->validate([
+            'field' => 'required|string',
+            'value' => 'required|string']);
+
+        $allowedFields = [
+            'furniture',
+            'fire_system',
+            'gedung_dan_bangunan',
+            'mekanikal_elektrikal',
+            'it',
+            'jalan_dan_jembatan',
+            'jaringan_air',
+            'drainase',
+        ];
+
+        
+        if (!in_array($request->field, $allowedFields)) {
+            return response()->json(['message' => 'Field tidak valid'], 400);
+        }
+
+        // Update data inspeksi
+        $inspeksi = InspeksiGedung::findOrFail($id);
+        $inspeksi->update([
+            $request->field => $request->value
+        ]);
+        
+        // Ambil semua user role Kepala Seksi
+        $kepalaSeksiUsers = User::whereIn('role', ['Admin','Staff Pelaksana', 'Kepala Seksi'])->get();
+
+        // Kirim email ke semua Kepala Seksi
+        foreach ($kepalaSeksiUsers as $kepalaSeksi) {
+            Mail::send('emails.pengubah_status_inspeksi', [
+                'pengubah' => $userLogin->name,
+                'emailPengubah' => $userLogin->email,
+                'namaGedung' => $informasiPengubahStatus->gedung->nama_gedung ?? '-',
+                'field' => ucfirst(str_replace('_', ' ', $request->field)),
+                'nilaiBaru' => $request->value,
+                'tanggalUpdate' => now()->format('d-m-Y H:i')
+            ], function($message) use ($kepalaSeksi) {
+                $message->to($kepalaSeksi->email)
+                        ->subject('Pembaruan Status Inspeksi Gedung');
+            });
+        }
+
+        return response()->json([
+            'message' => 'Berhasil diperbarui dan email telah dikirim',
+            'user_login' => $userLogin->name,
+        ]);
     }
-
-    // Update data inspeksi
-    $inspeksi = InspeksiGedung::findOrFail($id);
-    $inspeksi->update([
-        $request->field => $request->value
-    ]);
-
-    // Ambil semua user role Kepala Seksi
-    $kepalaSeksiUsers = User::where('role', 'Kepala Seksi')->get();
-
-    // Kirim email ke semua Kepala Seksi
-    foreach ($kepalaSeksiUsers as $kepalaSeksi) {
-        Mail::send('emails.pengubah_status_inspeksi', [
-            'pengubah' => $userLogin->name,
-            'emailPengubah' => $userLogin->email,
-            'namaGedung' => $informasiPengubahStatus->gedung->nama_gedung ?? '-',
-            'field' => ucfirst(str_replace('_', ' ', $request->field)),
-            'nilaiBaru' => $request->value,
-            'tanggalUpdate' => now()->format('d-m-Y H:i')
-        ], function($message) use ($kepalaSeksi) {
-            $message->to($kepalaSeksi->email)
-                    ->subject('Pembaruan Status Inspeksi Gedung');
-        });
-    }
-
-    return response()->json([
-        'message' => 'Berhasil diperbarui dan email telah dikirim',
-        'user_login' => $userLogin->name,
-    ]);
-}
 
 
 

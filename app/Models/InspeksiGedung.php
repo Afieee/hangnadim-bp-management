@@ -12,16 +12,18 @@ class InspeksiGedung extends Model
     protected $fillable = [
         'furniture',
         'fire_system',
-        'bangunan',
+        'gedung_dan_bangunan',
         'mekanikal_elektrikal',
         'it',
-        'interior',
-        'eksterior',
-        'sanitasi',
+        'jalan_dan_jembatan',
+        'jaringan_air',
+        'drainase',
         'id_gedung',
         'id_user',
         'status_keseluruhan_inspeksi',
     ];
+
+
 
     public function gedung()
     {

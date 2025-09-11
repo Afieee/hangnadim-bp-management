@@ -1,6 +1,5 @@
 {{-- Staff Pelaksana --}}
 @if (Auth::user()->role == "Staff Pelaksana")
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -106,18 +105,8 @@
                                     </div>
                                 </div>
                                 <div class="info-item">
-                                    <div class="info-icon">
-                                        <i class="fas fa-briefcase"></i>
-                                    </div>
-                                    <div class="info-content">
-                                        <div class="info-label">Jabatan</div>
-                                        <div class="info-value">Kepala Seksi</div>
-                                        <span class="status-badge baik">Aktif</span>
-                                    </div>
+
                                 </div>
-                            </div>
-                            <div class="info-card-footer">
-                        
                             </div>
                         </div>
 
@@ -193,9 +182,9 @@
                     </div>
 
                     <div class="status-select">
-                        <p><strong>Bangunan:</strong></p>
-                        <select name="bangunan" class="status-dropdown border rounded px-2 py-1" data-field="bangunan" data-id="{{ $inspeksi->id }}">
-                            <option value="{{ $inspeksi->bangunan }}">{{ $inspeksi->bangunan }}</option>
+                        <p><strong>Gedung & Bangunan:</strong></p>
+                        <select name="gedung_dan_bangunan" class="status-dropdown border rounded px-2 py-1" data-field="gedung_dan_bangunan" data-id="{{ $inspeksi->id }}">
+                            <option value="{{ $inspeksi->gedung_dan_bangunan }}">{{ $inspeksi->gedung_dan_bangunan }}</option>
                             <option value="Baik">Baik</option>
                             <option value="Sedang Diperbaiki">Sedang Diperbaiki</option>
                             <option value="Rusak">Rusak</option>
@@ -226,9 +215,9 @@
                     </div>
 
                     <div class="status-select">
-                        <p><strong>Interior:</strong></p>
-                        <select name="interior" class="status-dropdown border rounded px-2 py-1" data-field="interior" data-id="{{ $inspeksi->id }}">
-                            <option value="{{ $inspeksi->interior }}">{{ $inspeksi->interior }}</option>
+                        <p><strong>Jalan & Jembatan:</strong></p>
+                        <select name="jalan_dan_jembatan" class="status-dropdown border rounded px-2 py-1" data-field="jalan_dan_jembatan" data-id="{{ $inspeksi->id }}">
+                            <option value="{{ $inspeksi->jalan_dan_jembatan }}">{{ $inspeksi->jalan_dan_jembatan }}</option>
                             <option value="Baik">Baik</option>
                             <option value="Sedang Diperbaiki">Sedang Diperbaiki</option>
                             <option value="Rusak">Rusak</option>
@@ -237,9 +226,9 @@
                     </div>
 
                     <div class="status-select">
-                        <p><strong>Eksterior:</strong></p>
-                        <select name="eksterior" class="status-dropdown border rounded px-2 py-1" data-field="eksterior" data-id="{{ $inspeksi->id }}">
-                            <option value="{{ $inspeksi->eksterior }}">{{ $inspeksi->eksterior }}</option>
+                        <p><strong>Jaringan Air:</strong></p>
+                        <select name="jaringan_air" class="status-dropdown border rounded px-2 py-1" data-field="jaringan_air" data-id="{{ $inspeksi->id }}">
+                            <option value="{{ $inspeksi->jaringan_air }}">{{ $inspeksi->jaringan_air }}</option>
                             <option value="Baik">Baik</option>
                             <option value="Sedang Diperbaiki">Sedang Diperbaiki</option>
                             <option value="Rusak">Rusak</option>
@@ -248,9 +237,9 @@
                     </div>
 
                     <div class="status-select">
-                        <p><strong>Sanitasi:</strong></p>
-                        <select name="sanitasi" class="status-dropdown border rounded px-2 py-1" data-field="sanitasi" data-id="{{ $inspeksi->id }}">
-                            <option value="{{ $inspeksi->sanitasi }}">{{ $inspeksi->sanitasi }}</option>
+                        <p><strong>Drainase:</strong></p>
+                        <select name="drainase" class="status-dropdown border rounded px-2 py-1" data-field="drainase" data-id="{{ $inspeksi->id }}">
+                            <option value="{{ $inspeksi->drainase }}">{{ $inspeksi->drainase }}</option>
                             <option value="Baik">Baik</option>
                             <option value="Sedang Diperbaiki">Sedang Diperbaiki</option>
                             <option value="Rusak">Rusak</option>
@@ -632,11 +621,12 @@
 
 
 
+
+
+
 {{-- Kepala Seksi --}}
 
-
-@elseif (Auth::user()->role == "Kepala Seksi")
-
+@elseif (in_array(Auth::user()->role, ['Admin','Direktur','Kepala Seksi']))
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -835,9 +825,9 @@
                     </div>
 
                     <div class="status-select">
-                        <p><strong>Bangunan:</strong></p>
-                        <select name="bangunan" class="status-dropdown border rounded px-2 py-1" data-field="bangunan" data-id="{{ $inspeksi->id }}">
-                            <option value="{{ $inspeksi->bangunan }}">{{ $inspeksi->bangunan }}</option>
+                        <p><strong>Gedung & Bangunan:</strong></p>
+                        <select name="gedung_dan_bangunan" class="status-dropdown border rounded px-2 py-1" data-field="gedung_dan_bangunan" data-id="{{ $inspeksi->id }}">
+                            <option value="{{ $inspeksi->gedung_dan_bangunan }}">{{ $inspeksi->gedung_dan_bangunan }}</option>
                         </select>
                     </div>
 
@@ -856,23 +846,23 @@
                     </div>
 
                     <div class="status-select">
-                        <p><strong>Interior:</strong></p>
-                        <select name="interior" class="status-dropdown border rounded px-2 py-1" data-field="interior" data-id="{{ $inspeksi->id }}">
-                            <option value="{{ $inspeksi->interior }}">{{ $inspeksi->interior }}</option>
+                        <p><strong>Jalan & Jembatan:</strong></p>
+                        <select name="jalan_dan_jembatan" class="status-dropdown border rounded px-2 py-1" data-field="jalan_dan_jembatan" data-id="{{ $inspeksi->id }}">
+                            <option value="{{ $inspeksi->jalan_dan_jembatan }}">{{ $inspeksi->jalan_dan_jembatan }}</option>
                         </select>
                     </div>
 
                     <div class="status-select">
-                        <p><strong>Eksterior:</strong></p>
-                        <select name="eksterior" class="status-dropdown border rounded px-2 py-1" data-field="eksterior" data-id="{{ $inspeksi->id }}">
-                            <option value="{{ $inspeksi->eksterior }}">{{ $inspeksi->eksterior }}</option>
+                        <p><strong>Jaringan Air:</strong></p>
+                        <select name="jaringan_air" class="status-dropdown border rounded px-2 py-1" data-field="jaringan_air" data-id="{{ $inspeksi->id }}">
+                            <option value="{{ $inspeksi->jaringan_air }}">{{ $inspeksi->jaringan_air }}</option>
                         </select>
                     </div>
 
                     <div class="status-select">
-                        <p><strong>Sanitasi:</strong></p>
-                        <select name="sanitasi" class="status-dropdown border rounded px-2 py-1" data-field="sanitasi" data-id="{{ $inspeksi->id }}">
-                            <option value="{{ $inspeksi->sanitasi }}">{{ $inspeksi->sanitasi }}</option>
+                        <p><strong>Drainase:</strong></p>
+                        <select name="drainase" class="status-dropdown border rounded px-2 py-1" data-field="drainase" data-id="{{ $inspeksi->id }}">
+                            <option value="{{ $inspeksi->drainase }}">{{ $inspeksi->drainase }}</option>
                         </select>
                     </div>
 
