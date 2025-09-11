@@ -259,6 +259,28 @@
             font-size: 0.85rem;
         }
     }
+
+    .btn-export {
+    background: #1cc88a;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.btn-export:hover {
+    background: #17a673;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(28, 200, 138, 0.3);
+    color: white;
+}
 </style>
 
 <body>
@@ -300,7 +322,13 @@
             <div class="card">            
                 <div class="container">
                     <div class="table-container">
-                        <h2 class="table-title">Rekapitulasi Kerusakan</h2>
+                        <div class="table-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                            <h2 class="table-title">Rekapitulasi Kerusakan</h2>
+                            <a href="{{ route('rekapitulasi.export') }}" class="btn-export">
+                                <i class="fas fa-file-export"></i> Ekspor ke Excel
+                            </a>
+                        </div>
+
                             <table class="table-modern">
                                 <thead>
                                     <tr>

@@ -1,4 +1,4 @@
-@if (Auth::user()->role == "Tata Usaha")
+@if (in_array(Auth::user()->role, ['Admin', 'Tata Usaha']))
 <!DOCTYPE html>
 <html lang="en">
 
@@ -216,7 +216,7 @@
 
 
 
-@elseif (in_array(Auth::user()->role, ['Direktur', 'Kepala Seksi', 'Kepala Sub Direktorat', 'Deputi']))
+@elseif (in_array(Auth::user()->role, ['Admin','Direktur', 'Kepala Seksi', 'Kepala Sub Direktorat', 'Deputi']))
 <!DOCTYPE html>
 <html lang="en">
 
@@ -410,7 +410,6 @@
             </div>
         </div>
     </div>
-
     <script src="{{ asset('js/components.js') }}"></script>
     <script src="{{ asset('js/manage-tamu.js') }}"></script>
 

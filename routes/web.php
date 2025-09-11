@@ -21,7 +21,6 @@ Route::post('/proses-login', [AuthController::class, 'login'])->name('proses-log
 Route::middleware(['auth'])->group(function () {
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
         Route::get('dashboard', [AuthController::class, 'dashboard'])->name('dashboard');   
-// web.php
         Route::post('dashboard/filter', [AuthController::class, 'filterDashboard'])->name('dashboard.filter');
         Route::post('dashboard/filter-damage-type', [AuthController::class, 'filterDamageType'])->name('dashboard.filter.damage');
 
@@ -31,6 +30,8 @@ Route::middleware(['auth'])->group(function () {
 
 
         Route::get('/halaman-rekapitulasi-kerusakan', [BuktiKerusakanController::class, 'halamanRekapitulasiKerusakan']);
+        Route::get('/rekapitulasi-kerusakan/export', [BuktiKerusakanController::class, 'exportRekapitulasiKerusakan'])
+            ->name('rekapitulasi.export');
 
 
 
