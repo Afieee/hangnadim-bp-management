@@ -224,7 +224,10 @@ public function exportRekapitulasiKerusakan()
                 $no,
                 $bukti->judul_bukti_kerusakan,
                 $bukti->deskripsi_bukti_kerusakan,
-                $bukti->gedung->nama_gedung,
+                implode(' - ', array_filter([
+                    $bukti->gedung?->nama_gedung,
+                    $bukti->inspeksiGedung?->gedung?->nama_gedung
+                ])),
                 $bukti->userInspektor->name,
                 $bukti->lokasi_bukti_kerusakan,
                 $bukti->tipe_kerusakan,
