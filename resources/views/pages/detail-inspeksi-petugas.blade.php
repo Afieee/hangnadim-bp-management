@@ -256,15 +256,16 @@
 
                         <div class="form-group">
                             <label for="tipe_kerusakan">Tipe Kerusakan</label>
-                            <select id="tipe_kerusakan" name="tipe_kerusakan">
+                            <select id="tipe_kerusakan" name="tipe_kerusakan" required>
+                                <option value="">Pilih Tipe Kerusakan</option>
                                 <option value="Furniture">Furniture</option>
                                 <option value="Fire System">Fire System</option>
-                                <option value="Bangunan">Bangunan</option>
+                                <option value="Gedung & Bangunan">Gedung & Bangunan</option>
                                 <option value="Mekanikal Elektrikal">Mekanikal Elektrikal</option>
                                 <option value="IT">IT</option>
-                                <option value="Interior">Interior</option>
-                                <option value="Eksterior">Eksterior</option>
-                                <option value="Sanitasi">Sanitasi</option>
+                                <option value="Jalanan & Jembatan">Jalanan & Jembatan</option>
+                                <option value="Jaringan Air">Jaringan Air</option>
+                                <option value="Drainase">Drainase</option>
                             </select>
                         </div>
 

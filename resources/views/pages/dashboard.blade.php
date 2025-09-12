@@ -234,6 +234,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.css">
     <link rel="stylesheet" href="{{ asset('css/components.css') }}">
     <link rel="icon" href="{{ asset('/storage/images/logo_bp.png') }}" type="image/png">
+</head>
     <style>
         /* Tambahan style untuk responsivitas dan perbaikan layout */
         .dashboard-container {
@@ -458,7 +459,7 @@
             overflow-x: hidden;
         }
     </style>
-</head>
+
 <body>
 <x-navbar/>
 <x-sidebar />
@@ -584,6 +585,22 @@
                     <div class="stat-value" id="stat-rating-pelayanan">{{ $indeksRatingPelayananRataRata }}%</div>
                 </div>
             </div>
+
+
+            
+
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon" style="background-color: rgba(0,123,255,0.1); color: #007bff;">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="stat-title">Staff Pelaksana</h3>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value" id="stat-rating-pelayanan">{{ $jumlahStaffPelaksana }}</div>
+                </div>
+            </div>
         </div>
 
         <!-- Charts Section -->
@@ -704,8 +721,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{{ asset('js/components.js') }}"></script>
-</body>
-</html><script>
+<script>
 document.addEventListener('DOMContentLoaded', function() {
     // Fungsi untuk menghasilkan opsi tahun (±4 tahun)
     function generateYearOptions(selectElement, selectedYear = null) {
@@ -744,12 +760,12 @@ document.addEventListener('DOMContentLoaded', function() {
     let damageTypeData = {
         furniture: {{ $buktiKerusakanFurniture }},
         fireSystem: {{ $buktiKerusakanFireSystem }},
-        bangunan: {{ $buktiKerusakanBangunan }},
+        gedungBangunan: {{ $buktiKerusakanGedungBangunan }},
         mekanikalElektrikal: {{ $buktiKerusakanMekanikalElektrikal }},
         it: {{ $buktiKerusakanIT }},
-        interior: {{ $buktiKerusakanInterior }},
-        eksterior: {{ $buktiKerusakanEksterior }},
-        sanitasi: {{ $buktiKerusakanSanitasi }}
+        jalananJembatan: {{ $buktiKerusakanJalananJembatan }},
+        jaringanAir: {{ $buktiKerusakanJaringanAir }},
+        drainase: {{ $buktiKerusakanDrainase }}
     };
 
     // Chart variables
@@ -851,19 +867,19 @@ document.addEventListener('DOMContentLoaded', function() {
             type: 'pie',
             data: {
                 labels: [
-                    'Furniture', 'Fire System', 'Bangunan', 'Mekanikal Elektrikal',
-                    'IT', 'Interior', 'Eksterior', 'Sanitasi'
+                    'Furniture', 'Fire System', 'Gedung & Bangunan', 'Mekanikal Elektrikal',
+                    'IT', 'Jalanan & Jembatan', 'Jaringan Air', 'Drainase'
                 ],
                 datasets: [{
                     data: [
                         damageTypeData.furniture,
                         damageTypeData.fireSystem,
-                        damageTypeData.bangunan,
+                        damageTypeData.gedungBangunan,
                         damageTypeData.mekanikalElektrikal,
                         damageTypeData.it,
-                        damageTypeData.interior,
-                        damageTypeData.eksterior,
-                        damageTypeData.sanitasi
+                        damageTypeData.jalananJembatan,
+                        damageTypeData.jaringanAir,
+                        damageTypeData.drainase
                     ],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.8)',
@@ -1032,22 +1048,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 const newDamage = {
                     furniture: damageDataResp.buktiKerusakanFurniture,
                     fireSystem: damageDataResp.buktiKerusakanFireSystem,
-                    bangunan: damageDataResp.buktiKerusakanBangunan,
+                    gedungBangunan: damageDataResp.buktiKerusakanGedungBangunan,
                     mekanikalElektrikal: damageDataResp.buktiKerusakanMekanikalElektrikal,
                     it: damageDataResp.buktiKerusakanIT,
-                    interior: damageDataResp.buktiKerusakanInterior,
-                    eksterior: damageDataResp.buktiKerusakanEksterior,
-                    sanitasi: damageDataResp.buktiKerusakanSanitasi
+                    jalananJembatan: damageDataResp.buktiKerusakanJalananJembatan,
+                    jaringanAir: damageDataResp.buktiKerusakanJaringanAir,
+                    drainase: damageDataResp.buktiKerusakanDrainase
                 };
                 damageTypeChart.data.datasets[0].data = [
                     newDamage.furniture,
                     newDamage.fireSystem,
-                    newDamage.bangunan,
+                    newDamage.gedungBangunan,
                     newDamage.mekanikalElektrikal,
                     newDamage.it,
-                    newDamage.interior,
-                    newDamage.eksterior,
-                    newDamage.sanitasi
+                    newDamage.jalananJembatan,
+                    newDamage.jaringanAir,
+                    newDamage.drainase
                 ];
                 damageTypeChart.update();
 
@@ -1157,5 +1173,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 </body>
-</html>
-@endif
+</html>@endif
