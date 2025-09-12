@@ -354,7 +354,12 @@
                                         <td>{{ $startNumber++ }}</td>
                                         <td>{{ $bukti->judul_bukti_kerusakan }}</td>
                                         <td>{{ $bukti->deskripsi_bukti_kerusakan }}</td>
-                                        <td>{{ $bukti->gedung->nama_gedung }}</td>
+                                        <td>
+                                            {{ implode(' - ', array_filter([
+                                                $bukti->gedung?->nama_gedung,
+                                                $bukti->inspeksiGedung?->gedung?->nama_gedung
+                                            ])) }}
+                                        </td>
                                         <td>{{ $bukti->userInspektor->name }}</td>
                                         <td>{{ $bukti->lokasi_bukti_kerusakan }}</td>
                                         <td>{{ $bukti->tipe_kerusakan }}</td>

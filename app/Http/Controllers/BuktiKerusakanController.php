@@ -171,7 +171,7 @@ public function uploadBuktiKerusakanPribadi(Request $request)
 
 public function halamanRekapitulasiKerusakan()
 {
-    $buktiKerusakan = BuktiKerusakan::with(['userInspektor', 'gedung', 'buktiPerbaikan'])
+    $buktiKerusakan = BuktiKerusakan::with(['userInspektor', 'gedung', 'buktiPerbaikan', 'inspeksiGedung'])
         ->orderBy('created_at', 'desc')
         ->paginate(5); // 10 item per halaman
 
