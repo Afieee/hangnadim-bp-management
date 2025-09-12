@@ -26,7 +26,7 @@ public function uploadBuktiKerusakan(Request $request)
         'deskripsi_bukti_kerusakan' => 'required|string|max:1000',
         'lokasi_bukti_kerusakan' => 'required|string|max:255',
         'tipe_kerusakan' => 'required|string|in:Furniture,Fire System,Gedung & Bangunan,Mekanikal Elektrikal,IT,Jalanan & Jembatan,Jaringan Air,Drainase',
-        'file_bukti_kerusakan' => 'nullable|image|mimes:jpg,jpeg,png,webp,avif|max:2048',
+        'file_bukti_kerusakan' => 'nullable|image|mimes:jpg,jpeg,png,webp,avif|max:10240',
         'id_inspeksi_gedung' => 'required|exists:inspeksi_gedung,id',
     ]);
 
@@ -105,7 +105,7 @@ public function uploadBuktiKerusakanPribadi(Request $request)
         'deskripsi_bukti_kerusakan' => 'required|string|max:1000',
         'lokasi_bukti_kerusakan' => 'required|string|max:255',
         'tipe_kerusakan' => 'required|string|in:Furniture,Fire System,Gedung & Bangunan,Mekanikal Elektrikal,IT,Jalanan & Jembatan,Jaringan Air,Drainase',
-        'file_bukti_kerusakan' => 'nullable|image|mimes:jpg,jpeg,png,webp,avif|max:2048',
+        'file_bukti_kerusakan' => 'nullable|image|mimes:jpg,jpeg,png,webp,avif|max:10240',
         'id_inspeksi_gedung' => 'nullable',
         'id_gedung' => 'required',
     ]);
