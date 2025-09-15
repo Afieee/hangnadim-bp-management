@@ -206,8 +206,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Role</label>
-                                <select name="role" class="form-input" id="role" required>
+                                <select name="role" class="form-input" id="role" required hidden>
                                     <option value="Admin"> Admin</option>
                                     <option value="Kepala Seksi">Kepala Seksi</option>
                                     <option value="Staff Pelaksana">Staff Pelaksana</option>
@@ -252,5 +251,4 @@
 <script src="{{ asset('js/components.js') }}"></script>
 
 </html>
-
 @endif
