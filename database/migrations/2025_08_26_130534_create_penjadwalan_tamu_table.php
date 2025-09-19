@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('penjadwalan_tamu', function (Blueprint $table) {
             $table->id();
-            $table->enum('level_tamu', ['Kepresidenan', 'Pejabat Negara', 'Tamu Negara', 'Instansi Lain'])
+            $table->enum('level_tamu', ['Kepresidenan', 'Kementerian', 'Lembaga Negara' , 'Tamu Negara', 'Instansi Lain'])
                     ->default('Instansi Lain');
 
             $table->string('subjek_tamu');

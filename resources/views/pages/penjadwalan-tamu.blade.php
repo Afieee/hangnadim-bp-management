@@ -57,7 +57,8 @@
                                 <select name="level_tamu" id="level_tamu" required>
                                     <option selected disabled>-Pilihan-</option>
                                     <option value="Kepresidenan">Kepresidenan</option>
-                                    <option value="Pejabat Negara">Pejabat Negara</option>
+                                    <option value="Kementerian">Kementrian</option>
+                                    <option value="Lembaga Negara">Lembaga Negara</option>
                                     <option value="Tamu Negara">Tamu Negara</option>
                                     <option value="Instansi Lain">Instansi Lain</option>
                                 </select>
