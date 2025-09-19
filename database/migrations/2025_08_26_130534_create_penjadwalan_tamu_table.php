@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('penjadwalan_tamu', function (Blueprint $table) {
             $table->id();
+            
             $table->enum('level_tamu', ['Kepresidenan', 'Kementerian', 'Lembaga Negara' , 'Tamu Negara', 'Instansi Lain'])
                     ->default('Instansi Lain');
 
@@ -20,14 +21,15 @@ return new class extends Migration
             $table->string('instansi');
 
 
-            $table->timestamp('waktu_tamu_berangkat')
+            $table->timestamp('waktu_penggunaan_gedung')
                     ->nullable()
-                    ->comment('Waktu tamu berangkat dari bandara sebelumnya');
+                    ->comment('Waktu tamu menggunakan gedung');
 
-            $table->timestamp('waktu_tamu_mendarat')
+            $table->timestamp('waktu_selesai_penggunaan_gedung')
                     ->nullable()
-                    ->comment('Waktu tamu mendarat di bandara tujuan');
-
+                    ->comment('Waktu tamu selesai menggunakan gedung');
+        
+                
             $table->string('kode_penerbangan')->nullable();
             $table->string('kode_bandara_asal')->nullable();
             $table->string('lembar_disposisi')->nullable();

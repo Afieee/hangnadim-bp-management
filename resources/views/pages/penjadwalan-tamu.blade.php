@@ -77,14 +77,14 @@
                         <div class="form-row">
                             <div class="form-col">
                                 <div class="form-group">
-                                    <label for="waktu_tamu_berangkat">Waktu Keberangkatan Sebelumnya:</label>
-                                    <input type="datetime-local" name="waktu_tamu_berangkat" id="waktu_tamu_berangkat">
+                                    <label for="waktu_penggunaan_gedung">Waktu Penggunaan Gedung:</label>
+                                    <input type="datetime-local" name="waktu_penggunaan_gedung" id="waktu_penggunaan_gedung">
                                 </div>
                             </div>
                             <div class="form-col">
                                 <div class="form-group">
-                                    <label for="waktu_tamu_mendarat">Waktu Mendarat:</label>
-                                    <input type="datetime-local" name="waktu_tamu_mendarat" id="waktu_tamu_mendarat">
+                                    <label for="waktu_selesai_penggunaan_gedung">Waktu Selesai Penggunaan Gedung:</label>
+                                    <input type="datetime-local" name="waktu_selesai_penggunaan_gedung" id="waktu_selesai_penggunaan_gedung">
                                 </div>
                             </div>
                         </div>
