@@ -552,7 +552,7 @@
                 <div class="charts-container">
                     <div class="chart-card">
                         <div class="chart-header">
-                            <h3 class="chart-title">Distribusi Feedback Pelayanan</h3>
+                            <h3 class="chart-title">Feedback Penggunaan Gedung VIP & VVIP</h3>
                             <div class="chart-filter">
                                 <label for="feedback-year-filter">Tahun:</label>
                                 <select id="feedback-year-filter" class="chart-year-filter"></select>

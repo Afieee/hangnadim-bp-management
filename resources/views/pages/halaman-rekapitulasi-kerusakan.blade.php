@@ -338,7 +338,7 @@
                             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                             <h2 class="table-title">Rekapitulasi Kerusakan</h2>
                             <a href="{{ route('rekapitulasi.export') }}" class="btn-export">
-                                <i class="fas fa-file-export"></i> Ekspor ke Excel
+                                <i class="fas fa-file-excel"></i> Ekspor ke Excel
                             </a>
                         </div>
 

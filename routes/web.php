@@ -28,10 +28,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/upload-bukti-kerusakan-pribadi', [BuktiKerusakanController::class, 'uploadBuktiKerusakanPribadi'])->name('bukti-kerusakan-pribadi.store');
     Route::get('/halaman-tindak-lanjut-laporan-pribadi', [BuktiPerbaikanController::class, 'halamanTindakLanjutPribadi'])->name('halaman.tindak.lanjut');
 
-
     Route::get('/halaman-rekapitulasi-kerusakan', [BuktiKerusakanController::class, 'halamanRekapitulasiKerusakan']);
     Route::get('/rekapitulasi-kerusakan/export', [BuktiKerusakanController::class, 'exportRekapitulasiKerusakan'])
         ->name('rekapitulasi.export');
+
+
 
 
 

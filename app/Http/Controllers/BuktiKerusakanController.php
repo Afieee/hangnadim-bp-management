@@ -9,6 +9,10 @@ use App\Models\BuktiKerusakan;
 use App\Mail\LaporanPribadiMail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\RekapitulasiKerusakanExcel;
+use App\Exports\RekapitulasiKerusakanExport;
+use App\Exports\RekapitulasiKerusakanWithPhotosExport;
 
 class BuktiKerusakanController extends Controller
 {
@@ -182,66 +186,10 @@ class BuktiKerusakanController extends Controller
     }
 
 
-
     public function exportRekapitulasiKerusakan()
     {
-        $buktiKerusakan = BuktiKerusakan::with(['userInspektor', 'gedung', 'buktiPerbaikan'])
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $filename = "rekapitulasi_kerusakan_" . date('Y-m-d_H-i-s') . ".xlsx";
 
-        $filename = "rekapitulasi_kerusakan_" . date('Y-m-d') . ".csv";
-
-        $headers = [
-            "Content-Type" => "text/csv",
-            "Content-Disposition" => "attachment; filename=$filename",
-            "Pragma" => "no-cache",
-            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
-            "Expires" => "0"
-        ];
-
-        $callback = function () use ($buktiKerusakan) {
-            $handle = fopen('php://output', 'w');
-
-            // Header kolom
-            fputcsv($handle, [
-                'No',
-                'Objek Kerusakan',
-                'Deskripsi',
-                'Gedung',
-                'Pelapor',
-                'Lokasi',
-                'Tipe Kerusakan',
-                'Status',
-                'Waktu Dilaporkan',
-                'Tipe Pelaporan'
-            ]);
-
-            $no = 1;
-            foreach ($buktiKerusakan as $bukti) {
-                $status = $bukti->buktiPerbaikan ? 'Kasus Ditutup' : 'Menunggu Perbaikan';
-                $waktu = \Carbon\Carbon::parse($bukti->created_at)->translatedFormat('d F Y H:i');
-
-                fputcsv($handle, [
-                    $no,
-                    $bukti->judul_bukti_kerusakan,
-                    $bukti->deskripsi_bukti_kerusakan,
-                    implode(' - ', array_filter([
-                        $bukti->gedung?->nama_gedung,
-                        $bukti->inspeksiGedung?->gedung?->nama_gedung
-                    ])),
-                    $bukti->userInspektor->name,
-                    $bukti->lokasi_bukti_kerusakan,
-                    $bukti->tipe_kerusakan,
-                    $status,
-                    $waktu,
-                    $bukti->tipe_pelaporan
-                ]);
-                $no++;
-            }
-
-            fclose($handle);
-        };
-
-        return response()->stream($callback, 200, $headers);
+        return Excel::download(new RekapitulasiKerusakanExcel(), $filename);
     }
 }
