@@ -48,10 +48,14 @@ class PenjadwalanTamuController extends Controller
             'instansi' => 'required|string|max:255',
             'waktu_penggunaan_gedung' => 'nullable|date',
             'waktu_selesai_penggunaan_gedung' => 'nullable|date',
+            'narahubung_pihak_tamu' => 'nullable|string|max:255',
+            'no_handphone_narahubung' => 'nullable|string|max:20',
+            'email_narahubung' => 'nullable|email|max:255',
             'kode_penerbangan' => 'nullable|string|max:255',
             'kode_bandara_asal' => 'nullable|string|max:255',
             'lembar_disposisi' => 'nullable|mimes:pdf|max:20480',
         ]);
+
 
         // Simpan file PDF jika ada
         if ($request->hasFile('lembar_disposisi')) {
@@ -129,10 +133,14 @@ class PenjadwalanTamuController extends Controller
             'instansi' => 'required|string|max:255',
             'waktu_penggunaan_gedung' => 'nullable|date',
             'waktu_selesai_penggunaan_gedung' => 'nullable|date',
+            'narahubung_pihak_tamu' => 'nullable|string|max:255',
+            'no_handphone_narahubung' => 'nullable|string|max:20',
+            'email_narahubung' => 'nullable|email|max:255',
             'kode_penerbangan' => 'nullable|string|max:255',
             'kode_bandara_asal' => 'nullable|string|max:255',
-            'lembar_disposisi' => 'nullable|mimes:pdf|max:20480', // 20 MB
+            'lembar_disposisi' => 'nullable|mimes:pdf|max:20480',
         ]);
+
 
         // handle file PDF
         if ($request->hasFile('lembar_disposisi')) {

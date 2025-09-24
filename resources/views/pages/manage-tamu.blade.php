@@ -122,6 +122,9 @@
                                         <th>Level Tamu</th>
                                         <th>Waktu Penggunaan Gedung</th>
                                         <th>Waktu Selesai Penggunaan Gedung</th>
+                                        <th>Narahubung</th>
+                                        <th>Kontak Narahubung</th>
+                                        <th>Email Narahubung</th>
                                         <th>Kode Penerbangan</th>
                                         <th>Kode Bandara Asal</th>
                                         <th>Lembar Disposisi</th>
@@ -148,6 +151,9 @@
                                                     WIB
                                                 </span>
                                             </td>
+                                            <td>{{ $item->narahubung_pihak_tamu }}</td>
+                                            <td>{{ $item->no_handphone_narahubung }}</td>
+                                            <td>{{ $item->email_narahubung }}</td>
                                             <td><code>{{ $item->kode_penerbangan }}</code></td>
                                             <td><code>{{ $item->kode_bandara_asal }}</code></td>
                                             <td>
@@ -333,6 +339,9 @@
                                         <th>Level Tamu</th>
                                         <th>Waktu Penggunaan Gedung</th>
                                         <th>Waktu Selesai Penggunaan Gedung</th>
+                                        <th>Narahubung</th>
+                                        <th>Kontak Narahubung</th>
+                                        <th>Email Narahubung</th>
                                         <th>Kode Penerbangan</th>
                                         <th>Kode Bandara Asal</th>
                                         <th>Lembar Disposisi</th>
@@ -359,6 +368,9 @@
                                                     WIB
                                                 </span>
                                             </td>
+                                            <td>{{ $item->narahubung_pihak_tamu }}</td>
+                                            <td>{{ $item->no_handphone_narahubung }}</td>
+                                            <td>{{ $item->email_narahubung }}</td>
                                             <td><code>{{ $item->kode_penerbangan }}</code></td>
                                             <td><code>{{ $item->kode_bandara_asal }}</code></td>
                                             <td>

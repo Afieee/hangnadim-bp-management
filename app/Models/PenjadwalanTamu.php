@@ -18,9 +18,13 @@ class PenjadwalanTamu extends Model
         'kode_penerbangan',
         'kode_bandara_asal',
         'lembar_disposisi',
+        'narahubung_pihak_tamu',
+        'no_handphone_narahubung',
+        'email_narahubung',
         'id_gedung',
         'id_user',
     ];
+
     public function gedung()
     {
         return $this->belongsTo(Gedung::class, 'id_gedung');
@@ -29,10 +33,8 @@ class PenjadwalanTamu extends Model
     {
         return $this->belongsTo(User::class, 'id_user');
     }
-        public function feedbacks()
+    public function feedbacks()
     {
         return $this->hasMany(\App\Models\Feedback::class, 'id_penjadwalan_tamu');
     }
-
-    
 }

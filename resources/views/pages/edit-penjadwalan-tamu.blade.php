@@ -59,6 +59,27 @@
             <input type="file" name="lembar_disposisi" class="form-control mt-2" accept="application/pdf">
         </div>
 
+        {{-- ✅ Field baru --}}
+        <div class="mb-3">
+            <label for="narahubung_pihak_tamu">Nama Narahubung Pihak Tamu</label>
+            <input type="text" name="narahubung_pihak_tamu" id="narahubung_pihak_tamu" class="form-control"
+                value="{{ old('narahubung_pihak_tamu', $penjadwalan->narahubung_pihak_tamu) }}"
+                placeholder="Masukkan Nama Narahubung Pihak Tamu">
+        </div>
+
+        <div class="mb-3">
+            <label for="no_handphone_narahubung">No. Handphone Narahubung</label>
+            <input type="text" name="no_handphone_narahubung" id="no_handphone_narahubung" class="form-control"
+                value="{{ old('no_handphone_narahubung', $penjadwalan->no_handphone_narahubung) }}"
+                placeholder="Masukkan No. Handphone Narahubung 08xxxxxxxxxx">
+        </div>
+
+        <div class="mb-3">
+            <label for="email_narahubung">Email Narahubung</label>
+            <input type="email" name="email_narahubung" id="email_narahubung" class="form-control"
+                value="{{ old('email_narahubung', $penjadwalan->email_narahubung) }}"
+                placeholder="Masukkan Email Narahubung">
+        </div>
 
         <button type="submit" class="btn btn-primary">Simpan</button>
     </form>

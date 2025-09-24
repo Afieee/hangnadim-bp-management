@@ -94,6 +94,23 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="narahubung_pihak_tamu">Narahubung Pihak Tamu:</label>
+                            <input type="text" name="narahubung_pihak_tamu" id="narahubung_pihak_tamu"
+                                placeholder="Masukkan Narahubung Pihak Tamu">
+                        </div>
+                        <div class="form-group">
+                            <label for="no_handphone_narahubung">No. Handphone Narahubung:</label>
+                            <input type="text" name="no_handphone_narahubung" id="no_handphone_narahubung"
+                                class="form-input" placeholder="Masukkan No. Handphone Narahubung 08xxxxxxxxxx">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email_narahubung">Email Narahubung:</label>
+                            <input type="text" name="email_narahubung" id="email_narahubung" class="form-input"
+                                placeholder="Masukkan Email Narahubung">
+                        </div>
+
 
                         <div class="form-row">
                             <div class="form-col">
