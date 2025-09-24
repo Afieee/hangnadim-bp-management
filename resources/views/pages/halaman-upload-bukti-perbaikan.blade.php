@@ -1,5 +1,5 @@
 {{-- Staff Pelaksana --}}
-@if (Auth::user()->role == 'Staff Pelaksana')
+@if (in_array(Auth::user()->role, ['Staff Pelaksana', 'IT']))
     <!DOCTYPE html>
     <html lang="id">
 

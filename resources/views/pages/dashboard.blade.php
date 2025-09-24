@@ -158,7 +158,7 @@
     </body>
 
     </html>
-@elseif (in_array(Auth::user()->role, ['Admin', 'Direktur', 'Kepala Sub Direktorat', 'Kepala Seksi', 'Tata Usaha']))
+@elseif (in_array(Auth::user()->role, ['Admin', 'Direktur', 'Kepala Sub Direktorat', 'Kepala Seksi', 'Tata Usaha', 'IT']))
     <!DOCTYPE html>
     <html lang="en">
 

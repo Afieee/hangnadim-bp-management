@@ -89,7 +89,7 @@ class BuktiPerbaikanController extends Controller
             ->withCount('buktiPerbaikan')
             ->orderBy('bukti_perbaikan_count', 'asc')
             ->orderBy('created_at', 'desc')
-            ->paginate(2); // Ubah get() menjadi paginate()
+            ->paginate(10); // Ubah get() menjadi paginate()
 
         return view('pages.tindak-laporan-pribadi', [
             'buktiKerusakanPribadi' => $buktiKerusakanPribadi,

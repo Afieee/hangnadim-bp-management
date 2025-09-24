@@ -430,7 +430,7 @@ class AuthController extends Controller
 
         $user->save();
 
-        return redirect()->route('manage-user')->with('success', 'User berhasil diperbarui!');
+        return redirect()->back()->with('success', 'User berhasil diperbarui!');
     }
 
 
@@ -488,6 +488,6 @@ class AuthController extends Controller
 
         $user->save();
 
-        return redirect()->route('manage-user')->with('success', 'User berhasil diperbarui!');
+        return redirect()->back()->with('success', 'User berhasil diperbarui!');
     }
 }

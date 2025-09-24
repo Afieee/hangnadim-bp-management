@@ -67,6 +67,20 @@
                         VVIP</a></li>
                 <li><a href="/halaman-data-feedback"><i class="fas fa-history"></i> Riwayat Respons Pengguna Gedung VIP
                         & VVIP</a></li>
+            @elseif (Auth::user()->role == 'IT')
+                <li><a href="/dashboard"><i class="fas fa-home"></i> Home</a></li>
+                <li>
+                    <a href="/halaman-rekapitulasi-kerusakan">
+                        <i class="fas fa-tools"></i> Rekapitulasi Inspeksi
+                    </a>
+                </li>
+                <li><a href="/halaman-inspeksi-petugas"><i class="fas fa-clipboard-check"></i> Proses Inspeksi
+                        Mingguan</a></li>
+                <li><a href="/halaman-manajemen-kerusakan-parah"><i class="fas fa-exclamation-triangle"></i> Laporan
+                        Kerusakan Parah</a></li>
+                <li><a href="/halaman-laporan-pribadi"><i class="fas fa-file-alt"></i> Laporkan Crash Condition</a></li>
+                <li><a href="/halaman-tindak-lanjut-laporan-pribadi"><i class="fas fa-exclamation-triangle"></i> Tindak
+                        Crash Condition</a></li>
             @endif
         </ul>
     </div>
