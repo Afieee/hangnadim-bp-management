@@ -27,7 +27,7 @@ class GedungController extends Controller
 
         // Jika ada file foto_gedung diupload
         if ($request->hasFile('foto_gedung')) {
-            $fotoName = time().'_'.$request->file('foto_gedung')->getClientOriginalName();
+            $fotoName = time() . '_' . $request->file('foto_gedung')->getClientOriginalName();
             $request->file('foto_gedung')->move(public_path('storage/uploaded_photo'), $fotoName);
             $fotoPath = 'storage/uploaded_photo/' . $fotoName;
         }
@@ -40,5 +40,4 @@ class GedungController extends Controller
 
         return redirect()->back()->with('success', 'Gedung berhasil ditambahkan!');
     }
-
 }

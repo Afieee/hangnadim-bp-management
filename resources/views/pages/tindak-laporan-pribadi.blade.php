@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <title>Tindak Crash Condition</title>
     <link rel="icon" href="{{ asset('/storage/images/logo_bp.png') }}" type="image/png">
 
@@ -19,23 +19,23 @@
     <div style="all: initial">
         <x-navbar />
     </div>
-    
+
     <div style="all: initial">
         <x-sidebar />
     </div>
 
-    @if(session('success'))
-    <div id="toast" class="toast">
-        <div class="toast-icon">
-            <i class="fas fa-check" style="color: white; display: none;"></i>
+    @if (session('success'))
+        <div id="toast" class="toast">
+            <div class="toast-icon">
+                <i class="fas fa-check" style="color: white; display: none;"></i>
+            </div>
+            <div class="toast-content">
+                <div class="toast-title">Success!</div>
+                <div class="toast-message">{{ session('success') }}</div>
+            </div>
+            <button class="toast-close">&times;</button>
+            <div class="toast-progress"></div>
         </div>
-        <div class="toast-content">
-            <div class="toast-title">Success!</div>
-            <div class="toast-message">{{ session('success') }}</div>
-        </div>
-        <button class="toast-close">&times;</button>
-        <div class="toast-progress"></div>
-    </div>
     @endif
 
     <div class="content-wrapper" id="content-wrapper">
@@ -48,14 +48,14 @@
                 </ul>
             </div>
         </div>
-        
+
         <div class="content-area">
-            <div class="card">            
+            <div class="card">
                 <div class="container">
                     <div class="table-container">
-                        <h2 class="table-title">Tindak Lanjut Laporan Pribadi</h2>
+                        <h2 class="table-title">Tindak Lanjut Laporan Crash Condition</h2>
 
-                        @if($buktiKerusakanPribadi->isEmpty())
+                        @if ($buktiKerusakanPribadi->isEmpty())
                             <div class="alert alert-info">
                                 Tidak ada bukti kerusakan pribadi.
                             </div>
@@ -78,9 +78,12 @@
                                 </thead>
                                 <tbody>
                                     @php
-                                        $startNumber = ($buktiKerusakanPribadi->currentPage() - 1) * $buktiKerusakanPribadi->perPage() + 1;
+                                        $startNumber =
+                                            ($buktiKerusakanPribadi->currentPage() - 1) *
+                                                $buktiKerusakanPribadi->perPage() +
+                                            1;
                                     @endphp
-                                    @foreach($buktiKerusakanPribadi as $index => $bukti)
+                                    @foreach ($buktiKerusakanPribadi as $index => $bukti)
                                         <tr>
                                             <td>{{ $startNumber + $index }}</td>
                                             <td>{{ $bukti->judul_bukti_kerusakan }}</td>
@@ -90,23 +93,22 @@
                                             <td>{{ $bukti->lokasi_bukti_kerusakan }}</td>
                                             <td>{{ $bukti->tipe_kerusakan }}</td>
                                             <td>
-                                                @if($bukti->file_bukti_kerusakan)
-                                                    <img src="{{ asset('storage/' . $bukti->file_bukti_kerusakan) }}" 
-                                                         alt="Bukti Kerusakan" 
-                                                         class="thumbnail-img"
-                                                         onclick="showImageModal('{{ asset('storage/' . $bukti->file_bukti_kerusakan) }}')">
+                                                @if ($bukti->file_bukti_kerusakan)
+                                                    <img src="{{ asset('storage/' . $bukti->file_bukti_kerusakan) }}"
+                                                        alt="Bukti Kerusakan" class="thumbnail-img"
+                                                        onclick="showImageModal('{{ asset('storage/' . $bukti->file_bukti_kerusakan) }}')">
                                                 @else
                                                     <span class="text-muted">Tidak ada foto</span>
                                                 @endif
                                             </td>
                                             <td>
-                                                <a href="{{ route('bukti-perbaikan.create', \Illuminate\Support\Facades\Crypt::encryptString($bukti->id)) }}" 
-                                                   class="btn-upload">
+                                                <a href="{{ route('bukti-perbaikan.create', \Illuminate\Support\Facades\Crypt::encryptString($bukti->id)) }}"
+                                                    class="btn-upload">
                                                     Penanganan
                                                 </a>
                                             </td>
                                             <td>
-                                                @if($bukti->buktiPerbaikan)
+                                                @if ($bukti->buktiPerbaikan)
                                                     <span class="status-chip status-closed">Kasus Ditutup</span>
                                                 @else
                                                     <span class="status-chip status-waiting">Menunggu Perbaikan</span>
@@ -119,19 +121,22 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            
+
                             <!-- Pagination sederhana dan modern -->
                             <div class="pagination-container">
                                 <div class="pagination-info">
-                                    Menampilkan {{ $buktiKerusakanPribadi->firstItem() }} - {{ $buktiKerusakanPribadi->lastItem() }} dari {{ $buktiKerusakanPribadi->total() }} data
+                                    Menampilkan {{ $buktiKerusakanPribadi->firstItem() }} -
+                                    {{ $buktiKerusakanPribadi->lastItem() }} dari
+                                    {{ $buktiKerusakanPribadi->total() }} data
                                 </div>
-                                
+
                                 <ul class="pagination">
                                     {{-- Previous Page Link --}}
                                     @if ($buktiKerusakanPribadi->onFirstPage())
                                         <li class="disabled"><span>&laquo;</span></li>
                                     @else
-                                        <li><a href="{{ $buktiKerusakanPribadi->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+                                        <li><a href="{{ $buktiKerusakanPribadi->previousPageUrl() }}"
+                                                rel="prev">&laquo;</a></li>
                                     @endif
 
                                     {{-- Pagination Elements --}}
@@ -139,13 +144,16 @@
                                         @if ($i == $buktiKerusakanPribadi->currentPage())
                                             <li class="active"><span>{{ $i }}</span></li>
                                         @else
-                                            <li><a href="{{ $buktiKerusakanPribadi->url($i) }}">{{ $i }}</a></li>
+                                            <li><a
+                                                    href="{{ $buktiKerusakanPribadi->url($i) }}">{{ $i }}</a>
+                                            </li>
                                         @endif
                                     @endfor
 
                                     {{-- Next Page Link --}}
                                     @if ($buktiKerusakanPribadi->hasMorePages())
-                                        <li><a href="{{ $buktiKerusakanPribadi->nextPageUrl() }}" rel="next">&raquo;</a></li>
+                                        <li><a href="{{ $buktiKerusakanPribadi->nextPageUrl() }}"
+                                                rel="next">&raquo;</a></li>
                                     @else
                                         <li class="disabled"><span>&raquo;</span></li>
                                     @endif
@@ -166,6 +174,35 @@
     <script src="{{ asset('js/components.js') }}"></script>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toast = document.getElementById('toast');
+            if (toast) {
+                // Show toast with animation
+                setTimeout(() => {
+                    toast.classList.add('show');
+                }, 100);
+
+                // Close toast when close button is clicked
+                const closeBtn = toast.querySelector('.toast-close');
+                closeBtn.addEventListener('click', () => {
+                    toast.classList.remove('show');
+                });
+
+                // Auto-hide after 3 seconds
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+        });
+
+
+
+
+
+
+
+
+
         // Fungsi untuk menampilkan modal gambar
         function showImageModal(imageSrc) {
             document.getElementById('modalImage').src = imageSrc;
@@ -194,4 +231,5 @@
         });
     </script>
 </body>
+
 </html>

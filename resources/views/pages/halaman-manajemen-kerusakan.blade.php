@@ -3,18 +3,18 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Laporan Kerusakan</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-    <link rel="icon" href="{{ asset('/storage/images/logo_bp.png') }}" type="image/png"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="icon" href="{{ asset('/storage/images/logo_bp.png') }}" type="image/png" />
 
     <!-- jsPDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <!-- jsPDF autotable (tidak kita pakai untuk layout kartu, tapi boleh dibiarkan) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
-    <link rel="stylesheet" href="{{ asset('css/components.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('css/halaman-manajemen-kerusakan.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('css/components.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/halaman-manajemen-kerusakan.css') }}" />
 
 
 </head>
@@ -23,22 +23,22 @@
     <x-navbar />
     <x-sidebar />
 
-    @if(session('success'))
-    <div id="toast" class="toast">
-        <div class="toast-icon"><i class="fas fa-check" style="color:white; display:none"></i></div>
-        <div class="toast-content">
-            <div class="toast-title">Success!</div>
-            <div class="toast-message">{{ session('success') }}</div>
+    @if (session('success'))
+        <div id="toast" class="toast">
+            <div class="toast-icon"><i class="fas fa-check" style="color:white; display:none"></i></div>
+            <div class="toast-content">
+                <div class="toast-title">Success!</div>
+                <div class="toast-message">{{ session('success') }}</div>
+            </div>
+            <button class="toast-close">&times;</button>
+            <div class="toast-progress"></div>
         </div>
-        <button class="toast-close">&times;</button>
-        <div class="toast-progress"></div>
-    </div>
     @endif
 
     <!-- Modal gambar -->
     <div id="imageModal" class="modal">
         <span class="close">&times;</span>
-        <img class="modal-content" id="modalImage" alt="Preview Gambar"/>
+        <img class="modal-content" id="modalImage" alt="Preview Gambar" />
     </div>
 
     <div class="content-wrapper">
@@ -58,13 +58,16 @@
 
                     <div class="table-actions">
                         <div style="display:flex; gap:10px;">
-                            <button id="selectAllBtn" class="btn btn-outline-primary"><i class="fas fa-check-square"></i> Pilih Semua</button>
-                            <button id="deselectAllBtn" class="btn btn-outline-primary"><i class="fas fa-times-circle"></i> Batalkan</button>
+                            <button id="selectAllBtn" class="btn btn-outline-primary"><i
+                                    class="fas fa-check-square"></i> Pilih Semua</button>
+                            <button id="deselectAllBtn" class="btn btn-outline-primary"><i
+                                    class="fas fa-times-circle"></i> Batalkan</button>
                         </div>
 
                         <div style="display:flex; align-items:center; gap:15px;">
                             <span id="selectedCount" class="selected-count">0 data terpilih</span>
-                            <button id="exportPdfBtn" class="btn btn-primary" disabled><i class="fas fa-file-pdf"></i> Ekspor ke PDF</button>
+                            <button id="exportPdfBtn" class="btn btn-primary" disabled><i class="fas fa-file-pdf"></i>
+                                Ekspor ke PDF</button>
                         </div>
                     </div>
 
@@ -86,48 +89,49 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($kerusakanList as $kerusakan)
-                                <tr data-id="{{ $kerusakan->id }}">
-                                    <td class="checkbox-cell"><input type="checkbox" class="row-checkbox"></td>
-                                    <td>{{ $kerusakan->id }}</td>
-                                    <td>{{ $kerusakan->judul_bukti_kerusakan ?? '-' }}</td>
+                                @foreach ($kerusakanList as $kerusakan)
+                                    <tr data-id="{{ $kerusakan->id }}">
+                                        <td class="checkbox-cell"><input type="checkbox" class="row-checkbox"></td>
+                                        <td>{{ $kerusakan->id }}</td>
+                                        <td>{{ $kerusakan->judul_bukti_kerusakan ?? '-' }}</td>
 
-                                    <td>
-                                        @php
-                                            $gedungInspeksi = $kerusakan->inspeksiGedung->gedung->nama_gedung ?? null;
-                                            $gedungLangsung = $kerusakan->gedung->nama_gedung ?? null;
-                                        @endphp
-                                        {{ implode(' / ', array_filter([$gedungInspeksi, $gedungLangsung])) ?: '-' }}
-                                    </td>
+                                        <td>
+                                            @php
+                                                $gedungInspeksi =
+                                                    $kerusakan->inspeksiGedung->gedung->nama_gedung ?? null;
+                                                $gedungLangsung = $kerusakan->gedung->nama_gedung ?? null;
+                                            @endphp
+                                            {{ implode(' / ', array_filter([$gedungInspeksi, $gedungLangsung])) ?: '-' }}
+                                        </td>
 
-                                    <td class="description-cell">{{ $kerusakan->deskripsi_bukti_kerusakan ?? '-' }}</td>
-                                    <td>{{ $kerusakan->tipe_kerusakan }}</td>
+                                        <td class="description-cell">{{ $kerusakan->deskripsi_bukti_kerusakan ?? '-' }}
+                                        </td>
+                                        <td>{{ $kerusakan->tipe_kerusakan }}</td>
 
-                                    <td class="date-cell">
-                                        @if($kerusakan->created_at)
-                                            {{ \Carbon\Carbon::parse($kerusakan->created_at)->translatedFormat('d F Y, H:i') }}
-                                        @else
-                                            -
-                                        @endif
-                                    </td>
+                                        <td class="date-cell">
+                                            @if ($kerusakan->created_at)
+                                                {{ \Carbon\Carbon::parse($kerusakan->created_at)->translatedFormat('d F Y, H:i') }}
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
 
-                                    <td>{{ $kerusakan->userInspektor->name }}</td>
-                                    <td>{{ $kerusakan->userInspektor->email }}</td>
+                                        <td>{{ $kerusakan->userInspektor->name }}</td>
+                                        <td>{{ $kerusakan->userInspektor->email }}</td>
 
-                                    <td>
-                                        @if($kerusakan->file_bukti_kerusakan)
-                                            <img src="{{ asset('storage/' . $kerusakan->file_bukti_kerusakan) }}"
-                                                 alt="Foto Kerusakan"
-                                                 class="image-preview"
-                                                 data-src="{{ asset('storage/' . $kerusakan->file_bukti_kerusakan) }}">
-                                        @else
-                                            <span class="no-image">Tidak ada gambar</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        {{ $kerusakan->tipe_pelaporan }}
-                                    </td>
-                                </tr>
+                                        <td>
+                                            @if ($kerusakan->file_bukti_kerusakan)
+                                                <img src="{{ asset('storage/' . $kerusakan->file_bukti_kerusakan) }}"
+                                                    alt="Foto Kerusakan" class="image-preview"
+                                                    data-src="{{ asset('storage/' . $kerusakan->file_bukti_kerusakan) }}">
+                                            @else
+                                                <span class="no-image">Tidak ada gambar</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            {{ $kerusakan->tipe_pelaporan }}
+                                        </td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -140,96 +144,97 @@
 
     <script src="{{ asset('js/components.js') }}"></script>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // jsPDF init
-        window.jsPDF = window.jspdf.jsPDF;
+        document.addEventListener('DOMContentLoaded', function() {
+            // jsPDF init
+            window.jsPDF = window.jspdf.jsPDF;
 
-        const selectAll = document.getElementById('selectAll');
-        const selectAllBtn = document.getElementById('selectAllBtn');
-        const deselectAllBtn = document.getElementById('deselectAllBtn');
-        const exportPdfBtn = document.getElementById('exportPdfBtn');
-        const selectedCount = document.getElementById('selectedCount');
-        const modal = document.getElementById('imageModal');
-        const modalImg = document.getElementById('modalImage');
-        const closeModal = document.querySelector('.close');
+            const selectAll = document.getElementById('selectAll');
+            const selectAllBtn = document.getElementById('selectAllBtn');
+            const deselectAllBtn = document.getElementById('deselectAllBtn');
+            const exportPdfBtn = document.getElementById('exportPdfBtn');
+            const selectedCount = document.getElementById('selectedCount');
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            const closeModal = document.querySelector('.close');
 
-        let selectedRows = new Set();
-        
-        // Dapatkan semua checkbox setelah DOM dimuat
-        const checkboxes = document.querySelectorAll('.row-checkbox');
+            let selectedRows = new Set();
 
-        // update counter
-        function updateSelectedCount() {
-            selectedCount.textContent = `${selectedRows.size} data terpilih`;
-            exportPdfBtn.disabled = selectedRows.size === 0;
-        }
+            // Dapatkan semua checkbox setelah DOM dimuat
+            const checkboxes = document.querySelectorAll('.row-checkbox');
 
-        // checkbox housekeeping
-        function setRowChecked(rowCheckbox, checked) {
-            rowCheckbox.checked = checked;
-            const row = rowCheckbox.closest('tr');
-            const id = row.getAttribute('data-id');
-            
-            if (checked) {
-                selectedRows.add(id);
-                row.classList.add('selected');
-            } else {
-                selectedRows.delete(id);
-                row.classList.remove('selected');
+            // update counter
+            function updateSelectedCount() {
+                selectedCount.textContent = `${selectedRows.size} data terpilih`;
+                exportPdfBtn.disabled = selectedRows.size === 0;
             }
-            
-            // refresh master checkbox state
-            const allChecked = Array.from(checkboxes).every(cb => cb.checked);
-            const someChecked = Array.from(checkboxes).some(cb => cb.checked);
-            
-            selectAll.checked = allChecked;
-            selectAll.indeterminate = someChecked && !allChecked;
-            
-            updateSelectedCount();
-        }
 
-        // master checkbox
-        selectAll.addEventListener('change', function() {
-            checkboxes.forEach(cb => setRowChecked(cb, this.checked));
-        });
+            // checkbox housekeeping
+            function setRowChecked(rowCheckbox, checked) {
+                rowCheckbox.checked = checked;
+                const row = rowCheckbox.closest('tr');
+                const id = row.getAttribute('data-id');
 
-        selectAllBtn.addEventListener('click', function() {
-            checkboxes.forEach(cb => setRowChecked(cb, true));
-        });
-
-        deselectAllBtn.addEventListener('click', function() {
-            checkboxes.forEach(cb => setRowChecked(cb, false));
-        });
-
-        // individual checkbox listeners
-        checkboxes.forEach(cb => {
-            cb.addEventListener('change', function() {
-                setRowChecked(this, this.checked);
-            });
-        });
-
-        // row click toggles checkbox (excluding actual checkbox clicks)
-        document.querySelectorAll('tbody tr').forEach(row => {
-            const rb = row.querySelector('.row-checkbox');
-            row.addEventListener('click', function(e) {
-                if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'LABEL' && e.target.tagName !== 'IMG') {
-                    setRowChecked(rb, !rb.checked);
+                if (checked) {
+                    selectedRows.add(id);
+                    row.classList.add('selected');
+                } else {
+                    selectedRows.delete(id);
+                    row.classList.remove('selected');
                 }
-            });
-        });
 
-        // image modal
-        document.querySelectorAll('.image-preview').forEach(img => {
-            img.addEventListener('click', function(e) {
-                modal.style.display = 'block';
-                modalImg.src = this.getAttribute('data-src') || this.src;
+                // refresh master checkbox state
+                const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+                const someChecked = Array.from(checkboxes).some(cb => cb.checked);
+
+                selectAll.checked = allChecked;
+                selectAll.indeterminate = someChecked && !allChecked;
+
+                updateSelectedCount();
+            }
+
+            // master checkbox
+            selectAll.addEventListener('change', function() {
+                checkboxes.forEach(cb => setRowChecked(cb, this.checked));
             });
-        });
-        
-        closeModal.addEventListener('click', () => modal.style.display = 'none');
-        window.addEventListener('click', function(ev) { 
-            if (ev.target === modal) modal.style.display = 'none'; 
-        });
+
+            selectAllBtn.addEventListener('click', function() {
+                checkboxes.forEach(cb => setRowChecked(cb, true));
+            });
+
+            deselectAllBtn.addEventListener('click', function() {
+                checkboxes.forEach(cb => setRowChecked(cb, false));
+            });
+
+            // individual checkbox listeners
+            checkboxes.forEach(cb => {
+                cb.addEventListener('change', function() {
+                    setRowChecked(this, this.checked);
+                });
+            });
+
+            // row click toggles checkbox (excluding actual checkbox clicks)
+            document.querySelectorAll('tbody tr').forEach(row => {
+                const rb = row.querySelector('.row-checkbox');
+                row.addEventListener('click', function(e) {
+                    if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'LABEL' && e.target
+                        .tagName !== 'IMG') {
+                        setRowChecked(rb, !rb.checked);
+                    }
+                });
+            });
+
+            // image modal
+            document.querySelectorAll('.image-preview').forEach(img => {
+                img.addEventListener('click', function(e) {
+                    modal.style.display = 'block';
+                    modalImg.src = this.getAttribute('data-src') || this.src;
+                });
+            });
+
+            closeModal.addEventListener('click', () => modal.style.display = 'none');
+            window.addEventListener('click', function(ev) {
+                if (ev.target === modal) modal.style.display = 'none';
+            });
 
             // --- Utility: convert <img> DOM element to base64 safely ---
             function getBase64Image(img) {
@@ -320,10 +325,16 @@
 
                         if (imgElement) {
                             imagePromises.push(
-                                getBase64Image(imgElement).then(base64 => ({ id, base64 }))
+                                getBase64Image(imgElement).then(base64 => ({
+                                    id,
+                                    base64
+                                }))
                             );
                         } else {
-                            imagePromises.push(Promise.resolve({ id, base64: null }));
+                            imagePromises.push(Promise.resolve({
+                                id,
+                                base64: null
+                            }));
                         }
                     });
 
@@ -332,7 +343,9 @@
 
                     // mapping id -> base64
                     const imageMap = {};
-                    imageResults.forEach(it => { imageMap[it.id] = it.base64; });
+                    imageResults.forEach(it => {
+                        imageMap[it.id] = it.base64;
+                    });
 
                     // ambil logo base64 (berguna untuk header kiri)
                     async function getLogoBase64() {
@@ -344,16 +357,20 @@
                                     const canvas = document.createElement('canvas');
                                     const ctx = canvas.getContext('2d');
                                     const maxW = 200;
-                                    const scale = logo.width > maxW ? (maxW / logo.width) : 1;
+                                    const scale = logo.width > maxW ? (maxW / logo
+                                        .width) : 1;
                                     canvas.width = Math.round(logo.width * scale);
                                     canvas.height = Math.round(logo.height * scale);
-                                    ctx.drawImage(logo, 0, 0, canvas.width, canvas.height);
+                                    ctx.drawImage(logo, 0, 0, canvas.width, canvas
+                                        .height);
                                     resolve(canvas.toDataURL('image/png'));
                                 } catch (e) {
                                     resolve(null);
                                 }
                             };
-                            logo.onerror = function() { resolve(null); };
+                            logo.onerror = function() {
+                                resolve(null);
+                            };
                             logo.src = "{{ asset('/storage/images/logo_bp.png') }}";
                         });
                     }
@@ -367,7 +384,9 @@
                     });
 
                     // styling dasar
-                    doc.setProperties({ title: 'Laporan Kerusakan' });
+                    doc.setProperties({
+                        title: 'Laporan Kerusakan'
+                    });
                     doc.setFont('Times', 'normal');
 
                     const pageWidth = doc.internal.pageSize.getWidth();
@@ -382,10 +401,14 @@
                     }
                     doc.setFontSize(16);
                     doc.setTextColor(30, 30, 30);
-                    doc.text('LAPORAN INSPEKSI KERUSAKAN BERAT ', pageWidth / 2, y + 8, { align: 'center' });
+                    doc.text('LAPORAN INSPEKSI KERUSAKAN BERAT ', pageWidth / 2, y + 8, {
+                        align: 'center'
+                    });
 
                     doc.setFontSize(10);
-                    doc.text('DIREKTORAT PENGELOLAAN KAWASAN BANDARA', pageWidth / 2, y + 14, { align: 'center' });
+                    doc.text('DIREKTORAT PENGELOLAAN KAWASAN BANDARA', pageWidth / 2, y + 14, {
+                        align: 'center'
+                    });
                     doc.setFontSize(9);
 
                     // garis
@@ -397,7 +420,9 @@
                     const exportDate = new Date();
                     doc.setFontSize(8);
                     doc.setTextColor(100);
-                    doc.text(`Dicetak pada: ${exportDate.toLocaleDateString('id-ID', { weekday: 'long', year:'numeric', month:'long', day:'numeric', hour:'2-digit', minute:'2-digit' })}`, margin, y + 38);
+                    doc.text(
+                        `Dicetak pada: ${exportDate.toLocaleDateString('id-ID', { weekday: 'long', year:'numeric', month:'long', day:'numeric', hour:'2-digit', minute:'2-digit' })}`,
+                        margin, y + 38);
 
                     y += 46;
 
@@ -407,7 +432,8 @@
                         const imgBase64 = imageMap[row.id] || null;
 
                         // jika ruang di halaman kurang, buat halaman baru
-                        const estimatedBlockHeight = 60; // estimasi minimal per kartu (akan disesuaikan lebih lanjut)
+                        const estimatedBlockHeight =
+                        60; // estimasi minimal per kartu (akan disesuaikan lebih lanjut)
                         if (y + estimatedBlockHeight > pageHeight - margin - 60) {
                             doc.addPage();
                             y = margin;
@@ -482,7 +508,8 @@
                         const catatanW = cardW - 12;
 
                         // batas bawah card: kita mungkin perlu memperbesar tinggi kartu sesuai catatan
-                        const catatanLines = doc.splitTextToSize(`Catatan: ${row.catatan || '-'}`, catatanW - 6);
+                        const catatanLines = doc.splitTextToSize(`Catatan: ${row.catatan || '-'}`,
+                            catatanW - 6);
                         const catatanH = catatanLines.length * 5 + 6;
 
                         // jika catatan tinggi maka kita perlu redraw area card (buat ruang ekstra)
@@ -512,7 +539,9 @@
 
                     doc.setFontSize(10);
                     doc.setTextColor(40);
-                    doc.text(`Batam, ${new Date().toLocaleDateString('id-ID', { day:'2-digit', month:'long', year:'numeric' })}`, signatureX - 7, signatureY);
+                    doc.text(
+                        `Batam, ${new Date().toLocaleDateString('id-ID', { day:'2-digit', month:'long', year:'numeric' })}`,
+                        signatureX - 7, signatureY);
                     doc.text('Petugas Inspeksi,', signatureX, signatureY + 5);
 
                     // garis tanda tangan
@@ -524,7 +553,8 @@
                     doc.save('laporan-kerusakan-gedung.pdf');
                 } catch (err) {
                     console.error('Error saat membuat PDF:', err);
-                    alert('Terjadi kesalahan saat membuat PDF. Silakan coba lagi atau periksa console.');
+                    alert(
+                    'Terjadi kesalahan saat membuat PDF. Silakan coba lagi atau periksa console.');
                 } finally {
                     // restore tombol
                     exportPdfBtn.disabled = selectedRows.size === 0;
@@ -535,4 +565,5 @@
         });
     </script>
 </body>
+
 </html>

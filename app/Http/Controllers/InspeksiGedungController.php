@@ -15,21 +15,21 @@ use Illuminate\Support\Facades\Crypt;
 
 class InspeksiGedungController extends Controller
 {
-public function halamanInspeksi()
-{
-    $gedungs = Gedung::all();
+    public function halamanInspeksi()
+    {
+        $gedungs = Gedung::all();
 
-    // Ambil id_gedung yang memiliki status inspeksi Terbuka
-    $gedungDenganInspeksiTerbuka = InspeksiGedung::where('status_keseluruhan_inspeksi', 'Terbuka')
-        ->pluck('id_gedung')
-        ->toArray();
+        // Ambil id_gedung yang memiliki status inspeksi Terbuka
+        $gedungDenganInspeksiTerbuka = InspeksiGedung::where('status_keseluruhan_inspeksi', 'Terbuka')
+            ->pluck('id_gedung')
+            ->toArray();
 
-    return view('pages.jadwalkan-inspeksi', compact('gedungs', 'gedungDenganInspeksiTerbuka'));
-}
+        return view('pages.jadwalkan-inspeksi', compact('gedungs', 'gedungDenganInspeksiTerbuka'));
+    }
 
 
 
-     public function store(Request $request)
+    public function store(Request $request)
     {
         $userId = Auth::id();
 
@@ -55,7 +55,7 @@ public function halamanInspeksi()
             ->findOrFail($idInspeksiBaru);
 
         // Ambil semua email staff pelaksana dan kepala seksi
-        $staffs = User::whereIn('role', ['Admin','Staff Pelaksana', 'Kepala Seksi'])->get();
+        $staffs = User::whereIn('role', ['Admin', 'Staff Pelaksana', 'Kepala Seksi'])->get();
 
         // Kirim email
         foreach ($staffs as $staff) {
@@ -92,37 +92,38 @@ public function halamanInspeksi()
     }
 
 
-            public function tampilDetailInspeksi($id_inspeksi_encrypted)
-            {
-                // Dekripsi ID
-                try {
-                    $id_inspeksi = Crypt::decryptString($id_inspeksi_encrypted);
-                } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
-                    abort(404); // kalau token tidak valid
-                }
+    public function tampilDetailInspeksi($id_inspeksi_encrypted)
+    {
+        // Dekripsi ID
+        try {
+            $id_inspeksi = Crypt::decryptString($id_inspeksi_encrypted);
+        } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
+            abort(404); // kalau token tidak valid
+        }
 
-                $buktiKerusakans = BuktiKerusakan::where('id_inspeksi_gedung', $id_inspeksi)->get();
-                $inspeksi = InspeksiGedung::with('gedung', 'user')->findOrFail($id_inspeksi);
+        $buktiKerusakans = BuktiKerusakan::where('id_inspeksi_gedung', $id_inspeksi)->get();
+        $inspeksi = InspeksiGedung::with('gedung', 'user')->findOrFail($id_inspeksi);
 
-                return view('pages.detail-inspeksi-petugas', [
-                    'inspeksi' => $inspeksi,
-                    'buktiKerusakans' => $buktiKerusakans,
-                ]);
-            }
+        return view('pages.detail-inspeksi-petugas', [
+            'inspeksi' => $inspeksi,
+            'buktiKerusakans' => $buktiKerusakans,
+        ]);
+    }
 
-            
+
 
 
     public function updateDetailInspeksi(Request $request, $id)
     {
         // Tangkap user yang sedang login
-        $userLogin = Auth::user(); 
+        $userLogin = Auth::user();
         $informasiPengubahStatus = InspeksiGedung::with('gedung', 'user')->findOrFail($id);
 
         // Validasi input
         $request->validate([
             'field' => 'required|string',
-            'value' => 'required|string']);
+            'value' => 'required|string'
+        ]);
 
         $allowedFields = [
             'furniture',
@@ -135,7 +136,7 @@ public function halamanInspeksi()
             'drainase',
         ];
 
-        
+
         if (!in_array($request->field, $allowedFields)) {
             return response()->json(['message' => 'Field tidak valid'], 400);
         }
@@ -145,9 +146,9 @@ public function halamanInspeksi()
         $inspeksi->update([
             $request->field => $request->value
         ]);
-        
+
         // Ambil semua user role Kepala Seksi
-        $kepalaSeksiUsers = User::whereIn('role', ['Admin','Staff Pelaksana', 'Kepala Seksi'])->get();
+        $kepalaSeksiUsers = User::whereIn('role', ['Admin', 'Staff Pelaksana', 'Kepala Seksi'])->get();
 
         // Kirim email ke semua Kepala Seksi
         foreach ($kepalaSeksiUsers as $kepalaSeksi) {
@@ -158,9 +159,9 @@ public function halamanInspeksi()
                 'field' => ucfirst(str_replace('_', ' ', $request->field)),
                 'nilaiBaru' => $request->value,
                 'tanggalUpdate' => now()->format('d-m-Y H:i')
-            ], function($message) use ($kepalaSeksi) {
+            ], function ($message) use ($kepalaSeksi) {
                 $message->to($kepalaSeksi->email)
-                        ->subject('Pembaruan Status Inspeksi Gedung');
+                    ->subject('Pembaruan Status Inspeksi Gedung');
             });
         }
 
@@ -185,19 +186,19 @@ public function halamanInspeksi()
 
 
 
-public function updateStatus(Request $request, $id)
-{
-    $request->validate([
-        'status_keseluruhan_inspeksi' => 'required|string'
-    ]);
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status_keseluruhan_inspeksi' => 'required|string'
+        ]);
 
-    $inspeksi = \App\Models\InspeksiGedung::findOrFail($id);
-    $inspeksi->status_keseluruhan_inspeksi = $request->status_keseluruhan_inspeksi;
-    $inspeksi->save();
+        $inspeksi = \App\Models\InspeksiGedung::findOrFail($id);
+        $inspeksi->status_keseluruhan_inspeksi = $request->status_keseluruhan_inspeksi;
+        $inspeksi->save();
 
-    return response()->json([
-        'success' => true,
-        'message' => 'Status berhasil diperbarui'
-    ]);
-}
+        return response()->json([
+            'success' => true,
+            'message' => 'Status berhasil diperbarui'
+        ]);
+    }
 }

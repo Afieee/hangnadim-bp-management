@@ -56,15 +56,16 @@ class FeedbackController extends Controller
         $feedback->previous_hash = $previous_hash;
 
         // Hitung hash termasuk perwakilan_atau_pengisi
-        $feedback->hash = hash('sha256',
+        $feedback->hash = hash(
+            'sha256',
             $feedback->id_penjadwalan_tamu .
-            $feedback->catatan_feedback .
-            $feedback->perwakilan_atau_pengisi .
-            $feedback->indeks_rating_pelayanan .
-            $feedback->mutu_rating_pelayanan .
-            $feedback->predikat_rating_pelayanan .
-            $previous_hash .
-            now()
+                $feedback->catatan_feedback .
+                $feedback->perwakilan_atau_pengisi .
+                $feedback->indeks_rating_pelayanan .
+                $feedback->mutu_rating_pelayanan .
+                $feedback->predikat_rating_pelayanan .
+                $previous_hash .
+                now()
         );
 
         $feedback->save();
@@ -72,7 +73,7 @@ class FeedbackController extends Controller
         // Simpan juga ke tabel backup_feedback
         \App\Models\BackupFeedback::create([
             'id_feedback' => $feedback->id,
-            'perwakilan_atau_pengisi' => $feedback->perwakilan_atau_pengisi, 
+            'perwakilan_atau_pengisi' => $feedback->perwakilan_atau_pengisi,
             'catatan_feedback' => $feedback->catatan_feedback,
             'indeks_rating_pelayanan' => $feedback->indeks_rating_pelayanan,
             'mutu_rating_pelayanan' => $feedback->mutu_rating_pelayanan,
@@ -87,45 +88,30 @@ class FeedbackController extends Controller
 
 
 
-    public function halamanTerimakasih(){
+    public function halamanTerimakasih()
+    {
         return view('pages.terimakasih');
     }
 
 
-    
-public function halamanDataFeedback()
-{
-    // Gunakan paginate
-    $feedback = Feedback::with('penjadwalanTamu')->paginate(4);
 
-    // Selalu array karena verifyChain sudah dikoreksi
-    $invalidIds = Feedback::verifyChain();
-    $errorMessage = null;
+    public function halamanDataFeedback()
+    {
+        // Gunakan paginate
+        $feedback = Feedback::with('penjadwalanTamu')->paginate(4);
 
-    if (!empty($invalidIds)) {
-        $idList = implode(', ', $invalidIds);
-        $errorMessage = "⚠️ Data feedback dengan ID <strong>{$idList}</strong> terdeteksi telah diubah! Tolong untuk admin database agar segera menangani";
+        // Selalu array karena verifyChain sudah dikoreksi
+        $invalidIds = Feedback::verifyChain();
+        $errorMessage = null;
+
+        if (!empty($invalidIds)) {
+            $idList = implode(', ', $invalidIds);
+            $errorMessage = "⚠️ Data feedback dengan ID <strong>{$idList}</strong> terdeteksi telah diubah! Tolong untuk admin database agar segera menangani";
+        }
+
+        return view('pages.halaman-data-feedback', [
+            'feedback' => $feedback,
+            'errorMessage' => $errorMessage,
+        ]);
     }
-
-    return view('pages.halaman-data-feedback', [
-        'feedback' => $feedback,
-        'errorMessage' => $errorMessage,
-    ]);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

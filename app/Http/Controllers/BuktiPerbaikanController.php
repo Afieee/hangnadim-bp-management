@@ -10,31 +10,31 @@ use Illuminate\Support\Facades\Storage;
 
 class BuktiPerbaikanController extends Controller
 {
-public function halamanUploadBuktiPerbaikan($id_buktiKerusakan)
-{
-    $id = \Illuminate\Support\Facades\Crypt::decryptString($id_buktiKerusakan);
+    public function halamanUploadBuktiPerbaikan($id_buktiKerusakan)
+    {
+        $id = \Illuminate\Support\Facades\Crypt::decryptString($id_buktiKerusakan);
 
-    // Ambil data BuktiKerusakan
-    $buktiKerusakan = BuktiKerusakan::findOrFail($id);
+        // Ambil data BuktiKerusakan
+        $buktiKerusakan = BuktiKerusakan::findOrFail($id);
 
-    // Ambil data BuktiPerbaikan
-    $buktiPerbaikan = BuktiPerbaikan::where('id_bukti_kerusakan', $id)->get();
+        // Ambil data BuktiPerbaikan
+        $buktiPerbaikan = BuktiPerbaikan::where('id_bukti_kerusakan', $id)->get();
 
-    // Pastikan path foto benar
-    foreach ($buktiPerbaikan as $perbaikan) {
-        if ($perbaikan->file_bukti_perbaikan) {
-            if (str_contains($perbaikan->file_bukti_perbaikan, 'storage/')) {
-                $perbaikan->url_foto = asset($perbaikan->file_bukti_perbaikan);
+        // Pastikan path foto benar
+        foreach ($buktiPerbaikan as $perbaikan) {
+            if ($perbaikan->file_bukti_perbaikan) {
+                if (str_contains($perbaikan->file_bukti_perbaikan, 'storage/')) {
+                    $perbaikan->url_foto = asset($perbaikan->file_bukti_perbaikan);
+                } else {
+                    $perbaikan->url_foto = asset('storage/uploaded_photo/' . $perbaikan->file_bukti_perbaikan);
+                }
             } else {
-                $perbaikan->url_foto = asset('storage/uploaded_photo/' . $perbaikan->file_bukti_perbaikan);
+                $perbaikan->url_foto = null;
             }
-        } else {
-            $perbaikan->url_foto = null;
         }
-    }
 
-    return view('pages.halaman-upload-bukti-perbaikan', compact('buktiKerusakan', 'buktiPerbaikan'));
-}
+        return view('pages.halaman-upload-bukti-perbaikan', compact('buktiKerusakan', 'buktiPerbaikan'));
+    }
 
 
 
@@ -95,11 +95,4 @@ public function halamanUploadBuktiPerbaikan($id_buktiKerusakan)
             'buktiKerusakanPribadi' => $buktiKerusakanPribadi,
         ]);
     }
-
-
-
-
-
-
-
 }

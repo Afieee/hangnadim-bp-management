@@ -8,6 +8,7 @@ use App\Models\Feedback;
 use Illuminate\Http\Request;
 use App\Models\BuktiKerusakan;
 use App\Models\InspeksiGedung;
+use App\Models\PenjadwalanTamu;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -77,66 +78,80 @@ class AuthController extends Controller
         return redirect('/')->with('success', 'Anda Berhasil Logout.');
     }
 
-public function dashboard()
-{   
-    // Hitung jumlah kerusakan berdasarkan tipe yang baru
-    $buktiKerusakanFurniture = BuktiKerusakan::where('tipe_kerusakan', 'Furniture')->count();
-    $buktiKerusakanFireSystem = BuktiKerusakan::where('tipe_kerusakan', 'Fire System')->count();
-    $buktiKerusakanGedungBangunan = BuktiKerusakan::where('tipe_kerusakan', 'Gedung & Bangunan')->count();
-    $buktiKerusakanMekanikalElektrikal = BuktiKerusakan::where('tipe_kerusakan', 'Mekanikal Elektrikal')->count();
-    $buktiKerusakanIT = BuktiKerusakan::where('tipe_kerusakan', 'IT')->count();
-    $buktiKerusakanJalananJembatan = BuktiKerusakan::where('tipe_kerusakan', 'Jalanan & Jembatan')->count();
-    $buktiKerusakanJaringanAir = BuktiKerusakan::where('tipe_kerusakan', 'Jaringan Air')->count();
-    $buktiKerusakanDrainase = BuktiKerusakan::where('tipe_kerusakan', 'Drainase')->count();
+    public function dashboard()
+    {
+        // Hitung jumlah kerusakan berdasarkan tipe yang baru
+        $buktiKerusakanFurniture = BuktiKerusakan::where('tipe_kerusakan', 'Furniture')->count();
+        $buktiKerusakanFireSystem = BuktiKerusakan::where('tipe_kerusakan', 'Fire System')->count();
+        $buktiKerusakanGedungBangunan = BuktiKerusakan::where('tipe_kerusakan', 'Gedung & Bangunan')->count();
+        $buktiKerusakanMekanikalElektrikal = BuktiKerusakan::where('tipe_kerusakan', 'Mekanikal Elektrikal')->count();
+        $buktiKerusakanIT = BuktiKerusakan::where('tipe_kerusakan', 'IT')->count();
+        $buktiKerusakanJalananJembatan = BuktiKerusakan::where('tipe_kerusakan', 'Jalanan & Jembatan')->count();
+        $buktiKerusakanJaringanAir = BuktiKerusakan::where('tipe_kerusakan', 'Jaringan Air')->count();
+        $buktiKerusakanDrainase = BuktiKerusakan::where('tipe_kerusakan', 'Drainase')->count();
 
-    // Kode lainnya tetap sama...
-    $hitungFeedbackSangatBaik = Feedback::where('predikat_rating_pelayanan', 'Sangat Baik')->count();
-    $hitungFeedbackBaik = Feedback::where('predikat_rating_pelayanan', 'Baik')->count();
-    $hitungFeedbackKurangBaik = Feedback::where('predikat_rating_pelayanan', 'Kurang Baik')->count();
-    $hitungFeedbackTidakBaik = Feedback::where('predikat_rating_pelayanan', 'Tidak Baik')->count();
+        // Kode lainnya tetap sama...
+        $hitungFeedbackSangatBaik = Feedback::where('predikat_rating_pelayanan', 'Sangat Baik')->count();
+        $hitungFeedbackBaik = Feedback::where('predikat_rating_pelayanan', 'Baik')->count();
+        $hitungFeedbackKurangBaik = Feedback::where('predikat_rating_pelayanan', 'Kurang Baik')->count();
+        $hitungFeedbackTidakBaik = Feedback::where('predikat_rating_pelayanan', 'Tidak Baik')->count();
 
-    $jumlahStaffPelaksana = User::where('role', 'Staff Pelaksana')->count();
-    $indeksRatingPelayananRataRata = round(Feedback::avg('indeks_rating_pelayanan'), 2);
-    $totalKerusakan = BuktiKerusakan::all()->count();
+        $jumlahStaffPelaksana = User::where('role', 'Staff Pelaksana')->count();
+        $indeksRatingPelayananRataRata = round(Feedback::avg('indeks_rating_pelayanan'), 2);
+        $totalKerusakan = BuktiKerusakan::all()->count();
 
-    $buktiPerbaikanPenutupKerusakan = DB::table('bukti_kerusakan')
-        ->select(
-            DB::raw('DISTINCT bukti_perbaikan.id_bukti_kerusakan'),
-            'bukti_kerusakan.judul_bukti_kerusakan',
-            'bukti_kerusakan.id'
-        )
-        ->from('bukti_kerusakan')
-        ->join('bukti_perbaikan', 'bukti_kerusakan.id', '=', 'bukti_perbaikan.id_bukti_kerusakan')
-        ->get()->count();
+        $buktiPerbaikanPenutupKerusakan = DB::table('bukti_kerusakan')
+            ->select(
+                DB::raw('DISTINCT bukti_perbaikan.id_bukti_kerusakan'),
+                'bukti_kerusakan.judul_bukti_kerusakan',
+                'bukti_kerusakan.id'
+            )
+            ->from('bukti_kerusakan')
+            ->join('bukti_perbaikan', 'bukti_kerusakan.id', '=', 'bukti_perbaikan.id_bukti_kerusakan')
+            ->get()->count();
 
-    $buktiKerusakanYangBelumDiperbaiki = BuktiKerusakan::whereDoesntHave('buktiPerbaikan')->count();
-    $jumlahInspeksi = InspeksiGedung::where('status_keseluruhan_inspeksi', 'Terbuka')->count();
-    $user = Auth::user();
-    
-    return view('pages.dashboard',[
-        'user' => $user,
-        'buktiPerbaikanPenutupKerusakan' => $buktiPerbaikanPenutupKerusakan,
-        'buktiKerusakanYangBelumDiperbaiki' => $buktiKerusakanYangBelumDiperbaiki,
-        'jumlahInspeksi' => $jumlahInspeksi,
-        'totalKerusakan' => $totalKerusakan,
-        'indeksRatingPelayananRataRata' => $indeksRatingPelayananRataRata,
-        'hitungFeedbackSangatBaik'=> $hitungFeedbackSangatBaik,
-        'hitungFeedbackBaik' => $hitungFeedbackBaik,
-        'hitungFeedbackKurangBaik' => $hitungFeedbackKurangBaik,
-        'hitungFeedbackTidakBaik' => $hitungFeedbackTidakBaik,
+        $jumlahLevelTamuKepresidenan = PenjadwalanTamu::where('level_tamu', 'Kepresidenan')->count();
+        $jumlahLevelTamuKementerian = PenjadwalanTamu::where('level_tamu', 'Kementerian')->count();
+        $jumlahLevelTamuLembagaNegara = PenjadwalanTamu::where('level_tamu', 'Lembaga Negara')->count();
+        $jumlahLevelTamuTamuNegara = PenjadwalanTamu::where('level_tamu', 'Tamu Negara')->count();
+        $jumlahLevelInstansiLain = PenjadwalanTamu::where('level_tamu', 'Instansi Lain')->count();
 
-        // Data tipe kerusakan yang baru
-        'buktiKerusakanFurniture'=> $buktiKerusakanFurniture,
-        'buktiKerusakanFireSystem'=> $buktiKerusakanFireSystem,
-        'buktiKerusakanGedungBangunan'=> $buktiKerusakanGedungBangunan,
-        'buktiKerusakanMekanikalElektrikal'=> $buktiKerusakanMekanikalElektrikal,
-        'buktiKerusakanIT'=> $buktiKerusakanIT,
-        'buktiKerusakanJalananJembatan'=> $buktiKerusakanJalananJembatan,
-        'buktiKerusakanJaringanAir'=> $buktiKerusakanJaringanAir,
-        'buktiKerusakanDrainase' => $buktiKerusakanDrainase,
-        'jumlahStaffPelaksana' => $jumlahStaffPelaksana,
-    ]);
-}
+
+
+        $buktiKerusakanYangBelumDiperbaiki = BuktiKerusakan::whereDoesntHave('buktiPerbaikan')->count();
+        $jumlahInspeksi = InspeksiGedung::where('status_keseluruhan_inspeksi', 'Terbuka')->count();
+        $user = Auth::user();
+
+        return view('pages.dashboard', [
+            'user' => $user,
+            'buktiPerbaikanPenutupKerusakan' => $buktiPerbaikanPenutupKerusakan,
+            'buktiKerusakanYangBelumDiperbaiki' => $buktiKerusakanYangBelumDiperbaiki,
+            'jumlahInspeksi' => $jumlahInspeksi,
+            'totalKerusakan' => $totalKerusakan,
+            'indeksRatingPelayananRataRata' => $indeksRatingPelayananRataRata,
+            'hitungFeedbackSangatBaik' => $hitungFeedbackSangatBaik,
+            'hitungFeedbackBaik' => $hitungFeedbackBaik,
+            'hitungFeedbackKurangBaik' => $hitungFeedbackKurangBaik,
+            'hitungFeedbackTidakBaik' => $hitungFeedbackTidakBaik,
+
+            // Data tipe kerusakan yang baru
+            'buktiKerusakanFurniture' => $buktiKerusakanFurniture,
+            'buktiKerusakanFireSystem' => $buktiKerusakanFireSystem,
+            'buktiKerusakanGedungBangunan' => $buktiKerusakanGedungBangunan,
+            'buktiKerusakanMekanikalElektrikal' => $buktiKerusakanMekanikalElektrikal,
+            'buktiKerusakanIT' => $buktiKerusakanIT,
+            'buktiKerusakanJalananJembatan' => $buktiKerusakanJalananJembatan,
+            'buktiKerusakanJaringanAir' => $buktiKerusakanJaringanAir,
+            'buktiKerusakanDrainase' => $buktiKerusakanDrainase,
+            'jumlahStaffPelaksana' => $jumlahStaffPelaksana,
+
+            'jumlahLevelTamuKepresidenan' => $jumlahLevelTamuKepresidenan,
+            'jumlahLevelTamuKementerian' => $jumlahLevelTamuKementerian,
+            'jumlahLevelTamuLembagaNegara' => $jumlahLevelTamuLembagaNegara,
+            'jumlahLevelTamuTamuNegara' => $jumlahLevelTamuTamuNegara,
+            'jumlahLevelInstansiLain' => $jumlahLevelInstansiLain,
+        ]);
+    }
 
 
 
@@ -147,7 +162,7 @@ public function dashboard()
             return [null, null];
         }
 
-        // jika year kosong tapi month ada -> jangan terima. Namun client hanya mengirim month jika year ada. 
+        // jika year kosong tapi month ada -> jangan terima. Namun client hanya mengirim month jika year ada.
         // Kita tetap handle month tanpa year: gunakan currentYear.
         if ($month && !$year) $year = Carbon::now()->year;
 
@@ -197,7 +212,7 @@ public function dashboard()
         [$startDate, $endDate] = $this->buildDateRange($year, $month, $week);
 
         // helper closure to apply created_at range if present
-        $applyDateRange = function($query, $dateField = 'created_at') use ($startDate, $endDate) {
+        $applyDateRange = function ($query, $dateField = 'created_at') use ($startDate, $endDate) {
             if ($startDate && $endDate) {
                 $query->whereBetween($dateField, [$startDate, $endDate]);
             }
@@ -261,44 +276,79 @@ public function dashboard()
     }
 
     // endpoint POST khusus tipe kerusakan (return counts per tipe)
-public function filterDamageType(Request $request)
-{
-    $year = $request->input('year');
-    $month = $request->input('month');
-    $week = $request->input('week');
+    public function filterDamageType(Request $request)
+    {
+        $year = $request->input('year');
+        $month = $request->input('month');
+        $week = $request->input('week');
 
-    [$startDate, $endDate] = $this->buildDateRange($year, $month, $week);
+        [$startDate, $endDate] = $this->buildDateRange($year, $month, $week);
 
-    $applyRange = function($query) use ($startDate, $endDate) {
-        if ($startDate && $endDate) $query->whereBetween('created_at', [$startDate, $endDate]);
-        return $query;
-    };
+        $applyRange = function ($query) use ($startDate, $endDate) {
+            if ($startDate && $endDate) $query->whereBetween('created_at', [$startDate, $endDate]);
+            return $query;
+        };
 
-    // Update query untuk tipe kerusakan yang baru
-    $buktiKerusakanFurniture = $applyRange(BuktiKerusakan::where('tipe_kerusakan', 'Furniture'))->count();
-    $buktiKerusakanFireSystem = $applyRange(BuktiKerusakan::where('tipe_kerusakan', 'Fire System'))->count();
-    $buktiKerusakanGedungBangunan = $applyRange(BuktiKerusakan::where('tipe_kerusakan', 'Gedung & Bangunan'))->count();
-    $buktiKerusakanMekanikalElektrikal = $applyRange(BuktiKerusakan::where('tipe_kerusakan', 'Mekanikal Elektrikal'))->count();
-    $buktiKerusakanIT = $applyRange(BuktiKerusakan::where('tipe_kerusakan', 'IT'))->count();
-    $buktiKerusakanJalananJembatan = $applyRange(BuktiKerusakan::where('tipe_kerusakan', 'Jalanan & Jembatan'))->count();
-    $buktiKerusakanJaringanAir = $applyRange(BuktiKerusakan::where('tipe_kerusakan', 'Jaringan Air'))->count();
-    $buktiKerusakanDrainase = $applyRange(BuktiKerusakan::where('tipe_kerusakan', 'Drainase'))->count();
+        // Update query untuk tipe kerusakan yang baru
+        $buktiKerusakanFurniture = $applyRange(BuktiKerusakan::where('tipe_kerusakan', 'Furniture'))->count();
+        $buktiKerusakanFireSystem = $applyRange(BuktiKerusakan::where('tipe_kerusakan', 'Fire System'))->count();
+        $buktiKerusakanGedungBangunan = $applyRange(BuktiKerusakan::where('tipe_kerusakan', 'Gedung & Bangunan'))->count();
+        $buktiKerusakanMekanikalElektrikal = $applyRange(BuktiKerusakan::where('tipe_kerusakan', 'Mekanikal Elektrikal'))->count();
+        $buktiKerusakanIT = $applyRange(BuktiKerusakan::where('tipe_kerusakan', 'IT'))->count();
+        $buktiKerusakanJalananJembatan = $applyRange(BuktiKerusakan::where('tipe_kerusakan', 'Jalanan & Jembatan'))->count();
+        $buktiKerusakanJaringanAir = $applyRange(BuktiKerusakan::where('tipe_kerusakan', 'Jaringan Air'))->count();
+        $buktiKerusakanDrainase = $applyRange(BuktiKerusakan::where('tipe_kerusakan', 'Drainase'))->count();
 
-    return response()->json([
-        'buktiKerusakanFurniture' => $buktiKerusakanFurniture,
-        'buktiKerusakanFireSystem' => $buktiKerusakanFireSystem,
-        'buktiKerusakanGedungBangunan' => $buktiKerusakanGedungBangunan,
-        'buktiKerusakanMekanikalElektrikal' => $buktiKerusakanMekanikalElektrikal,
-        'buktiKerusakanIT' => $buktiKerusakanIT,
-        'buktiKerusakanJalananJembatan' => $buktiKerusakanJalananJembatan,
-        'buktiKerusakanJaringanAir' => $buktiKerusakanJaringanAir,
-        'buktiKerusakanDrainase' => $buktiKerusakanDrainase,
-    ]);
-}
-
-
+        return response()->json([
+            'buktiKerusakanFurniture' => $buktiKerusakanFurniture,
+            'buktiKerusakanFireSystem' => $buktiKerusakanFireSystem,
+            'buktiKerusakanGedungBangunan' => $buktiKerusakanGedungBangunan,
+            'buktiKerusakanMekanikalElektrikal' => $buktiKerusakanMekanikalElektrikal,
+            'buktiKerusakanIT' => $buktiKerusakanIT,
+            'buktiKerusakanJalananJembatan' => $buktiKerusakanJalananJembatan,
+            'buktiKerusakanJaringanAir' => $buktiKerusakanJaringanAir,
+            'buktiKerusakanDrainase' => $buktiKerusakanDrainase,
+        ]);
+    }
 
 
+
+
+    // Tambahkan method ini di AuthController
+    public function filterGuestSchedule(Request $request)
+    {
+        $year = $request->input('year');
+        $month = $request->input('month');
+        $week = $request->input('week');
+
+        [$startDate, $endDate] = $this->buildDateRange($year, $month, $week);
+
+        $applyRange = function ($query) use ($startDate, $endDate) {
+            if ($startDate && $endDate) {
+                $query->whereBetween('waktu_penggunaan_gedung', [$startDate, $endDate]);
+            }
+            return $query;
+        };
+
+        // Hitung jumlah tamu berdasarkan level
+        $jumlahLevelTamuKepresidenan = $applyRange(PenjadwalanTamu::where('level_tamu', 'Kepresidenan'))->count();
+        $jumlahLevelTamuKementerian = $applyRange(PenjadwalanTamu::where('level_tamu', 'Kementerian'))->count();
+        $jumlahLevelTamuLembagaNegara = $applyRange(PenjadwalanTamu::where('level_tamu', 'Lembaga Negara'))->count();
+        $jumlahLevelTamuTamuNegara = $applyRange(PenjadwalanTamu::where('level_tamu', 'Tamu Negara'))->count();
+        $jumlahLevelInstansiLain = $applyRange(PenjadwalanTamu::where('level_tamu', 'Instansi Lain'))->count();
+
+        // Total tamu
+        $totalTamu = $applyRange(PenjadwalanTamu::query())->count();
+
+        return response()->json([
+            'jumlahLevelTamuKepresidenan' => $jumlahLevelTamuKepresidenan,
+            'jumlahLevelTamuKementerian' => $jumlahLevelTamuKementerian,
+            'jumlahLevelTamuLembagaNegara' => $jumlahLevelTamuLembagaNegara,
+            'jumlahLevelTamuTamuNegara' => $jumlahLevelTamuTamuNegara,
+            'jumlahLevelInstansiLain' => $jumlahLevelInstansiLain,
+            'totalTamu' => $totalTamu
+        ]);
+    }
 
 
 
@@ -440,7 +490,4 @@ public function filterDamageType(Request $request)
 
         return redirect()->route('manage-user')->with('success', 'User berhasil diperbarui!');
     }
-
-
-
 }
