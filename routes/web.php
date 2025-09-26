@@ -46,6 +46,13 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/gedung', [GedungController::class, 'halamanTambahGedung'])->name('gedung.create');
     Route::post('/gedung/store', [GedungController::class, 'simpanGedung'])->name('gedung.store');
+    Route::get('/halaman-tambah-asset', [GedungController::class, 'halamanTambahAsset'])->name('asset.create');
+    Route::post('/asset-simpan', [GedungController::class, 'tambahAsset'])->name('asset.store');
+    Route::get('/halaman-edit-asset/{id}', [GedungController::class, 'halamanEditAsset'])->name('asset.edit');
+    Route::post('/asset-update/{id}', [GedungController::class, 'updateAsset'])->name('asset.update');
+    Route::put('/asset-update/{id}', [GedungController::class, 'updateAsset']); // Untuk AJAX
+    Route::delete('/asset-delete/{id}', [GedungController::class, 'hapusAsset'])->name('asset.delete');
+
 
 
     Route::get('/jadwalkan-inspeksi', [InspeksiGedungController::class, 'halamanInspeksi'])->name('jadwalkan.inspeksi');
