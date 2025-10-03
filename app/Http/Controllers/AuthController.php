@@ -30,7 +30,7 @@ class AuthController extends Controller
             'name'     => 'required|string|max:255',
             'email'    => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
-            'role' => 'required|in:Admin,Kepala Seksi,Staff Pelaksana,Direktur,Kepala Bidang,Deputi,Tata Usaha',
+            'role' => 'required|in:Admin,Kepala Seksi,Staff Pelaksana,Direktur,Kepala Sub Direktorat,Deputi,Tata Usaha',
         ]);
 
         User::create([
