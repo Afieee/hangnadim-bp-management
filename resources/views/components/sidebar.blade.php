@@ -61,7 +61,7 @@
                         VVIP</a></li>
                 <li><a href="/halaman-data-feedback"><i class="fas fa-history"></i> Riwayat Respons Pengguna Gedung VIP
                         & VVIP</a></li>
-            @elseif (in_array(Auth::user()->role, ['Direktur', 'Kepala Sub Direktorat']))
+            @elseif (in_array(Auth::user()->role, ['Direktur', 'Kepala Sub Direktorat', 'Deputi']))
                 <li><a href="/dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
                 <li><a href="/manage-kedatangan"><i class="fas fa-plane-arrival"></i> Laporan Penggunaan Gedung VIP &
                         VVIP</a></li>
