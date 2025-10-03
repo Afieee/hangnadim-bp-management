@@ -17,6 +17,8 @@
 
 </head>
 
+
+
 <body>
     <div class="container">
         <div class="header">
@@ -75,6 +77,19 @@
                     <textarea name="catatan_feedback" id="catatan_feedback" rows="4" @if ($feedbackExists) disabled @endif
                         placeholder="Silakan berikan masukan berharga Anda mengenai pelayanan kami">{{ old('catatan_feedback', $feedback->catatan_feedback ?? '') }}</textarea>
                 </div>
+
+                <div class="rating-guide">
+                    <p><strong>Predikat Dari Feedback:</strong></p>
+                    <ul>
+                        <li>88,31 – 100 = <span class="predikat baik-sekali">Sangat Baik</span></li>
+                        <li>76,61 – 88,30 = <span class="predikat baik">Baik</span></li>
+                        <li>65,00 – 76,60 = <span class="predikat kurang">Kurang Baik</span></li>
+                        <li>
+                            < 65,00=<span class="predikat tidak">Tidak Baik</span>
+                        </li>
+                    </ul>
+                </div>
+
 
                 <div class="form-group">
                     <label for="indeks_rating_pelayanan">Indeks Rating Pelayanan:</label>

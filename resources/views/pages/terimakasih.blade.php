@@ -8,6 +8,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title>Terima Kasih - AEROCITY BP Batam</title>
+
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400;500&display=swap"
         rel="stylesheet">
