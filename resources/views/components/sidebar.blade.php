@@ -34,6 +34,9 @@
                         VVIP</a></li>
                 <li><a href="/halaman-data-feedback"><i class="fas fa-history"></i> Riwayat Respons Pengguna Gedung VIP
                         & VVIP</a></li>
+
+
+                <li><a href="/kendaraan"><i class="fas fa-car"></i> Asset Kendaraan</a></li>
                 <li><a href="/manage-user"><i class="fas fa-users"></i> Akses & Akun</a></li>
             @elseif (Auth::user()->role == 'Kepala Seksi')
                 <li><a href="/dashboard"><i class="fas fa-home"></i> Dashboard</a></li>

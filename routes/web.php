@@ -9,6 +9,7 @@ use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\BuktiKerusakanController;
 use App\Http\Controllers\BuktiPerbaikanController;
 use App\Http\Controllers\InspeksiGedungController;
+use App\Http\Controllers\KendaraanController;
 use App\Http\Controllers\PenjadwalanTamuController;
 
 Route::get('/', function () {
@@ -106,6 +107,12 @@ Route::middleware(['auth'])->group(function () {
         ->name('pengunaan.update');
 
     Route::post('dashboard/filter-guest-schedule', [AuthController::class, 'filterGuestSchedule'])->name('dashboard.filter.guest');
+
+    Route::get('/kendaraan', [KendaraanController::class, 'halamanKendaraan'])->name('kendaraan.halaman');
+    Route::post('/kendaraan', [KendaraanController::class, 'store'])->name('kendaraan.store');
+    Route::put('/kendaraan/{id}', [KendaraanController::class, 'update'])->name('kendaraan.update');
+    Route::post('/kendaraan/{id}/update-pajak', [KendaraanController::class, 'updatePajak'])->name('kendaraan.update-pajak');
+    Route::get('/kendaraan/{id}', [KendaraanController::class, 'getKendaraan'])->name('kendaraan.get');
 });
 
 

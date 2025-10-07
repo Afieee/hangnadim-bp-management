@@ -1,0 +1,485 @@
+        /* Styling untuk tabel yang lebih profesional */
+        .table-container {
+            margin-top: 20px;
+            overflow-x: auto;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            font-size: 14px;
+        }
+
+        .data-table th {
+            background-color: #f8f9fa;
+            color: #495057;
+            font-weight: 600;
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .data-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #dee2e6;
+            color: #495057;
+        }
+
+        .data-table tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .badge-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .badge-success {
+            background-color: #d1edff;
+            color: #155724;
+            border: 1px solid #b8daff;
+        }
+
+        .badge-expired {
+            background-color: #dc3545;
+            color: white;
+            border: 1px solid #dc3545;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .table-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #343a40;
+        }
+
+        .summary-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .summary-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #495057;
+        }
+
+        .summary-stats {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 15px;
+            border-radius: 6px;
+            background-color: #f8f9fa;
+            min-width: 120px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #0069d9;
+        }
+
+        .btn-warning {
+            background-color: #ffc107;
+            color: #212529;
+        }
+
+        .btn-warning:hover {
+            background-color: #e0a800;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            width: 500px;
+            max-width: 90%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #dee2e6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6c757d;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid #dee2e6;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #495057;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        .form-control:focus {
+            border-color: #80bdff;
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: white;
+        }
+
+        /* Minimalist Version */
+        .summary-card.minimalist {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e9ecef;
+        }
+
+        .summary-stats-minimal {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .stat-minimal {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid;
+            background: #f8f9fa;
+            transition: all 0.2s ease;
+        }
+
+        .stat-minimal:hover {
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-minimal-total {
+            border-left-color: #007bff;
+        }
+
+        .stat-minimal-warning {
+            border-left-color: #ffc107;
+        }
+
+        .stat-minimal-danger {
+            border-left-color: #dc3545;
+        }
+
+        .stat-minimal-success {
+            border-left-color: #28a745;
+        }
+
+        .stat-minimal-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 1.1rem;
+            color: white;
+        }
+
+        .stat-minimal-total .stat-minimal-icon {
+            background: #007bff;
+        }
+
+        .stat-minimal-warning .stat-minimal-icon {
+            background: #ffc107;
+        }
+
+        .stat-minimal-danger .stat-minimal-icon {
+            background: #dc3545;
+        }
+
+        .stat-minimal-success .stat-minimal-icon {
+            background: #28a745;
+        }
+
+        .stat-minimal-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .stat-minimal-total .stat-minimal-value {
+            color: #007bff;
+        }
+
+        .stat-minimal-warning .stat-minimal-value {
+            color: #ffc107;
+        }
+
+        .stat-minimal-danger .stat-minimal-value {
+            color: #dc3545;
+        }
+
+        .stat-minimal-success .stat-minimal-value {
+            color: #28a745;
+        }
+
+        .stat-minimal-label {
+            font-size: 0.8rem;
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        /* Modern Toast Notification */
+        .toast {
+            position: fixed;
+            top: 20px;
+            /* Changed from 50% to 20px from top */
+            left: 50%;
+            transform: translateX(-50%) scale(0.8);
+            /* Removed Y translation */
+            background-color: #fff;
+            color: #333;
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 16px;
+            z-index: 9999;
+            opacity: 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-left: 5px solid #4CAF50;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            max-width: 350px;
+            width: 90%;
+        }
+
+        /* Show toast with animation */
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+            /* Removed Y translation */
+        }
+
+        /* Checkmark icon container */
+        .toast-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #4CAF50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        /* Checkmark animation */
+        .toast-icon::before {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 10px;
+            border-left: 3px solid white;
+            border-bottom: 3px solid white;
+            transform: rotate(-45deg) scale(0);
+            top: 12px;
+            left: 8px;
+            transition: transform 0.3s ease 0.2s;
+        }
+
+        .toast.show .toast-icon::before {
+            transform: rotate(-45deg) scale(1);
+        }
+
+        /* Toast content */
+        .toast-content {
+            flex-grow: 1;
+        }
+
+        /* Toast title */
+        .toast-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #222;
+        }
+
+        /* Close button */
+        .toast-close {
+            background: none;
+            border: none;
+            color: #999;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 5px;
+            margin-left: 10px;
+            transition: color 0.2s;
+        }
+
+        .toast-close:hover {
+            color: #666;
+        }
+
+        /* Progress bar */
+        .toast-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            width: 100%;
+            background-color: rgba(76, 175, 80, 0.2);
+        }
+
+        .toast-progress::before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            height: 100%;
+            width: 100%;
+            background-color: #4CAF50;
+            animation: progress 3s linear forwards;
+        }
