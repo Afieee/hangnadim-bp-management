@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Kendaraan;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
+use App\Models\PajakKendaraan;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 
 class KendaraanController extends Controller
 {
@@ -130,6 +133,11 @@ class KendaraanController extends Controller
             ->with('success', 'Kendaraan berhasil ditambahkan');
     }
 
+
+
+
+
+
     // 2. Proses Update Data Kendaraan (kecuali pajak)
     public function update(Request $request, $id)
     {
@@ -148,21 +156,57 @@ class KendaraanController extends Controller
             ->with('success', 'Data kendaraan berhasil diperbarui');
     }
 
-    // 3. Proses Update Pajak Khusus
     public function updatePajak(Request $request, $id)
     {
         $request->validate([
             'pajak_berlaku_hingga' => 'required|date'
         ]);
 
+        // Ambil data kendaraan
         $kendaraan = Kendaraan::findOrFail($id);
+
+        // Update kolom pajak_berlaku_hingga
         $kendaraan->update([
             'pajak_berlaku_hingga' => $request->pajak_berlaku_hingga
         ]);
 
+        // Simpan ke tabel PajakKendaraan sebagai histori
+        PajakKendaraan::create([
+            'catatan_pencatatan_pajak' => $request->pajak_berlaku_hingga,
+            'id_kendaraan' => $id,
+            'id_user' => Auth::id(), // ambil id user yang sedang login
+        ]);
+
         return redirect()->route('kendaraan.halaman')
-            ->with('success', 'Tanggal pajak berhasil diperbarui');
+            ->with('success', 'Tanggal pajak berhasil diperbarui dan riwayat pajak telah disimpan.');
     }
+
+    public function halamanHistoriPajakKendaraan($encryptedId)
+    {
+        try {
+            // Dekripsi id yang terenkripsi dari URL
+            $id = Crypt::decryptString($encryptedId);
+        } catch (\Exception $e) {
+            abort(404, 'Invalid or corrupted vehicle identifier.');
+        }
+
+        // Ambil data kendaraan
+        $kendaraan = Kendaraan::findOrFail($id);
+
+        // Ambil histori pajak kendaraan terkait
+        $historiPajak = PajakKendaraan::where('id_kendaraan', $id)
+            ->with(['user', 'kendaraan'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+
+        return view('kendaraan.histori-pajak-kendaraan', [
+            'kendaraan' => $kendaraan,
+            'historiPajak' => $historiPajak
+        ]);
+    }
+
+
 
     // Method untuk mengambil data kendaraan berdasarkan ID
     public function getKendaraan($id)

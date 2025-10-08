@@ -14,4 +14,8 @@ class Kendaraan extends Model
         'plat_kendaraan',
         'pajak_berlaku_hingga',
     ];
+    public function pajakKendaraan()
+    {
+        return $this->hasMany(PajakKendaraan::class, 'id_kendaraan');
+    }
 }

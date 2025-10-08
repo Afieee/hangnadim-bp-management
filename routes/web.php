@@ -113,6 +113,10 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/kendaraan/{id}', [KendaraanController::class, 'update'])->name('kendaraan.update');
     Route::post('/kendaraan/{id}/update-pajak', [KendaraanController::class, 'updatePajak'])->name('kendaraan.update-pajak');
     Route::get('/kendaraan/{id}', [KendaraanController::class, 'getKendaraan'])->name('kendaraan.get');
+
+
+    Route::get('/kendaraan/histori/{id}', [KendaraanController::class, 'halamanHistoriPajakKendaraan'])
+        ->name('kendaraan.histori');
 });
 
 

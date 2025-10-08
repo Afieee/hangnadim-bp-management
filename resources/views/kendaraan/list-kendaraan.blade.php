@@ -51,7 +51,7 @@
                     <!-- Header dengan judul, pencarian, dan tombol -->
                     <div class="header-container" style="padding: 25px;">
                         <div class="table-header">
-                            <h2 class="page-title">Asset Kendaraan PKB</h2>
+                            <h2 class="page-title">Asset Kendaraan </h2>
                             <button class="btn btn-primary" id="btnTambahKendaraan">
                                 <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Kendaraan
                             </button>
@@ -108,12 +108,13 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Plat Kendaraan</th>
+                                        <th>Nomor Polisi</th>
                                         <th>Tipe Kendaraan</th>
                                         <th>Pajak Berlaku Hingga</th>
                                         <th>Sisa Waktu Pajak</th>
                                         <th>Status Pajak Kendaraan</th>
                                         <th>Aksi</th>
+                                        <th>Histori Pajak</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -175,6 +176,12 @@
                                                     </button>
                                                 </div>
                                             </td>
+                                            <td>
+                                                <a
+                                                    href="{{ route('kendaraan.histori', ['id' => Crypt::encryptString($item->id)]) }}">
+                                                    Lihat
+                                                </a>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -211,12 +218,12 @@
                         <input type="text" class="form-control" id="plat_kendaraan" name="plat_kendaraan"
                             required>
                     </div>
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label class="form-label" for="pajak_berlaku_hingga">Pajak Berlaku Hingga</label>
-                        <input type="date" class="form-control" id="pajak_berlaku_hingga"
+                        <input type="date" class="form-control" id="pajak_berlaku_hingga" hidden
                             name="pajak_berlaku_hingga" autocomplete="off" onfocus="this.showPicker()">
                         <small class="text-muted">Biarkan kosong jika belum diketahui</small>
-                    </div>
+                    </div> --}}
 
                 </div>
                 <div class="modal-footer">
