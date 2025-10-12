@@ -181,6 +181,10 @@ class KendaraanController extends Controller
             ->with('success', 'Tanggal pajak berhasil diperbarui dan riwayat pajak telah disimpan.');
     }
 
+
+
+
+
     public function halamanHistoriPajakKendaraan($encryptedId)
     {
         try {
@@ -192,6 +196,15 @@ class KendaraanController extends Controller
 
         // Ambil data kendaraan
         $kendaraan = Kendaraan::findOrFail($id);
+        $detailPlatKendaraan = Kendaraan::where('id', $id)
+            ->distinct()
+            ->value('plat_kendaraan');
+
+
+        $detailTipeKendaraan = Kendaraan::where('id', $id)
+            ->distinct()
+            ->value('tipe_kendaraan');
+
 
         // Ambil histori pajak kendaraan terkait
         $historiPajak = PajakKendaraan::where('id_kendaraan', $id)
@@ -202,7 +215,9 @@ class KendaraanController extends Controller
 
         return view('kendaraan.histori-pajak-kendaraan', [
             'kendaraan' => $kendaraan,
-            'historiPajak' => $historiPajak
+            'historiPajak' => $historiPajak,
+            'detailPlatKendaraan' => $detailPlatKendaraan,
+            'detailTipeKendaraan' => $detailTipeKendaraan,
         ]);
     }
 

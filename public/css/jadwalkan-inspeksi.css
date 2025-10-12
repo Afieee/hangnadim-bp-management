@@ -477,7 +477,7 @@
 @media (max-width: 1024px) {
     .card-header {
         align-items: flex-start;
-    }
+    } 
 
     .inspection-card h3 {
         flex: 1;

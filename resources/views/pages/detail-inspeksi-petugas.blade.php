@@ -23,9 +23,9 @@
                     <li><a href="/dashboard"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
                     <hr>
                     <li class="active">
-                        <i class="fas fa-eye"></i> 
-                        Inspeksi {{ $inspeksi->gedung->nama_gedung ?? '-' }} - 
-                        {{ \Carbon\Carbon::parse($inspeksi->created_at)->format('F Y') }}, 
+                        <i class="fas fa-eye"></i>
+                        Inspeksi {{ $inspeksi->gedung->nama_gedung ?? '-' }} -
+                        {{ \Carbon\Carbon::parse($inspeksi->created_at)->format('F Y') }},
                         Minggu ke-{{ \Carbon\Carbon::parse($inspeksi->created_at)->weekOfMonth }}
                     </li>
                 </ul>
@@ -34,7 +34,7 @@
 
         <!-- Content Area -->
         <div class="content-area">
-            <div class="card">            
+            <div class="card">
                 <div class="container">
                     <h1>Detail Inspeksi</h1>
 
@@ -326,21 +326,21 @@
                         <h2 class="gallery-title">
                             <i class="fas fa-images"></i> Lampiran Bukti Kerusakan
                         </h2>
-                        
+
                         @if($buktiKerusakans->count() > 0)
                             <div class="gallery-grid">
                                 @foreach ($buktiKerusakans as $index => $buktiKerusakan)
                                     <div class="gallery-item">
                                         <div class="gallery-image" onclick="openModal({{ $index }})">
                                             @if ($buktiKerusakan->file_bukti_kerusakan)
-                                                <img src="{{ asset('storage/' . $buktiKerusakan->file_bukti_kerusakan) }}" 
+                                                <img src="{{ asset('storage/' . $buktiKerusakan->file_bukti_kerusakan) }}"
                                                     alt="Bukti Kerusakan">
                                             @else
-                                                <img src="https://via.placeholder.com/300x200?text=No+Image" 
+                                                <img src="https://via.placeholder.com/300x200?text=No+Image"
                                                     alt="Tidak ada gambar">
                                             @endif
                                         </div>
-                                        <div class="gallery-content">   
+                                        <div class="gallery-content">
                                             <h3 style="color: red">{{ $buktiKerusakan->judul_bukti_kerusakan }}</h3>
                                             <p> <strong> Petugas: </strong>{{ $buktiKerusakan->userInspektor->name }}</p>
 
@@ -349,7 +349,7 @@
                                             <p><strong>Lokasi:</strong> {{ $buktiKerusakan->lokasi_bukti_kerusakan }}</p>
                                             <div class="gallery-meta">
                                                 <span class="damage-type" > <strong>{{ $buktiKerusakan->tipe_kerusakan }}</strong></span>
-                                                    <a href="{{ route('bukti-perbaikan.create', \Illuminate\Support\Facades\Crypt::encryptString($buktiKerusakan->id)) }}" 
+                                                    <a href="{{ route('bukti-perbaikan.create', \Illuminate\Support\Facades\Crypt::encryptString($buktiKerusakan->id)) }}"
                                                     class="btn btn-success">
                                                         <i class="fas fa-upload"></i> Upload Penanganan
                                                     </a>
@@ -391,14 +391,14 @@
                 </div>
             </div>
         </div>
-    
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="{{ asset('js/components.js') }}"></script>
         <script>
             // Script untuk modal gambar - DIPERBAIKI
             let currentImageIndex = 0;
             const buktiKerusakans = @json($buktiKerusakans);
-            
+
             document.addEventListener('DOMContentLoaded', function() {
                 // Script upload yang sudah ada
                 const uploadBox = document.getElementById('uploadBox');
@@ -407,30 +407,30 @@
                 const previewFileName = document.getElementById('previewFileName');
                 const previewFileSize = document.getElementById('previewFileSize');
                 const removeFileBtn = document.getElementById('removeFileBtn');
-                
+
                 // Handle click on upload box
                 uploadBox.addEventListener('click', function(e) {
                     if (e.target !== fileInput) {
                         fileInput.click();
                     }
                 });
-                
+
                 // Handle file selection
                 fileInput.addEventListener('change', function() {
                     if (this.files && this.files[0]) {
                         const file = this.files[0];
-                        
+
                         // Validate file size (max 5MB)
                         if (file.size > 5 * 1024 * 1024) {
                             alert('Ukuran file terlalu besar. Maksimal 5MB.');
                             this.value = '';
                             return;
                         }
-                        
+
                         // Validate file type
                         const validTypes = [
                             'image/jpeg',
-                            'image/jpg',    
+                            'image/jpg',
                             'image/png',
                             'image/webp',
                             'image/avif'
@@ -441,100 +441,100 @@
                             this.value = '';
                             return;
                         }
-                                                
+
                         // Display file info
                         previewFileName.textContent = file.name;
                         previewFileSize.textContent = formatFileSize(file.size);
                         uploadPreview.style.display = 'block';
-                        
+
                         // Add visual feedback
                         uploadBox.classList.add('has-file');
                     }
                 });
-                
+
                 // Handle drag and drop
                 ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
                     uploadBox.addEventListener(eventName, preventDefaults, false);
                 });
-                
+
                 function preventDefaults(e) {
                     e.preventDefault();
                     e.stopPropagation();
                 }
-                
+
                 ['dragenter', 'dragover'].forEach(eventName => {
                     uploadBox.addEventListener(eventName, highlight, false);
                 });
-                
+
                 ['dragleave', 'drop'].forEach(eventName => {
                     uploadBox.addEventListener(eventName, unhighlight, false);
                 });
-                
+
                 function highlight() {
                     uploadBox.classList.add('dragover');
                 }
-                
+
                 function unhighlight() {
                     uploadBox.classList.remove('dragover');
                 }
-                
+
                 uploadBox.addEventListener('drop', handleDrop, false);
-                
+
                 function handleDrop(e) {
                     const dt = e.dataTransfer;
                     const files = dt.files;
-                    
+
                     if (files.length) {
                         fileInput.files = files;
                         const event = new Event('change');
                         fileInput.dispatchEvent(event);
                     }
                 }
-                
+
                 // Handle file removal
                 removeFileBtn.addEventListener('click', function() {
                     fileInput.value = '';
                     uploadPreview.style.display = 'none';
                     uploadBox.classList.remove('has-file');
                 });
-                
+
                 // Format file size
                 function formatFileSize(bytes) {
                     if (bytes === 0) return '0 Bytes';
-                    
+
                     const k = 1024;
                     const sizes = ['Bytes', 'KB', 'MB', 'GB'];
                     const i = Math.floor(Math.log(bytes) / Math.log(k));
-                    
+
                     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
                 }
             });
-            
+
             function openModal(index) {
                 currentImageIndex = index;
                 updateModalContent();
                 document.getElementById('imageModal').style.display = 'flex';
                 document.body.classList.add('modal-open');
             }
-            
+
             function closeModal() {
                 document.getElementById('imageModal').style.display = 'none';
                 document.body.classList.remove('modal-open');
             }
-            
+
             function changeImage(direction) {
                 currentImageIndex += direction;
-                
+
                 // Handle pembunginan indeks (loop)
                 if (currentImageIndex < 0) {
                     currentImageIndex = buktiKerusakans.length - 1;
                 } else if (currentImageIndex >= buktiKerusakans.length) {
                     currentImageIndex = 0;
                 }
-                
+
                 updateModalContent();
             }
-            
+
             function updateModalContent() {
                 const item = buktiKerusakans[currentImageIndex];
                 const modalImage = document.getElementById('modalImage');
@@ -542,27 +542,27 @@
                 const modalDescription = document.getElementById('modalDescription');
                 const modalType = document.getElementById('modalType');
                 const modalCounter = document.getElementById('modalCounter');
-                
+
                 // Set konten modal
                 if (item.file_bukti_kerusakan) {
                     modalImage.src = "{{ asset('storage/') }}/" + item.file_bukti_kerusakan;
                 } else {
                     modalImage.src = "https://via.placeholder.com/800x600?text=No+Image";
                 }
-                
+
                 modalTitle.textContent = item.judul_bukti_kerusakan;
                 modalDescription.textContent = item.deskripsi_bukti_kerusakan;
                 modalType.textContent = item.tipe_kerusakan;
                 modalCounter.textContent = (currentImageIndex + 1) + "/" + buktiKerusakans.length;
             }
-            
+
             // Tutup modal jika diklik di luar konten
             document.getElementById('imageModal').addEventListener('click', function(event) {
                 if (event.target === this) {
                     closeModal();
                 }
             });
-            
+
             // Navigasi dengan keyboard
             document.addEventListener('keydown', function(event) {
                 const modal = document.getElementById('imageModal');
@@ -658,9 +658,9 @@
                     <li><a href="/dashboard"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
                     <hr>
                     <li class="active">
-                        <i class="fas fa-eye"></i> 
-                        Inspeksi {{ $inspeksi->gedung->nama_gedung ?? '-' }} - 
-                        {{ \Carbon\Carbon::parse($inspeksi->created_at)->format('F Y') }}, 
+                        <i class="fas fa-eye"></i>
+                        Inspeksi {{ $inspeksi->gedung->nama_gedung ?? '-' }} -
+                        {{ \Carbon\Carbon::parse($inspeksi->created_at)->format('F Y') }},
                         Minggu ke-{{ \Carbon\Carbon::parse($inspeksi->created_at)->weekOfMonth }}
                     </li>
                 </ul>
@@ -669,7 +669,7 @@
 
         <!-- Content Area -->
         <div class="content-area">
-            <div class="card">            
+            <div class="card">
                 <div class="container">
                     <h1>Detail Inspeksi</h1>
 
@@ -751,12 +751,12 @@
                                 </div>
                             </div>
                             <div class="info-card-footer">
-                        
+
                             </div>
                         </div>
 
                         <!-- Detail Inspeksi -->
-                        <div class="info-card"> 
+                        <div class="info-card">
                             <div class="info-card-header">
                                 <h2><i class="fas fa-clipboard-check"></i> Detail Inspeksi</h2>
                             </div>
@@ -777,8 +777,8 @@
                                     <div class="info-content">
                                         <div class="info-label">Status</div>
                                         <div class="">
-                                            <select name="status_keseluruhan_inspeksi" 
-                                                    class="status-keseluruhan-dropdown" 
+                                            <select name="status_keseluruhan_inspeksi"
+                                                    class="status-keseluruhan-dropdown"
                                                     data-id="{{ $inspeksi->id }}">
                                                 <option {{ $inspeksi->status_keseluruhan_inspeksi == 'Dalam Proses' ? 'selected' : '' }}>
                                                     {{ $inspeksi->status_keseluruhan_inspeksi ?? 'Dalam Proses' }}
@@ -874,21 +874,21 @@
                         <h2 class="gallery-title">
                             <i class="fas fa-images"></i> Lampiran Bukti Kerusakan
                         </h2>
-                        
+
                         @if($buktiKerusakans->count() > 0)
                             <div class="gallery-grid">
                                 @foreach ($buktiKerusakans as $index => $buktiKerusakan)
                                     <div class="gallery-item">
                                         <div class="gallery-image" onclick="openModal({{ $index }})">
                                             @if ($buktiKerusakan->file_bukti_kerusakan)
-                                                <img src="{{ asset('storage/' . $buktiKerusakan->file_bukti_kerusakan) }}" 
+                                                <img src="{{ asset('storage/' . $buktiKerusakan->file_bukti_kerusakan) }}"
                                                     alt="Bukti Kerusakan">
                                             @else
-                                                <img src="https://via.placeholder.com/300x200?text=No+Image" 
+                                                <img src="https://via.placeholder.com/300x200?text=No+Image"
                                                     alt="Tidak ada gambar">
                                             @endif
                                         </div>
-                                        <div class="gallery-content">   
+                                        <div class="gallery-content">
                                             <h3 style="color: red">{{ $buktiKerusakan->judul_bukti_kerusakan }}</h3>
                                             <p> <strong> Petugas: </strong>{{ $buktiKerusakan->userInspektor->name }}</p>
 
@@ -897,7 +897,7 @@
                                             <p><strong>Lokasi:</strong> {{ $buktiKerusakan->lokasi_bukti_kerusakan }}</p>
                                             <div class="gallery-meta">
                                                 <span class="damage-type">{{ $buktiKerusakan->tipe_kerusakan }}</span>
-                                                    <a href="{{ route('bukti-perbaikan.create', \Illuminate\Support\Facades\Crypt::encryptString($buktiKerusakan->id)) }}" 
+                                                    <a href="{{ route('bukti-perbaikan.create', \Illuminate\Support\Facades\Crypt::encryptString($buktiKerusakan->id)) }}"
                                                     class="btn btn-success">
                                                         <i class="fas fa-upload"></i> Lihat Penanganan
                                                     </a>
@@ -939,14 +939,14 @@
                 </div>
             </div>
         </div>
-    
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="{{ asset('js/components.js') }}"></script>
         <script>
             // Script untuk modal gambar - DIPERBAIKI
             let currentImageIndex = 0;
             const buktiKerusakans = @json($buktiKerusakans);
-            
+
             document.addEventListener('DOMContentLoaded', function() {
                 // Script upload yang sudah ada
                 const uploadBox = document.getElementById('uploadBox');
@@ -955,30 +955,30 @@
                 const previewFileName = document.getElementById('previewFileName');
                 const previewFileSize = document.getElementById('previewFileSize');
                 const removeFileBtn = document.getElementById('removeFileBtn');
-                
+
                 // Handle click on upload box
                 uploadBox.addEventListener('click', function(e) {
                     if (e.target !== fileInput) {
                         fileInput.click();
                     }
                 });
-                
+
                 // Handle file selection
                 fileInput.addEventListener('change', function() {
                     if (this.files && this.files[0]) {
                         const file = this.files[0];
-                        
+
                         // Validate file size (max 5MB)
                         if (file.size > 5 * 1024 * 1024) {
                             alert('Ukuran file terlalu besar. Maksimal 5MB.');
                             this.value = '';
                             return;
                         }
-                        
+
                         // Validate file type
                         const validTypes = [
                             'image/jpeg',
-                            'image/jpg',    
+                            'image/jpg',
                             'image/png',
                             'image/webp',
                             'image/avif'
@@ -989,100 +989,100 @@
                             this.value = '';
                             return;
                         }
-                                                
+
                         // Display file info
                         previewFileName.textContent = file.name;
                         previewFileSize.textContent = formatFileSize(file.size);
                         uploadPreview.style.display = 'block';
-                        
+
                         // Add visual feedback
                         uploadBox.classList.add('has-file');
                     }
                 });
-                
+
                 // Handle drag and drop
                 ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
                     uploadBox.addEventListener(eventName, preventDefaults, false);
                 });
-                
+
                 function preventDefaults(e) {
                     e.preventDefault();
                     e.stopPropagation();
                 }
-                
+
                 ['dragenter', 'dragover'].forEach(eventName => {
                     uploadBox.addEventListener(eventName, highlight, false);
                 });
-                
+
                 ['dragleave', 'drop'].forEach(eventName => {
                     uploadBox.addEventListener(eventName, unhighlight, false);
                 });
-                
+
                 function highlight() {
                     uploadBox.classList.add('dragover');
                 }
-                
+
                 function unhighlight() {
                     uploadBox.classList.remove('dragover');
                 }
-                
+
                 uploadBox.addEventListener('drop', handleDrop, false);
-                
+
                 function handleDrop(e) {
                     const dt = e.dataTransfer;
                     const files = dt.files;
-                    
+
                     if (files.length) {
                         fileInput.files = files;
                         const event = new Event('change');
                         fileInput.dispatchEvent(event);
                     }
                 }
-                
+
                 // Handle file removal
                 removeFileBtn.addEventListener('click', function() {
                     fileInput.value = '';
                     uploadPreview.style.display = 'none';
                     uploadBox.classList.remove('has-file');
                 });
-                
+
                 // Format file size
                 function formatFileSize(bytes) {
                     if (bytes === 0) return '0 Bytes';
-                    
+
                     const k = 1024;
                     const sizes = ['Bytes', 'KB', 'MB', 'GB'];
                     const i = Math.floor(Math.log(bytes) / Math.log(k));
-                    
+
                     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
                 }
             });
-            
+
             function openModal(index) {
                 currentImageIndex = index;
                 updateModalContent();
                 document.getElementById('imageModal').style.display = 'flex';
                 document.body.classList.add('modal-open');
             }
-            
+
             function closeModal() {
                 document.getElementById('imageModal').style.display = 'none';
                 document.body.classList.remove('modal-open');
             }
-            
+
             function changeImage(direction) {
                 currentImageIndex += direction;
-                
+
                 // Handle pembunginan indeks (loop)
                 if (currentImageIndex < 0) {
                     currentImageIndex = buktiKerusakans.length - 1;
                 } else if (currentImageIndex >= buktiKerusakans.length) {
                     currentImageIndex = 0;
                 }
-                
+
                 updateModalContent();
             }
-            
+
             function updateModalContent() {
                 const item = buktiKerusakans[currentImageIndex];
                 const modalImage = document.getElementById('modalImage');
@@ -1090,27 +1090,27 @@
                 const modalDescription = document.getElementById('modalDescription');
                 const modalType = document.getElementById('modalType');
                 const modalCounter = document.getElementById('modalCounter');
-                
+
                 // Set konten modal
                 if (item.file_bukti_kerusakan) {
                     modalImage.src = "{{ asset('storage/') }}/" + item.file_bukti_kerusakan;
                 } else {
                     modalImage.src = "https://via.placeholder.com/800x600?text=No+Image";
                 }
-                
+
                 modalTitle.textContent = item.judul_bukti_kerusakan;
                 modalDescription.textContent = item.deskripsi_bukti_kerusakan;
                 modalType.textContent = item.tipe_kerusakan;
                 modalCounter.textContent = (currentImageIndex + 1) + "/" + buktiKerusakans.length;
             }
-            
+
             // Tutup modal jika diklik di luar konten
             document.getElementById('imageModal').addEventListener('click', function(event) {
                 if (event.target === this) {
                     closeModal();
                 }
             });
-            
+
             // Navigasi dengan keyboard
             document.addEventListener('keydown', function(event) {
                 const modal = document.getElementById('imageModal');
@@ -1148,7 +1148,7 @@
             });
         });
         </script>
-        
+
 
 
 
@@ -1161,7 +1161,7 @@
         $(document).on('change', '.status-keseluruhan-dropdown', function () {
             let status = $(this).val();
             let id = $(this).data('id');
-            
+
             if (status === "Selesai") {
                 if (!confirm("Apakah Anda yakin ingin mengubah status menjadi Selesai?")) {
                     $(this).val("Dalam Proses"); // Balik lagi kalau batal

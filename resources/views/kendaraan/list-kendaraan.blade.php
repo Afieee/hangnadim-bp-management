@@ -39,8 +39,7 @@
             <div class="breadcrumb">
                 <ul>
                     <li><a href="/dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
-                    <li><a href="/manage-user"><i class="fas fa-user"></i> Manage User</a></li>
-                    <li class="active"><i class="fas fa-car"></i> Data Kendaraan</li>
+                    <li class="active"><i class="fas fa-car"></i> Asset Kendaraan Operasional</li>
                 </ul>
             </div>
         </div>
@@ -275,7 +274,7 @@
                 <h3 class="modal-title">Update Tanggal Pajak</h3>
                 <button class="modal-close">&times;</button>
             </div>
-            <form id="formUpdatePajak" action="" method="POST">
+            <form id="formUpdatePajak" action="" method="POST" onsubmit="return confirmSubmit()">
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
@@ -404,6 +403,15 @@
             }
         });
     });
+
+    function confirmSubmit() {
+        return confirm(
+            "⚠️ PERINGATAN SERIUS!\n\n" +
+            "Apakah Anda benar-benar yakin ingin menyimpan data kendaraan ini?\n\n" +
+            "Setelah data disimpan, *seluruh histori yang dicatat tidak dapat diubah atau dihapus!* " +
+            "\n\nTekan 'OK' untuk melanjutkan, atau 'Cancel' untuk membatalkan."
+        );
+    }
 </script>
 
 </html>
