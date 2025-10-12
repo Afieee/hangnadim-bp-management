@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -50,23 +53,69 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
+
+
+
+
+
+
+
+
+
+
+
     // Login
     public function login(Request $request)
     {
+        $request->merge([
+            'nip_atau_nup' => trim($request->input('nip_atau_nup')),
+        ]);
+
+        $this->ensureIsNotRateLimited($request);
+
         $credentials = $request->validate([
             'nip_atau_nup' => 'required|string|max:50',
-            'password' => 'required|string',
+            'password' => 'required|string|min:8',
         ]);
 
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate(); // regenerate session
+            $request->session()->regenerate();
+            RateLimiter::clear($this->throttleKey($request));
             return redirect()->route('dashboard')->with('success', 'Anda Berhasil Login.');
         }
 
-        return back()->withErrors([
-            'error' => 'NIP/NUP atau Password salah.',
-        ]);
+        RateLimiter::hit($this->throttleKey($request));
+        return back()->withErrors(['error' => 'NIP/NUP atau Password salah.']);
     }
+
+    protected function ensureIsNotRateLimited(Request $request)
+    {
+        $key = $this->throttleKey($request);
+        if (RateLimiter::tooManyAttempts($key, 5)) {
+            throw ValidationException::withMessages([
+                'error' => 'Terlalu banyak percobaan login. Coba lagi nanti.'
+            ]);
+        }
+    }
+
+    protected function throttleKey(Request $request)
+    {
+        return Str::lower($request->input('nip_atau_nup')) . '|' . $request->ip();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // Logout
     public function logout(Request $request)
