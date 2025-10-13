@@ -158,7 +158,15 @@
     </body>
 
     </html>
-@elseif (in_array(Auth::user()->role, ['Admin', 'Direktur', 'Kepala Sub Direktorat', 'Kepala Seksi', 'Tata Usaha', 'Deputi' , 'IT']))
+@elseif (in_array(Auth::user()->role, [
+        'Admin',
+        'Direktur',
+        'Kepala Sub Direktorat',
+        'Kepala Seksi',
+        'Tata Usaha',
+        'Deputi',
+        'IT',
+    ]))
     <!DOCTYPE html>
     <html lang="en">
 
@@ -460,7 +468,7 @@
                         </select>
                     </div>
                     <button class="filter-button" id="apply-filter">
-                        <i class="fas fa-filter"></i> Terapkan Filter
+                        <i class="fas fa-filter"></i> Filter
                     </button>
                 </div>
 

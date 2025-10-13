@@ -1,4 +1,3 @@
-
         * {
             margin: 0;
             padding: 0;
@@ -7,125 +6,280 @@
         }
 
         body {
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a40, #2d2d6e, #4a4a8c);
             overflow: hidden;
             position: relative;
         }
 
-        /* Background dengan gambar gedung_vvip.jpeg saja */
-        .background-container {
-            position: absolute;
+        /* Futuristic Grid Background */
+        .grid-background {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
-            overflow: hidden;
+            z-index: -2;
+            background:
+                linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+            transform: rotateX(60deg) translateZ(-100px);
+            animation: gridMove 20s linear infinite;
         }
 
-        .background-image {
+        @keyframes gridMove {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 0 1000px;
+            }
+        }
+
+        /* Animated orbs - brighter version */
+        .orb {
             position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.6;
+            z-index: -1;
+        }
+
+        .orb-1 {
+            width: 300px;
+            height: 300px;
+            background: rgba(0, 200, 255, 0.8);
+            top: 20%;
+            left: 10%;
+            animation: float 15s ease-in-out infinite;
+        }
+
+        .orb-2 {
+            width: 450px;
+            height: 450px;
+            background: rgba(138, 43, 226, 0.7);
+            bottom: 10%;
+            right: 15%;
+            animation: float 18s ease-in-out infinite reverse;
+        }
+
+        .orb-3 {
+            width: 200px;
+            height: 200px;
+            background: rgba(0, 255, 170, 0.6);
+            top: 60%;
+            left: 30%;
+            animation: float 12s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            25% {
+                transform: translate(40px, -40px) scale(1.05);
+            }
+
+            50% {
+                transform: translate(0, -80px) scale(1.1);
+            }
+
+            75% {
+                transform: translate(-40px, -40px) scale(1.05);
+            }
+        }
+
+        /* Enhanced light effect that follows mouse */
+        .light-effect {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 200, 255, 0.3) 0%, rgba(0, 200, 255, 0) 70%);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 0;
+            transition: width 0.2s, height 0.2s;
+            mix-blend-mode: screen;
+        }
+
+        /* Interactive connection lines */
+        .connections {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('/storage/images/gedung_vvip.jpeg');
-            background-size: cover;
-            background-position: center center;
-            background-repeat: no-repeat;
-            filter: brightness(0.7);
-            /* Memastikan gambar tidak pecah pada semua ukuran layar */
-            object-fit: cover;
+            pointer-events: none;
+            z-index: -1;
         }
 
-        /* Optimasi untuk berbagai ukuran layar */
-        @media (max-width: 768px) and (orientation: portrait) {
-            .background-image {
-                background-size: cover;
-                background-position: center center;
-            }
+        .connection-line {
+            position: absolute;
+            background: linear-gradient(to right, rgba(0, 200, 255, 0.5), rgba(138, 43, 226, 0.5));
+            transform-origin: 0 0;
+            height: 1px;
+            box-shadow: 0 0 10px rgba(0, 200, 255, 0.5);
         }
 
-        @media (max-width: 768px) and (orientation: landscape) {
-            .background-image {
-                background-size: cover;
-                background-position: center center;
-            }
-        }
-
-        .login-container {
+        /* Interactive particles that react to mouse */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 420px;
-            padding: 0 20px;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
         }
 
-        .login-form {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            padding: 40px 35px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            color: #fff;
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            animation: floatParticle 15s linear infinite;
+            opacity: 0;
+            box-shadow: 0 0 15px 2px rgba(0, 200, 255, 0.7);
+            transition: transform 0.3s;
+        }
+
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Halo effect around mouse */
+        .halo {
+            position: fixed;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+            box-shadow: 0 0 100px 30px rgba(0, 200, 255, 0.3);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        /* Login container - brighter version */
+        .login-container {
             position: relative;
+            width: 400px;
+            z-index: 1;
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
-        .login-form::before {
+        .login-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 45px rgba(0, 200, 255, 0.3);
+        }
+
+        .login-container::before {
             content: '';
             position: absolute;
             top: -50%;
             left: -50%;
             width: 200%;
             height: 200%;
-            background: linear-gradient(
-                45deg,
-                transparent,
-                rgba(255, 255, 255, 0.1),
-                rgba(255, 255, 255, 0.05)
-            );
-            transform: rotate(45deg);
-            z-index: 0;
+            background: linear-gradient(45deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.1),
+                    rgba(200, 200, 255, 0.1),
+                    transparent);
+            transform: rotate(0deg);
+            animation: rotate 20s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .login-form {
+            width: 100%;
         }
 
         .form-content {
-            position: relative;
-            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
         }
 
-        .login-form h2 {
+        h2 {
             text-align: center;
-            margin-bottom: 30px;
+            color: #fff;
             font-weight: 600;
-            font-size: 28px;
             letter-spacing: 1px;
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(0, 200, 255, 0.8);
+        }
+
+        .auto-typer {
+            height: 40px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 18px;
+            background: #00c8ff;
+            margin-left: 4px;
+            animation: blink 1s infinite;
+            box-shadow: 0 0 8px rgba(0, 200, 255, 0.8);
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
         }
 
         .input-group {
-            margin-bottom: 25px;
             position: relative;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 15px 15px 15px 45px;
-            border: none;
-            background: rgba(255, 255, 255, 0.85);
-            border-radius: 10px;
-            outline: none;
-            color: #333;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .input-group input:focus {
-            background: rgba(255, 255, 255, 1);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            transform: translateY(-2px);
         }
 
         .input-group i {
@@ -133,64 +287,142 @@
             left: 15px;
             top: 50%;
             transform: translateY(-50%);
-            color: #3490dc;
+            color: rgba(255, 255, 255, 0.8);
             font-size: 18px;
+            transition: color 0.3s;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px 15px 15px 50px;
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            outline: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .input-group input:focus {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(0, 200, 255, 0.7);
+            box-shadow: 0 0 20px rgba(0, 200, 255, 0.4);
+        }
+
+        .input-group input:focus+i {
+            color: #00c8ff;
+            text-shadow: 0 0 10px rgba(0, 200, 255, 0.9);
+        }
+
+        .message {
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .message.success {
+            background: rgba(72, 187, 120, 0.3);
+            color: #48bb78;
+            border: 1px solid rgba(72, 187, 120, 0.4);
+        }
+
+        .message.error {
+            background: rgba(245, 101, 101, 0.3);
+            color: #f56565;
+            border: 1px solid rgba(245, 101, 101, 0.4);
         }
 
         .login-btn {
-            width: 100%;
             padding: 15px;
             border: none;
             border-radius: 10px;
-            background: linear-gradient(45deg, #3490dc, #6574cd);
+            background: linear-gradient(45deg, #00c8ff, #667eea);
             color: white;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(0, 200, 255, 0.5);
             letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.3),
+                    rgba(255, 255, 255, 0.3),
+                    transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% {
+                transform: translateX(-100%) rotate(45deg);
+            }
+
+            100% {
+                transform: translateX(100%) rotate(45deg);
+            }
         }
 
         .login-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            background: linear-gradient(45deg, #6574cd, #3490dc);
+            background: linear-gradient(45deg, #00a0cc, #5a67d8);
+            box-shadow: 0 8px 25px rgba(0, 200, 255, 0.7);
+            transform: translateY(-2px);
         }
 
         .login-btn:active {
             transform: translateY(0);
         }
 
-        .message {
-            padding: 12px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: 500;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        /* Neon line effect */
+        .neon-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #00c8ff, transparent);
+            box-shadow: 0 0 15px rgba(0, 200, 255, 0.9);
+            animation: neonLine 3s infinite;
         }
 
-        .error {
-            background: rgba(245, 101, 101, 0.8);
-            color: #fff;
+        @keyframes neonLine {
+
+            0%,
+            100% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 1;
+            }
         }
 
-        .success {
-            background: rgba(72, 187, 120, 0.8);
-            color: #fff;
-        }
-
+        /* Responsive design */
         @media (max-width: 480px) {
-            .login-form {
-                padding: 30px 25px;
+            .login-container {
+                width: 90%;
+                padding: 30px 20px;
             }
-            
-            .login-form h2 {
-                font-size: 24px;
-            }
-            
-            .input-group input {
-                padding: 12px 12px 12px 40px;
+
+            .orb {
+                display: none;
             }
         }
