@@ -71,8 +71,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Gedung::class, 'id_user');
     }
-    public function kendaraan()
+    public function pajakKendaraan()
     {
-        return $this->hasMany(Kendaraan::class, 'id_user');
+        return $this->hasMany(PajakKendaraan::class, 'id_user');
+    }
+    public function historiServiceKendaraan()
+    {
+        return $this->hasMany(HistoriServiceKendaraan::class, 'id_user');
     }
 }

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\PajakKendaraan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use App\Models\HistoriServiceKendaraan;
 
 class KendaraanController extends Controller
 {
@@ -22,24 +23,49 @@ class KendaraanController extends Controller
         $totalKendaraanPajakMati = 0;
         $totalKendaraanPajakHidup = 0;
 
+        // Statistik service
+        $totalKendaraanPerluService = 0;
+        $totalKendaraanAkanService = 0;
+        $totalKendaraanServiceBaik = 0;
+        $totalKendaraanBelumDiatur = 0;
+
         foreach ($kendaraan as $item) {
+            // Hitung statistik pajak
             if (!$item->pajak_berlaku_hingga) {
                 // Jika pajak belum diisi, hitung sebagai pajak mati
                 $totalKendaraanPajakMati++;
-                continue;
+            } else {
+                $pajakDate = Carbon::parse($item->pajak_berlaku_hingga);
+
+                if ($pajakDate->lt($today)) {
+                    // Pajak sudah mati
+                    $totalKendaraanPajakMati++;
+                } elseif ($pajakDate->gt($today) && $today->diffInDays($pajakDate) <= 30) {
+                    // Pajak akan mati dalam 30 hari ke depan
+                    $totalKendaraanAkanMatiPajak++;
+                } else {
+                    // Pajak masih hidup (lebih dari 30 hari ke depan)
+                    $totalKendaraanPajakHidup++;
+                }
             }
 
-            $pajakDate = Carbon::parse($item->pajak_berlaku_hingga);
-
-            if ($pajakDate->lt($today)) {
-                // Pajak sudah mati
-                $totalKendaraanPajakMati++;
-            } elseif ($pajakDate->gt($today) && $today->diffInDays($pajakDate) <= 30) {
-                // Pajak akan mati dalam 30 hari ke depan
-                $totalKendaraanAkanMatiPajak++;
+            // Hitung statistik service
+            if (!$item->waktu_diservice_selanjutnya) {
+                $totalKendaraanBelumDiatur++;
             } else {
-                // Pajak masih hidup (lebih dari 30 hari ke depan)
-                $totalKendaraanPajakHidup++;
+                $serviceDate = Carbon::parse($item->waktu_diservice_selanjutnya);
+                $diffDays = $today->diffInDays($serviceDate, false);
+
+                if ($diffDays < 0) {
+                    // Sudah lewat batas - Perlu Service
+                    $totalKendaraanPerluService++;
+                } elseif ($diffDays <= 7) {
+                    // Kurang dari 7 hari - Akan Service
+                    $totalKendaraanAkanService++;
+                } else {
+                    // Masih lama - Kondisi Baik
+                    $totalKendaraanServiceBaik++;
+                }
             }
         }
 
@@ -92,6 +118,10 @@ class KendaraanController extends Controller
                 'totalKendaraanAkanMatiPajak' => $totalKendaraanAkanMatiPajak,
                 'totalKendaraanPajakMati' => $totalKendaraanPajakMati,
                 'totalKendaraanPajakHidup' => $totalKendaraanPajakHidup,
+                'totalKendaraanPerluService' => $totalKendaraanPerluService,
+                'totalKendaraanAkanService' => $totalKendaraanAkanService,
+                'totalKendaraanServiceBaik' => $totalKendaraanServiceBaik,
+                'totalKendaraanBelumDiatur' => $totalKendaraanBelumDiatur,
             ]
         ]);
     }
@@ -132,11 +162,6 @@ class KendaraanController extends Controller
         return redirect()->route('kendaraan.halaman')
             ->with('success', 'Kendaraan berhasil ditambahkan');
     }
-
-
-
-
-
 
     // 2. Proses Update Data Kendaraan (kecuali pajak)
     public function update(Request $request, $id)
@@ -181,10 +206,6 @@ class KendaraanController extends Controller
             ->with('success', 'Tanggal pajak berhasil diperbarui dan riwayat pajak telah disimpan.');
     }
 
-
-
-
-
     public function halamanHistoriPajakKendaraan($encryptedId)
     {
         try {
@@ -200,18 +221,15 @@ class KendaraanController extends Controller
             ->distinct()
             ->value('plat_kendaraan');
 
-
         $detailTipeKendaraan = Kendaraan::where('id', $id)
             ->distinct()
             ->value('tipe_kendaraan');
-
 
         // Ambil histori pajak kendaraan terkait
         $historiPajak = PajakKendaraan::where('id_kendaraan', $id)
             ->with(['user', 'kendaraan'])
             ->orderBy('created_at', 'desc')
             ->get();
-
 
         return view('kendaraan.histori-pajak-kendaraan', [
             'kendaraan' => $kendaraan,
@@ -221,12 +239,84 @@ class KendaraanController extends Controller
         ]);
     }
 
-
-
     // Method untuk mengambil data kendaraan berdasarkan ID
     public function getKendaraan($id)
     {
         $kendaraan = Kendaraan::findOrFail($id);
         return response()->json($kendaraan);
+    }
+
+    public function updateStatusService(Request $request, $id)
+    {
+        try {
+            // Coba decrypt ID jika terenkripsi
+            try {
+                $id = Crypt::decryptString($id);
+            } catch (\Exception $e) {
+                // Jika gagal decrypt, gunakan ID apa adanya
+            }
+
+            // Validasi input
+            $request->validate([
+                'km' => 'required|numeric|min:0',
+                'waktu_diservice_terakhir' => 'required|date',
+                'waktu_diservice_selanjutnya' => 'required|date|after:waktu_diservice_terakhir',
+            ]);
+
+            // Ambil data kendaraan
+            $kendaraan = Kendaraan::findOrFail($id);
+
+            // Update data kendaraan utama
+            $kendaraan->update([
+                'km' => $request->km,
+                'waktu_diservice_terakhir' => $request->waktu_diservice_terakhir,
+                'waktu_diservice_selanjutnya' => $request->waktu_diservice_selanjutnya,
+            ]);
+
+            // Simpan ke tabel histori_service_kendaraan
+            HistoriServiceKendaraan::create([
+                'id_kendaraan' => $kendaraan->id,
+                'km' => $request->km,
+                'waktu_diservice_terakhir' => $request->waktu_diservice_terakhir,
+                'waktu_diservice_selanjutnya' => $request->waktu_diservice_selanjutnya,
+                'id_user' => Auth::id(), // user login aktif
+            ]);
+
+            return redirect()->route('kendaraan.halaman')
+                ->with('success', 'Status servis kendaraan berhasil diperbarui dan dicatat ke histori!');
+        } catch (\Exception $e) {
+            return redirect()->route('kendaraan.halaman')
+                ->with('error', 'Gagal memperbarui status servis: ' . $e->getMessage());
+        }
+    }
+
+    public function halamanHistoriServiceKendaraan($encryptedId)
+    {
+        try {
+            // Dekripsi id yang terenkripsi dari URL
+            $id = Crypt::decryptString($encryptedId);
+        } catch (\Exception $e) {
+            abort(404, 'Invalid or corrupted vehicle identifier.');
+        }
+
+        // Ambil data kendaraan
+        $kendaraan = Kendaraan::findOrFail($id);
+        $detailPlatKendaraan = Kendaraan::where('id', $id)
+            ->distinct()
+            ->value('plat_kendaraan');
+        $detailTipeKendaraan = Kendaraan::where('id', $id)
+            ->distinct()
+            ->value('tipe_kendaraan');
+        // Ambil histori service kendaraan terkait
+        $historiService = HistoriServiceKendaraan::where('id_kendaraan', $id)
+            ->with(['user', 'kendaraan'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return view('kendaraan.histori-service-kendaraan', [
+            'kendaraan' => $kendaraan,
+            'historiService' => $historiService,
+            'detailPlatKendaraan' => $detailPlatKendaraan,
+            'detailTipeKendaraan' => $detailTipeKendaraan,
+        ]);
     }
 }

@@ -7,11 +7,95 @@
     <title>Aerocity - Asset Kendaraan Operasional</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
     <link rel="stylesheet" href="{{ asset('css/components.css') }}">
     <link rel="stylesheet" href="{{ asset('css/list-kendaraan.css') }}">
     <link rel="icon" href="{{ asset('/storage/images/logo_bp.png') }}" type="image/png">
-
 </head>
+<style>
+    /* Tambahan untuk statistik service */
+    .stat-minimal .stat-minimal-icon i {
+        font-size: 1.1rem;
+    }
+
+    /* Warna khusus untuk statistik service */
+    .service-stat-minimal-danger .stat-minimal-icon {
+        background: #e74c3c;
+    }
+
+    .service-stat-minimal-warning .stat-minimal-icon {
+        background: #f39c12;
+    }
+
+    .service-stat-minimal-success .stat-minimal-icon {
+        background: #27ae60;
+    }
+
+    .service-stat-minimal-total .stat-minimal-icon {
+        background: #3498db;
+    }
+
+    .service-stat-minimal-secondary .stat-minimal-icon {
+        background: #95a5a6;
+    }
+
+    /* Warna teks untuk service stats */
+    .service-stat-minimal-danger .stat-minimal-value {
+        color: #e74c3c;
+    }
+
+    .service-stat-minimal-warning .stat-minimal-value {
+        color: #f39c12;
+    }
+
+    .service-stat-minimal-success .stat-minimal-value {
+        color: #27ae60;
+    }
+
+    .service-stat-minimal-total .stat-minimal-value {
+        color: #3498db;
+    }
+
+    .service-stat-minimal-secondary .stat-minimal-value {
+        color: #95a5a6;
+    }
+
+    /* Border left colors untuk service */
+    .service-stat-minimal-danger {
+        border-left-color: #e74c3c;
+    }
+
+    .service-stat-minimal-warning {
+        border-left-color: #f39c12;
+    }
+
+    .service-stat-minimal-success {
+        border-left-color: #27ae60;
+    }
+
+    .service-stat-minimal-total {
+        border-left-color: #3498db;
+    }
+
+    .service-stat-minimal-secondary {
+        border-left-color: #95a5a6;
+    }
+
+    /* Section title untuk service stats */
+    .service-stats-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #2c3e50;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .service-stats-title i {
+        color: #3498db;
+    }
+</style>
 
 <body class="bg-light">
     {{-- Components --}}
@@ -50,14 +134,18 @@
                     <!-- Header dengan judul, pencarian, dan tombol -->
                     <div class="header-container" style="padding: 25px;">
                         <div class="table-header">
-                            <h2 class="page-title">Asset Kendaraan </h2>
+                            <h2 class="page-title">Asset Kendaraan Operasional </h2>
                             <button class="btn btn-primary" id="btnTambahKendaraan">
                                 <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Kendaraan
                             </button>
                         </div>
 
-                        <!-- Minimalist Version -->
+                        <!-- Statistik Pajak -->
                         <div class="summary-card minimalist">
+                            <div class="service-stats-title">
+                                <i class="fas fa-file-invoice-dollar"></i>
+                                Pajak Kendaraan
+                            </div>
                             <div class="summary-stats-minimal">
                                 <div class="stat-minimal stat-minimal-total">
                                     <div class="stat-minimal-icon">
@@ -102,6 +190,69 @@
                             </div>
                         </div>
 
+                        <!-- Statistik Service -->
+                        <div class="summary-card minimalist" style="margin-top: 20px;">
+                            <div class="service-stats-title">
+                                <i class="fas fa-tools"></i>
+                                Service Kendaraan
+                            </div>
+                            <div class="summary-stats-minimal">
+                                <div class="stat-minimal service-stat-minimal-total">
+                                    <div class="stat-minimal-icon">
+                                        <i class="fas fa-car-side"></i>
+                                    </div>
+                                    <div class="stat-minimal-content">
+                                        <div class="stat-minimal-value">{{ $stats['totalKendaraan'] }}</div>
+                                        <div class="stat-minimal-label">Total Kendaraan</div>
+                                    </div>
+                                </div>
+
+                                <div class="stat-minimal service-stat-minimal-danger">
+                                    <div class="stat-minimal-icon">
+                                        <i class="fas fa-exclamation-circle"></i>
+                                    </div>
+                                    <div class="stat-minimal-content">
+                                        <div class="stat-minimal-value">{{ $stats['totalKendaraanPerluService'] }}</div>
+                                        <div class="stat-minimal-label">Perlu Service</div>
+                                    </div>
+                                </div>
+
+                                <div class="stat-minimal service-stat-minimal-warning">
+                                    <div class="stat-minimal-icon">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    <div class="stat-minimal-content">
+                                        <div class="stat-minimal-value">{{ $stats['totalKendaraanAkanService'] }}</div>
+                                        <div class="stat-minimal-label">Akan Service</div>
+                                    </div>
+                                </div>
+
+                                <div class="stat-minimal service-stat-minimal-success">
+                                    <div class="stat-minimal-icon">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="stat-minimal-content">
+                                        <div class="stat-minimal-value">{{ $stats['totalKendaraanServiceBaik'] }}
+                                        </div>
+                                        <div class="stat-minimal-label">Kondisi Baik</div>
+                                    </div>
+                                </div>
+
+                                @if ($stats['totalKendaraanBelumDiatur'] > 0)
+                                    <div class="stat-minimal service-stat-minimal-secondary">
+                                        <div class="stat-minimal-icon">
+                                            <i class="fas fa-question-circle"></i>
+                                        </div>
+                                        <div class="stat-minimal-content">
+                                            <div class="stat-minimal-value">{{ $stats['totalKendaraanBelumDiatur'] }}
+                                            </div>
+                                            <div class="stat-minimal-label">Belum Diatur</div>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="table-container">
                             <table class="data-table">
                                 <thead>
@@ -112,8 +263,13 @@
                                         <th>Pajak Berlaku Hingga</th>
                                         <th>Sisa Waktu Pajak</th>
                                         <th>Status Pajak Kendaraan</th>
+                                        <th>Jarak Tempuh Kendaraan(KM)</th>
+                                        <th>Waktu Diservice Selanjutnya</th>
+                                        <th>Sisa Waktu Service</th>
+                                        <th>Status Service</th>
                                         <th>Aksi</th>
                                         <th>Histori Pajak</th>
+                                        <th>Histori Service</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -134,8 +290,7 @@
                                                 @endif
                                             </td>
 
-
-                                            {{-- Sisa waktu --}}
+                                            {{-- Sisa waktu pajak --}}
                                             <td>
                                                 @if ($item->sisa_waktu)
                                                     @if ($item->sisa_waktu_badge_class)
@@ -149,13 +304,109 @@
                                                 @endif
                                             </td>
 
-                                            {{-- Status --}}
+                                            {{-- Status pajak --}}
                                             <td>
                                                 @if ($item->status_text)
                                                     <span
                                                         class="badge {{ $item->badge_class ?? '' }}">{{ $item->status_text }}</span>
                                                 @else
                                                     -
+                                                @endif
+                                            </td>
+
+                                            <td>{{ $item->km ?? '-' }}</td>
+
+                                            <td>
+                                                @if ($item->waktu_diservice_selanjutnya)
+                                                    {{ \Carbon\Carbon::parse($item->waktu_diservice_selanjutnya)->translatedFormat('d F Y') }}
+                                                @else
+                                                    <span class="text-muted">-</span>
+                                                @endif
+                                            </td>
+
+                                            {{-- Sisa waktu service --}}
+                                            <td>
+                                                @if ($item->waktu_diservice_selanjutnya)
+                                                    @php
+                                                        $today = \Carbon\Carbon::now()->startOfDay();
+                                                        $serviceDate = \Carbon\Carbon::parse(
+                                                            $item->waktu_diservice_selanjutnya,
+                                                        )->startOfDay();
+
+                                                        // Gunakan diff() untuk mendapatkan tahun, bulan, hari
+                                                        $diff = $today->diff($serviceDate);
+                                                        $isPast = $today->gt($serviceDate);
+
+                                                        // Bangun string format
+                                                        $parts = [];
+                                                        if ($diff->y > 0) {
+                                                            $parts[] = $diff->y . ' tahun';
+                                                        }
+                                                        if ($diff->m > 0) {
+                                                            $parts[] = $diff->m . ' bulan';
+                                                        }
+                                                        if ($diff->d > 0) {
+                                                            $parts[] = $diff->d . ' hari';
+                                                        }
+
+                                                        // Jika tidak ada selisih (hari ini)
+                                                        if (empty($parts)) {
+                                                            $parts[] = '0 hari';
+                                                        }
+
+                                                        $timeString = implode(' ', $parts);
+
+                                                        // Tentukan badge class dan teks
+                                                        if ($isPast) {
+                                                            $badgeClass = 'badge-danger';
+                                                            $statusText = 'Sudah lewat ' . $timeString;
+                                                        } else {
+                                                            if ($today->eq($serviceDate)) {
+                                                                $badgeClass = 'badge-warning';
+                                                                $statusText = 'Hari ini';
+                                                            } elseif ($today->diffInDays($serviceDate) <= 7) {
+                                                                $badgeClass = 'badge-warning';
+                                                                $statusText = $timeString . ' lagi';
+                                                            } else {
+                                                                $badgeClass = 'badge-success';
+                                                                $statusText = $timeString . ' lagi';
+                                                            }
+                                                        }
+                                                    @endphp
+                                                    <span
+                                                        class="badge {{ $badgeClass }}">{{ $statusText }}</span>
+                                                @else
+                                                    <span class="text-muted">-</span>
+                                                @endif
+                                            </td>
+                                            {{-- Status service --}}
+                                            <td>
+                                                @if ($item->waktu_diservice_selanjutnya)
+                                                    @php
+                                                        $today = \Carbon\Carbon::now();
+                                                        $serviceDate = \Carbon\Carbon::parse(
+                                                            $item->waktu_diservice_selanjutnya,
+                                                        );
+                                                        $diffDays = $today->diffInDays($serviceDate, false);
+
+                                                        if ($diffDays < 0) {
+                                                            // Sudah lewat batas
+                                                            $badgeClass = 'badge-danger';
+                                                            $statusText = 'Perlu Service';
+                                                        } elseif ($diffDays <= 7) {
+                                                            // Kurang dari 7 hari
+                                                            $badgeClass = 'badge-warning';
+                                                            $statusText = 'Akan Service';
+                                                        } else {
+                                                            // Masih lama
+                                                            $badgeClass = 'badge-success';
+                                                            $statusText = 'Kondisi Baik';
+                                                        }
+                                                    @endphp
+                                                    <span
+                                                        class="badge {{ $badgeClass }}">{{ $statusText }}</span>
+                                                @else
+                                                    <span class="badge badge-secondary">Belum Diatur</span>
                                                 @endif
                                             </td>
 
@@ -173,12 +424,27 @@
                                                         <i class="fas fa-calendar-alt" style="margin-right: 5px"></i>
                                                         Update Pajak
                                                     </button>
+
+                                                    <!-- Button Update Status Servis -->
+                                                    <button class="btn btn-info btn-sm btn-update-service"
+                                                        data-id="{{ $item->id }}" data-km="{{ $item->km }}"
+                                                        data-service-terakhir="{{ $item->waktu_diservice_terakhir }}"
+                                                        data-service-selanjutnya="{{ $item->waktu_diservice_selanjutnya }}">
+                                                        <i class="fas fa-wrench" style="margin-right: 5px"></i>
+                                                        Update Servis
+                                                    </button>
                                                 </div>
                                             </td>
                                             <td>
                                                 <a
                                                     href="{{ route('kendaraan.histori', ['id' => Crypt::encryptString($item->id)]) }}">
-                                                    Lihat
+                                                    Histori Pajak
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a
+                                                    href="{{ route('kendaraan.histori-service', ['id' => Crypt::encryptString($item->id)]) }}">
+                                                    Histori Service
                                                 </a>
                                             </td>
                                         </tr>
@@ -217,13 +483,6 @@
                         <input type="text" class="form-control" id="plat_kendaraan" name="plat_kendaraan"
                             required>
                     </div>
-                    {{-- <div class="form-group">
-                        <label class="form-label" for="pajak_berlaku_hingga">Pajak Berlaku Hingga</label>
-                        <input type="date" class="form-control" id="pajak_berlaku_hingga" hidden
-                            name="pajak_berlaku_hingga" autocomplete="off" onfocus="this.showPicker()">
-                        <small class="text-muted">Biarkan kosong jika belum diketahui</small>
-                    </div> --}}
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" id="btnBatalTambah">Batal</button>
@@ -291,7 +550,46 @@
         </div>
     </div>
 
-    <!-- End of Content Wrapper -->
+    <!-- Modal Update Status Servis -->
+    <div class="modal" id="modalUpdateService">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Update Status Servis Kendaraan</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="formUpdateService" action="" method="POST" onsubmit="return confirmUpdateService()">
+                @csrf
+                @method('PUT')
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label" for="update_km">Jarak Tempuh (KM)</label>
+                        <input type="number" class="form-control" id="update_km" name="km"
+                            placeholder="Masukkan jarak tempuh saat ini" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="update_waktu_diservice_terakhir">Waktu Diservice
+                            Terakhir</label>
+                        <input type="text" class="form-control" id="update_waktu_diservice_terakhir"
+                            name="waktu_diservice_terakhir" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="update_waktu_diservice_selanjutnya">Waktu Diservice
+                            Selanjutnya</label>
+                        <input type="text" class="form-control" id="update_waktu_diservice_selanjutnya"
+                            name="waktu_diservice_selanjutnya" required>
+                        <small class="text-muted">Servis selanjutnya biasanya 3-6 bulan setelah servis terakhir</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="btnBatalUpdateService">Batal</button>
+                    <button type="submit" class="btn btn-primary">Update Service</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
 </body>
 
 {{-- Components --}}
@@ -299,13 +597,23 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Inisialisasi Flatpickr untuk date input
+        // Inisialisasi Flatpickr untuk semua date input
         flatpickr("#pajak_berlaku_hingga", {
             dateFormat: "Y-m-d",
             allowInput: true
         });
 
         flatpickr("#update_pajak_berlaku_hingga", {
+            dateFormat: "Y-m-d",
+            allowInput: true
+        });
+
+        flatpickr("#update_waktu_diservice_terakhir", {
+            dateFormat: "Y-m-d",
+            allowInput: true
+        });
+
+        flatpickr("#update_waktu_diservice_selanjutnya", {
             dateFormat: "Y-m-d",
             allowInput: true
         });
@@ -331,12 +639,14 @@
         const modalTambah = document.getElementById('modalTambahKendaraan');
         const modalEdit = document.getElementById('modalEditKendaraan');
         const modalUpdatePajak = document.getElementById('modalUpdatePajak');
+        const modalUpdateService = document.getElementById('modalUpdateService');
 
         // Button elements
         const btnTambah = document.getElementById('btnTambahKendaraan');
         const btnBatalTambah = document.getElementById('btnBatalTambah');
         const btnBatalEdit = document.getElementById('btnBatalEdit');
         const btnBatalUpdatePajak = document.getElementById('btnBatalUpdatePajak');
+        const btnBatalUpdateService = document.getElementById('btnBatalUpdateService');
 
         // Close buttons
         const closeButtons = document.querySelectorAll('.modal-close');
@@ -375,16 +685,41 @@
             });
         });
 
+        // Show modal update service
+        document.querySelectorAll('.btn-update-service').forEach(button => {
+            button.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                const km = this.getAttribute('data-km');
+                const serviceTerakhir = this.getAttribute('data-service-terakhir');
+                const serviceSelanjutnya = this.getAttribute('data-service-selanjutnya');
+
+                // Set values to form
+                document.getElementById('update_km').value = km || '';
+                document.getElementById('update_waktu_diservice_terakhir').value =
+                    serviceTerakhir || '';
+                document.getElementById('update_waktu_diservice_selanjutnya').value =
+                    serviceSelanjutnya || '';
+
+                // Set form action
+                document.getElementById('formUpdateService').action =
+                    `/kendaraan/${id}/update-service`;
+
+                modalUpdateService.classList.add('show');
+            });
+        });
+
         // Close modals
         function closeAllModals() {
             modalTambah.classList.remove('show');
             modalEdit.classList.remove('show');
             modalUpdatePajak.classList.remove('show');
+            modalUpdateService.classList.remove('show');
         }
 
         btnBatalTambah.addEventListener('click', closeAllModals);
         btnBatalEdit.addEventListener('click', closeAllModals);
         btnBatalUpdatePajak.addEventListener('click', closeAllModals);
+        btnBatalUpdateService.addEventListener('click', closeAllModals);
 
         closeButtons.forEach(button => {
             button.addEventListener('click', closeAllModals);
@@ -401,6 +736,9 @@
             if (event.target === modalUpdatePajak) {
                 modalUpdatePajak.classList.remove('show');
             }
+            if (event.target === modalUpdateService) {
+                modalUpdateService.classList.remove('show');
+            }
         });
     });
 
@@ -410,6 +748,14 @@
             "Apakah Anda benar-benar yakin ingin menyimpan data kendaraan ini?\n\n" +
             "Setelah data disimpan, *seluruh histori yang dicatat tidak dapat diubah atau dihapus!* " +
             "\n\nTekan 'OK' untuk melanjutkan, atau 'Cancel' untuk membatalkan."
+        );
+    }
+
+    function confirmUpdateService() {
+        return confirm(
+            "⚠️ PERINGATAN!\n\nApakah Anda yakin ingin memperbarui data servis kendaraan ini?\n" +
+            "Setelah disimpan, data jarak tempuh dan waktu servis akan tercatat permanen dalam histori!\n\n" +
+            "Tekan OK untuk melanjutkan atau Cancel untuk membatalkan."
         );
     }
 </script>

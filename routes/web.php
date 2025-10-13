@@ -117,6 +117,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/kendaraan/histori/{id}', [KendaraanController::class, 'halamanHistoriPajakKendaraan'])
         ->name('kendaraan.histori');
+
+    Route::put('/kendaraan/{id}/update-service', [KendaraanController::class, 'updateStatusService'])->name('kendaraan.update-service');
+    Route::get('/kendaraan/histori-service/{id}', [KendaraanController::class, 'halamanHistoriServiceKendaraan'])
+        ->name('kendaraan.histori-service');
 });
 
 
