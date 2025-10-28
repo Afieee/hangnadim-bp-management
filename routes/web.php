@@ -6,11 +6,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GedungController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\KendaraanController;
 use App\Http\Controllers\BuktiKerusakanController;
 use App\Http\Controllers\BuktiPerbaikanController;
 use App\Http\Controllers\InspeksiGedungController;
-use App\Http\Controllers\KendaraanController;
 use App\Http\Controllers\PenjadwalanTamuController;
+use App\Http\Controllers\KerusakanKendaraanController;
+use Maatwebsite\Excel\Row;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -121,6 +123,19 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/kendaraan/{id}/update-service', [KendaraanController::class, 'updateStatusService'])->name('kendaraan.update-service');
     Route::get('/kendaraan/histori-service/{id}', [KendaraanController::class, 'halamanHistoriServiceKendaraan'])
         ->name('kendaraan.histori-service');
+
+    Route::get('/halaman-laporan-kerusakan-kendaraan', [KerusakanKendaraanController::class, 'halamanLaporanKerusakanKendaraan'])
+        ->name('laporan.kerusakan.kendaraan');
+    Route::post('/simpan-laporan-kerusakan-kendaraan', [KerusakanKendaraanController::class, 'simpanLaporanKerusakanKendaraan'])
+        ->name('simpan.laporan.kerusakan.kendaraan');
+
+    Route::get('/tindak-kerusakan-kendaraan', [KerusakanKendaraanController::class, 'halamanTindakLanjutKerusakanKendaraan'])
+        ->name('tindak.lanjut.kerusakan.kendaraan');
+    Route::get('/tindak-lanjut-kerusakan-kendaraan/{hash}', [KerusakanKendaraanController::class, 'halamanBuktiPerbaikanKerusakanKendaraan'])
+        ->name('bukti-perbaikan-kerusakan-kendaraan.create');
+
+    Route::post('/simpan-bukti-perbaikan-kerusakan-kendaraan', [KerusakanKendaraanController::class, 'simpanBuktiPerbaikanKerusakanKendaraan'])
+        ->name('simpan.bukti.perbaikan.kerusakan.kendaraan');
 });
 
 

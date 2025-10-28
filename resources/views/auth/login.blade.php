@@ -38,7 +38,7 @@
         <form action="{{ route('proses-login') }}" method="POST" class="login-form">
             @csrf
             <div class="form-content">
-                <h2>Inspection Management System</h2>
+                <h2>Inspection & Monitoring Management System</h2>
 
                 <div class="auto-typer" id="auto-typer">
                     <span id="typing-text"></span><span class="cursor"></span>

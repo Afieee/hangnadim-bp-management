@@ -43,4 +43,9 @@ class Kendaraan extends Model
     {
         return $value ? \Carbon\Carbon::parse($value)->format('Y-m-d') : null;
     }
+
+    public function kerusakanKendaraan()
+    {
+        return $this->hasMany(KerusakanKendaraan::class, 'id_kendaraan');
+    }
 }

@@ -79,4 +79,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(HistoriServiceKendaraan::class, 'id_user');
     }
+
+    public function kerusakanKendaraan()
+    {
+        return $this->hasMany(KerusakanKendaraan::class, 'id_user');
+    }
+    public function perbaikanKerusakanKendaraan()
+    {
+        return $this->hasMany(PerbaikanKerusakanKendaraan::class, 'id_user_inspektor');
+    }
 }
