@@ -166,6 +166,8 @@
         'Tata Usaha',
         'Deputi',
         'IT',
+        'Staff Pelaksana Asset',
+        'Pengelola Asset',
     ]))
     <!DOCTYPE html>
     <html lang="en">

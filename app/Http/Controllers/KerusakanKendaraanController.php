@@ -101,7 +101,7 @@ class KerusakanKendaraanController extends Controller
         // Ambil data kerusakan kendaraan milik user dan urutkan:
         // yang BELUM punya perbaikan muncul di atas
         $kerusakanList = KerusakanKendaraan::with(['kendaraan', 'user', 'perbaikanKerusakanKendaraan'])
-            ->where('id_user', $userId)
+            // ->where('id_user', $userId)
             ->orderByRaw('
             CASE
                 WHEN (SELECT COUNT(*) FROM perbaikan_kerusakan_kendaraan

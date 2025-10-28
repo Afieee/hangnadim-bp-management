@@ -37,6 +37,11 @@
 
 
                 <li><a href="/kendaraan"><i class="fas fa-car"></i> Asset Kendaraan</a></li>
+                <li>
+                    <a href="/tindak-kerusakan-kendaraan">
+                        <i class="fas fa-tools"></i> Tindakan Kerusakan Kendaraan
+                    </a>
+                </li>
                 <li><a href="/manage-user"><i class="fas fa-users"></i> Akses & Akun</a></li>
             @elseif (Auth::user()->role == 'Kepala Seksi')
                 <li><a href="/dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
@@ -58,11 +63,29 @@
                 <li><a href="/halaman-laporan-pribadi"><i class="fas fa-file-alt"></i> Laporkan Crash Condition</a></li>
                 <li><a href="/halaman-tindak-lanjut-laporan-pribadi"><i class="fas fa-exclamation-triangle"></i> Tindak
                         Crash Condition</a></li>
-                <li><a href="/halaman-laporan-kerusakan-kendaraan"><i class="fas fa-car"></i> Laporkan Kerusakan
-                        Kendaraan</a></li>
-                <li><a href="/tindak-kerusakan-kendaraan"><i class="fas fa-car"></i> Tindakan Kerusakan
-                        Kendaraan</a></li>
                 {{-- asd --}}
+            @elseif (Auth::user()->role == 'Staff Pelaksana Asset')
+                <li><a href="/dashboard"><i class="fas fa-home"></i> Home</a></li>
+
+                <li>
+                    <a href="/halaman-laporan-kerusakan-kendaraan">
+                        <i class="fas fa-triangle-exclamation"></i> Laporkan Kerusakan Kendaraan
+                    </a>
+                </li>
+                <li>
+                    <a href="/tindak-kerusakan-kendaraan">
+                        <i class="fas fa-tools"></i> Tindakan Kerusakan Kendaraan
+                    </a>
+                </li>
+            @elseif (Auth::user()->role == 'Pengelola Asset')
+                <li><a href="/dashboard"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="/kendaraan"><i class="fas fa-car"></i> Asset Kendaraan</a></li>
+
+                <li>
+                    <a href="/tindak-kerusakan-kendaraan">
+                        <i class="fas fa-tools"></i> Tindakan Kerusakan Kendaraan
+                    </a>
+                </li>
             @elseif (Auth::user()->role == 'Tata Usaha')
                 <li><a href="/dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
                 <li><a href="/manage-kedatangan"><i class="fas fa-plane-arrival"></i> Laporan Penggunaan Gedung VIP &
