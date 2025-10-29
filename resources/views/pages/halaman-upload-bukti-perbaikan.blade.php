@@ -226,7 +226,7 @@
 
 
     {{-- Kepala Seksi --}}
-@elseif (Auth::user()->role == 'Kepala Seksi')
+@elseif (in_array(Auth::user()->role, ['Kepala Seksi', 'Admin']))
     <!DOCTYPE html>
     <html lang="id">
 
