@@ -223,6 +223,9 @@
                                         <option value="Direktur">Direktur</option>
                                         <option value="Deputi">Deputi</option>
                                         <option value="Tata Usaha">Tata Usaha</option>
+                                        <option value="IT">IT</option>
+                                        <option value="Pengelola Asset">Pengelola Asset</option>
+                                        <option value="Staff Pengelola Asset">Staff Pengelola Asset</option>
                                     </select>
                                 </div>
 

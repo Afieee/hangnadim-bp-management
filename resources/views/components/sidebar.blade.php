@@ -54,6 +54,12 @@
                         Inspeksi</a></li>
                 <li><a href="/manage-kedatangan"><i class="fas fa-plane-arrival"></i> Laporan Penggunaan Gedung VIP &
                         VVIP</a></li>
+                <li><a href="/kendaraan"><i class="fas fa-car"></i> Asset Kendaraan</a></li>
+                <li>
+                    <a href="/tindak-kerusakan-kendaraan">
+                        <i class="fas fa-tools"></i> Tindakan Kerusakan Kendaraan
+                    </a>
+                </li>
             @elseif (Auth::user()->role == 'Staff Pelaksana')
                 <li><a href="/dashboard"><i class="fas fa-home"></i> Home</a></li>
                 <li><a href="/halaman-inspeksi-petugas"><i class="fas fa-clipboard-check"></i> Proses Inspeksi
@@ -98,6 +104,12 @@
                         VVIP</a></li>
                 <li><a href="/halaman-data-feedback"><i class="fas fa-history"></i> Riwayat Respons Pengguna Gedung VIP
                         & VVIP</a></li>
+                <li><a href="/kendaraan"><i class="fas fa-car"></i> Asset Kendaraan</a></li>
+                <li>
+                    <a href="/tindak-kerusakan-kendaraan">
+                        <i class="fas fa-tools"></i> Tindakan Kerusakan Kendaraan
+                    </a>
+                </li>
             @elseif (Auth::user()->role == 'IT')
                 <li><a href="/dashboard"><i class="fas fa-home"></i> Home</a></li>
                 <li>

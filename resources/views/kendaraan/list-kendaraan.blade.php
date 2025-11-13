@@ -267,7 +267,12 @@
                                         <th>Waktu Diservice Selanjutnya</th>
                                         <th>Sisa Waktu Service</th>
                                         <th>Status Service</th>
-                                        <th>Aksi</th>
+
+                                        {{-- Kolom Aksi hanya muncul jika bukan Kepala Sub Direktorat atau Deputi --}}
+                                        @if (!in_array(Auth::user()->role, ['Kepala Sub Direktorat', 'Deputi', 'Direktur', 'Kepala Seksi']))
+                                            <th>Aksi</th>
+                                        @endif
+
                                         <th>Histori Pajak</th>
                                         <th>Histori Service</th>
                                     </tr>
@@ -379,6 +384,7 @@
                                                     <span class="text-muted">-</span>
                                                 @endif
                                             </td>
+
                                             {{-- Status service --}}
                                             <td>
                                                 @if ($item->waktu_diservice_selanjutnya)
@@ -410,31 +416,37 @@
                                                 @endif
                                             </td>
 
-                                            <td>
-                                                <div class="action-buttons">
-                                                    <button class="btn btn-warning btn-sm btn-edit"
-                                                        data-id="{{ $item->id }}"
-                                                        data-plat="{{ $item->plat_kendaraan }}"
-                                                        data-tipe="{{ $item->tipe_kendaraan }}">
-                                                        <i class="fas fa-edit"></i> Edit
-                                                    </button>
-                                                    <button class="btn btn-success btn-sm btn-update-pajak"
-                                                        data-id="{{ $item->id }}"
-                                                        data-pajak="{{ $item->pajak_berlaku_hingga }}">
-                                                        <i class="fas fa-calendar-alt" style="margin-right: 5px"></i>
-                                                        Update Pajak
-                                                    </button>
+                                            {{-- Kolom Aksi hanya muncul jika bukan Kepala Sub Direktorat atau Deputi --}}
+                                            @if (!in_array(Auth::user()->role, ['Kepala Sub Direktorat', 'Deputi', 'Direktur', 'Kepala Seksi']))
+                                                <td>
+                                                    <div class="action-buttons">
+                                                        <button class="btn btn-warning btn-sm btn-edit"
+                                                            data-id="{{ $item->id }}"
+                                                            data-plat="{{ $item->plat_kendaraan }}"
+                                                            data-tipe="{{ $item->tipe_kendaraan }}">
+                                                            <i class="fas fa-edit"></i> Edit
+                                                        </button>
+                                                        <button class="btn btn-success btn-sm btn-update-pajak"
+                                                            data-id="{{ $item->id }}"
+                                                            data-pajak="{{ $item->pajak_berlaku_hingga }}">
+                                                            <i class="fas fa-calendar-alt"
+                                                                style="margin-right: 5px"></i>
+                                                            Update Pajak
+                                                        </button>
 
-                                                    <!-- Button Update Status Servis -->
-                                                    <button class="btn btn-info btn-sm btn-update-service"
-                                                        data-id="{{ $item->id }}" data-km="{{ $item->km }}"
-                                                        data-service-terakhir="{{ $item->waktu_diservice_terakhir }}"
-                                                        data-service-selanjutnya="{{ $item->waktu_diservice_selanjutnya }}">
-                                                        <i class="fas fa-wrench" style="margin-right: 5px"></i>
-                                                        Update Servis
-                                                    </button>
-                                                </div>
-                                            </td>
+                                                        <!-- Button Update Status Servis -->
+                                                        <button class="btn btn-info btn-sm btn-update-service"
+                                                            data-id="{{ $item->id }}"
+                                                            data-km="{{ $item->km }}"
+                                                            data-service-terakhir="{{ $item->waktu_diservice_terakhir }}"
+                                                            data-service-selanjutnya="{{ $item->waktu_diservice_selanjutnya }}">
+                                                            <i class="fas fa-wrench" style="margin-right: 5px"></i>
+                                                            Update Servis
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            @endif
+
                                             <td>
                                                 <a
                                                     href="{{ route('kendaraan.histori', ['id' => Crypt::encryptString($item->id)]) }}">

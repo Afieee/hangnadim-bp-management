@@ -1,4 +1,11 @@
-            @if (in_array(Auth::user()->role, ['Admin', 'Pengelola Asset']))
+            @if (in_array(Auth::user()->role, [
+                    'Admin',
+                    'Pengelola Asset',
+                    'Kepala Sub Direktorat',
+                    'Direktur',
+                    'Deputi',
+                    'Kepala Seksi',
+                ]))
                 <!DOCTYPE html>
                 <html lang="id">
 

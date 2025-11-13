@@ -183,13 +183,14 @@
                                                     </div>
                                                 @endif
                                             </td>
-                                            <td>
-                                                <a href="{{ route('pengunaan.edit', Crypt::encryptString($item->id)) }}"
-                                                    class="btn btn-sm btn-warning mb-1">
-                                                    <i class="fas fa-edit"></i> Edit
-                                                </a>
-
-                                            </td>
+                                            @if (in_array(Auth::user()->role, ['Admin', 'TU']))
+                                                <td>
+                                                    <a href="{{ route('pengunaan.edit', Crypt::encryptString($item->id)) }}"
+                                                        class="btn btn-sm btn-warning mb-1">
+                                                        <i class="fas fa-edit"></i> Edit
+                                                    </a>
+                                                </td>
+                                            @endif
                                         </tr>
                                     @empty
                                         <tr>
@@ -345,8 +346,12 @@
                                         <th>Kode Penerbangan</th>
                                         <th>Kode Bandara Asal</th>
                                         <th>Lembar Disposisi</th>
-                                        <th>Link Feedback</th>
-                                        <th>Aksi</th>
+                                        @if (in_array(Auth::user()->role, ['Admin', 'TU']))
+                                            <th>Link Feedback</th>
+                                            <th>
+                                                Aksi
+                                            </th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -383,29 +388,31 @@
                                                     <span class="text-muted fst-italic">Tidak ada</span>
                                                 @endif
                                             </td>
-                                            <td>
-                                                @if ($item->feedbacks()->exists())
-                                                    <span style="color: gray; cursor: not-allowed;">Feedback Sudah
-                                                        Ada</span>
-                                                @else
-                                                    <div class="d-flex align-items-center gap-2">
-                                                        <input type="text"
-                                                            value="{{ route('halaman.feedback.tamu', ['id' => Crypt::encryptString($item->id)]) }}"
-                                                            class="form-control form-control-sm" readonly
-                                                            id="feedbackLink{{ $item->id }}">
-                                                        <button class="btn btn-sm btn-outline-primary"
-                                                            onclick="copyLink({{ $item->id }})">
-                                                            <i class="fas fa-copy"></i>
-                                                        </button>
-                                                    </div>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <a href="{{ route('pengunaan.edit', Crypt::encryptString($item->id)) }}"
-                                                    class="btn btn-sm btn-warning mb-1">
-                                                    <i class="fas fa-edit"></i> Edit
-                                                </a>
-                                            </td>
+                                            @if (in_array(Auth::user()->role, ['Admin', 'TU']))
+                                                <td>
+                                                    @if ($item->feedbacks()->exists())
+                                                        <span style="color: gray; cursor: not-allowed;">Feedback Sudah
+                                                            Ada</span>
+                                                    @else
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <input type="text"
+                                                                value="{{ route('halaman.feedback.tamu', ['id' => Crypt::encryptString($item->id)]) }}"
+                                                                class="form-control form-control-sm" readonly
+                                                                id="feedbackLink{{ $item->id }}">
+                                                            <button class="btn btn-sm btn-outline-primary"
+                                                                onclick="copyLink({{ $item->id }})">
+                                                                <i class="fas fa-copy"></i>
+                                                            </button>
+                                                        </div>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <a href="{{ route('pengunaan.edit', Crypt::encryptString($item->id)) }}"
+                                                        class="btn btn-sm btn-warning mb-1">
+                                                        <i class="fas fa-edit"></i> Edit
+                                                    </a>
+                                                </td>
+                                            @endif
                                         </tr>
                                     @empty
                                         <tr>
